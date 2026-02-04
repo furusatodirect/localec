@@ -1,13 +1,19 @@
 # まず全部無視
 **
 
-# 必要だけ許可
+# 必要だけ許可（ディレクトリを先に許可しないと配下が追跡されない）
 !/.gitignore
+!/app
 !/app/**
+!/html
 !/html/**
 
 # app 配下の除外（←この位置が重要）
 /app/Plugin/**
+/app/proxy/**
+
+# キャッシュ・一時ファイル（EC-CUBE/Symfony）
+/var/**
 
 # html 配下の除外
 /html/plugin/**
