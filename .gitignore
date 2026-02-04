@@ -1,0 +1,22 @@
+# まず全部無視（完全）
+**
+
+# Git管理に必要なものだけ許可
+!/.gitignore
+!/app/**
+!/html/**
+
+# html 配下の除外
+/html/plugin/**
+!/html/plugin/.gitkeep
+
+/html/upload/**
+/html/user_data/cache/**
+/html/user_data/tmp/**
+/html/user_data/assets/tmp/**
+/html/user_data/assets/**
+!/html/user_data/assets/.gitkeep
+
+# Docker系はGit管理しない
+/Dockerfile
+/docker-compose.yml
