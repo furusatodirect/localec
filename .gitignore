@@ -13,8 +13,8 @@
 !/html/plugin/.gitkeep
 
 # app 配下の除外
-/app/plugin/**
-!/app/plugin/.gitkeep
+/app/Plugin/**
+!/app/Plugin/.gitkeep
 
 /html/upload/**
 /html/user_data/cache/**
