@@ -1,21 +1,17 @@
 # まず全部無視
-/*
+**
 
-# Git管理に必要なものだけ許可
+# 必要だけ許可
 !/.gitignore
-!/app/
 !/app/**
-!/html/
 !/html/**
+
+# app 配下の除外（←この位置が重要）
+/app/Plugin/**
 
 # html 配下の除外
 /html/plugin/**
 !/html/plugin/.gitkeep
-
-# app 配下の除外
-/app/Plugin/**
-!/app/Plugin/.gitkeep
-
 /html/upload/**
 /html/user_data/cache/**
 /html/user_data/tmp/**
