@@ -1,0 +1,21 @@
+{% if app.request.pathinfo == '/shopping/complete' %}
+
+<script>
+        var transaction_products = [];
+        {% for OrderItem in Order.MergedProductOrderItems %}
+        transaction_products.push({
+            sku: '{{ OrderItem.product_code ? OrderItem.product_code : OrderItem.product.id }}',
+            name: '{{ OrderItem.product_name }}',
+            price: '{{ OrderItem.price_inc_tax }}',
+            quantity: '{{ OrderItem.quantity }}'
+        });
+        {% endfor %}
+        window.dataLayer = window.dataLayer || []
+        dataLayer.push({
+            'transactionId': '{{ Order.order_no ? Order.order_no : Order.id }}',
+            'transactionTotal': {{ Order.payment_total|number_format(0, '.', '') }},
+            'transactionProducts': transaction_products
+        });
+</script>
+
+{% endif %}
