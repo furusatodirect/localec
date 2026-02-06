@@ -868,7 +868,11 @@ admin.product.product_csv.description_list_col: 返礼品説明(一覧)
 admin.product.product_csv.description_list_description: "入力しないでください"
 # admin.product.product_csv.description_detail_col: 商品説明(詳細)
 admin.product.product_csv.description_detail_col: 返礼品説明(詳細)
-admin.product.product_csv.description_detail_description: "(例) 美味しい条件をすべて備えた話題の返礼品です。<br>特徴的な見た目と高い品質で、多くの注目を集めており、贈り物にも最適です。<br> 厳選された素材を使用しており、その品質の高さは多くの方に支持されています。<br> 特別な機会や季節の贈答品としても喜ばれる逸品です。"
+admin.product.product_csv.description_detail_description: |
+  "(例) 美味しい条件をすべて備えた話題の返礼品です。
+  特徴的な見た目と高い品質で、多くの注目を集めており、贈り物にも最適です。
+  厳選された素材を使用しており、その品質の高さは多くの方に支持されています。
+  特別な機会や季節の贈答品としても喜ばれる逸品です。"
 admin.product.product_csv.keyword_col: 検索ワード
 # admin.product.product_csv.keyword_description: ""
 admin.product.product_csv.keyword_description: "入力しないでください"
@@ -880,14 +884,20 @@ admin.product.product_csv.delete_flag_col: 返礼品削除フラグ
 admin.product.product_csv.delete_flag_description: 0:登録 1:削除を指定します。未指定の場合、0として扱います。
 # admin.product.product_csv.product_image_col: 商品画像
 admin.product.product_csv.product_image_col: 返礼品画像
-admin.product.product_csv.product_image_description: "画像のファイル名を指定します。複数画像の場合、画像ファイル名をカンマ区切りしてください。<br>(例) product001_01.jpg,product001_02.jpg,product001_03.jpg,product001_04.jpg,product001_05.jpg"
+admin.product.product_csv.product_image_description: |
+  "画像のファイル名を指定します。複数画像の場合、画像ファイル名をカンマ区切りしてください。
+  (例) product001_01.jpg,product001_02.jpg,product001_03.jpg,product001_04.jpg,product001_05.jpg"
 # admin.product.product_csv.category_col: 商品カテゴリ(ID)
 admin.product.product_csv.category_col: 返礼品カテゴリ(ID)
 # admin.product.product_csv.category_description: 'カテゴリIDを指定します。複数カテゴリの場合、商品カテゴリIDをカンマ区切りで「"」で囲んでください。'
-admin.product.product_csv.category_description: "カテゴリIDを指定します。複数カテゴリの場合、返礼品カテゴリIDをカンマ区切りしてください。※2つまで<br>(例) 7,73"
+admin.product.product_csv.category_description: |
+  "カテゴリIDを指定します。複数カテゴリの場合、返礼品カテゴリIDをカンマ区切りしてください。※2つまで
+  (例) 7,73"
 admin.product.product_csv.tag_col: タグ(ID)
 # admin.product.product_csv.tag_description: 'タグIDを指定します。複数タグの場合、タグIDをカンマ区切りで「"」で囲んでください。'
-admin.product.product_csv.tag_description: "タグIDを指定します。複数タグの場合、タグIDをカンマ区切りしてください。※2つまで<br>(例) 2,3"
+admin.product.product_csv.tag_description: |
+  "タグIDを指定します。複数タグの場合、タグIDをカンマ区切りしてください。※2つまで
+  (例) 2,3"
 # admin.product.product_csv.sale_type_col: 販売種別(ID)
 admin.product.product_csv.sale_type_col: 申込種別(ID)
 # admin.product.product_csv.sale_type_description: ""
@@ -919,11 +929,15 @@ admin.product.product_csv.sale_limit_description: 1以上の数値を設定し�
 # admin.product.product_csv.normal_price_col: 通常価格
 admin.product.product_csv.normal_price_col: 通常寄付金額
 # admin.product.product_csv.normal_price_description: 0以上の数値を設定
-admin.product.product_csv.normal_price_description: 0以上の数値を設定<br>(例) 17000
+admin.product.product_csv.normal_price_description: |
+  0以上の数値を設定
+  (例) 17000
 # admin.product.product_csv.sale_price_col: 販売価格
 admin.product.product_csv.sale_price_col: 申込金額
 # admin.product.product_csv.sale_price_description: 0以上の数値を設定します。未指定の場合、非表示として扱います。
-admin.product.product_csv.sale_price_description: 0以上の数値を設定します。未指定の場合、非表示として扱います。<br>(例) 17000
+admin.product.product_csv.sale_price_description: |
+  0以上の数値を設定します。未指定の場合、非表示として扱います。
+  (例) 17000
 admin.product.product_csv.delivery_fee_col: 送料
 # admin.product.product_csv.delivery_fee_description: 商品ごとの送料設定が有効の場合、0以上の数値を設定
 admin.product.product_csv.delivery_fee_description: "入力しないでください"
