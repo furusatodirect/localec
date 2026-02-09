@@ -1,5 +1,5 @@
-{#{% set Categories = repository('Eccube\\Entity\\Category').getList() %}#}
-{% set Categories = ExistsCategoryList() %}
+{# 4.1: ExistsCategoryList() → 4.3: repository()に変更 #}
+{% set Categories = repository('Eccube\\Entity\\Category').getList() %}
 {% macro tree(Category) %}
     {% from _self import tree %}
     <a href="{{ url('product_list') }}?category_id={{ Category.id }}">

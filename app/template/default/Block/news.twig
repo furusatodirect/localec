@@ -7,14 +7,11 @@
 <div class="container">
 <section class="intro">
 <div class="pickup">
-{% set break = false %}
-{% for index , News in NewsList if not break  %}
-<a href="#newslink{#{{ url('news_detail', {'id': News.id}) }}#}" class="ec-newsRole__newsTitle"><p class="date">{{ News.publish_date|date_day }}</p><p class="text">{{ News.title }}</p></a>
-</div>
-{% if index >= 0 %}
-{% set break = true %}
-{% endif %}
+{# 4.3: for...if構文廃止のため、slice(0,1)で最初の1件のみ表示 #}
+{% for News in NewsList|slice(0, 1) %}
+<a href="#newslink" class="ec-newsRole__newsTitle"><p class="date">{{ News.publish_date|date_day }}</p><p class="text">{{ News.title }}</p></a>
 {% endfor %}
+</div>
 </section>
 </div>
 

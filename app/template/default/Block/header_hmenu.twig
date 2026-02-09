@@ -16,7 +16,7 @@
         {% else %}
           <li><a href="{{ url('mypage_login') }}">新規会員登録｜ログイン</a></li>
         {% endif %}
-          <li><a href="{{ url('mymenu') }}">マイページ</a></li>
+          <li><a href="{{ url('mypage') }}">マイページ</a></li>
         </ul>
         <ul class="m-navi">
           <li><a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}">新着のお礼の品</a></li>
@@ -24,7 +24,8 @@
                     <li><a href="https://mombetsu.furusato-direct.jp/event">紋別イベントカレンダー</a></li>
           <li><a href="https://mombetsu.furusato-direct.jp/use">寄付金の使い道</a></li>
           <li><a href="https://mombetsu.furusato-direct.jp/jigyousya">事業者の紹介</a></li>
-          <li><a href="{{ url('news_index') }}">お知らせ</a></li>
+          {# TODO: news_indexプラグイン未導入のため一時無効 #}
+          <li><a href="#">お知らせ</a></li>
         </ul>
         <ul class="s-navi">
           <li><a href="/guide">ふるさと納税の仕組みと手続き</a></li>

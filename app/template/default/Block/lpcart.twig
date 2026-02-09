@@ -813,8 +813,8 @@ color:#fff
                                 {% set Product = ProductClass.Product %}
                                 <li class="ec-cartRow__contentColumn">
                                     <a target="_blank" href="{{ url('product_detail', {id : Product.id} ) }}"><div class="mask">
-                                        <img class="b-pic" src="{{ asset(Product.main_list_image|no_image_product, 's3_image') }}" alt="{{ Product.name }}" loading="lazy">
-                                        <div class="c-pic"><img src="{{ asset(Product.main_list_image|no_image_product, 's3_image') }}" alt="{{ Product.name }}" loading="lazy"></div>
+                                        <img class="b-pic" src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                        <div class="c-pic"><img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"></div>
                                     </div></a>
                                     <div class="ec-cartRow__summary">
                                         <div class="ec-cartRow__name">

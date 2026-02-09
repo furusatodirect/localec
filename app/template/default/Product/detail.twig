@@ -140,7 +140,7 @@
         "name": "{{ Product.name }}",
         "image": [
             {% for img in Product.ProductImage %}
-                "{{ asset(img, 's3_image') }}"{% if not loop.last %},{% endif %}
+                "{{ asset(img, 'save_image') }}"{% if not loop.last %},{% endif %}
 
             {% else %}
                 "{{ app.request.schemeAndHttpHost }}{{ asset(''|no_image_product, 'save_image') }}"
@@ -155,7 +155,7 @@
             "url": "{{ url('product_detail', {'id': Product.id}) }}",
             "priceCurrency": "{{ eccube_config.currency }}",
             "price": "{{ Product.getPrice02IncTaxMin }}",
-            "availability": "{{ Product.stock_find ? "InStock" : "OutOfStock" }}"
+            "availability": "InStock"
         }
     }
     </script>
@@ -184,15 +184,8 @@
                         <div class="default"><p class="price">
                                 寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
 
-                            {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                            {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                            {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                            {% else %}
+                            {# TODO: Entity拡張未移行のため一時的にシンプル化 (applicable_on_from/to, stock_find, out_of_stock) #}
                             <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                            {% endif %}
 
                         </div>
 
@@ -214,11 +207,11 @@
                             {% for ProductImage in Product.ProductImage %}
                                 <li class="sp-thumbnail">
                                     <img class="b-pic"
-                                         src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                         src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
                                          alt="{{ Product.name }}" loading="lazy">
                                     <div class="c-pic">
                                         <img
-                                            src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                            src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
                                             alt="{{ Product.name }}" loading="lazy">
                                     </div>
                                 </li>
@@ -230,11 +223,11 @@
                                 <li class="sp-slide">
                                     <div class="sp-image">
                                         <img class="b-pic"
-                                             src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                             src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
                                              alt="{{ Product.name }}" loading="lazy">
                                         <div class="c-pic">
                                             <img
-                                                src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                                src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
                                                 alt="{{ Product.name }}" loading="lazy">
                                         </div>
                                     </div>
@@ -244,11 +237,11 @@
                             <li class="sp-slide">
                                 <div class="sp-image">
                                     <img class="b-pic"
-                                         src="{{ asset(''|no_image_product, 's3_image') }}"
+                                         src="{{ asset(''|no_image_product, 'save_image') }}"
                                          alt="no_image_product" loading="lazy">
                                     <div class="c-pic">
                                         <img
-                                            src="{{ asset(''|no_image_product, 's3_image') }}"
+                                            src="{{ asset(''|no_image_product, 'save_image') }}"
                                             alt="no_image_product" loading="lazy">
                                     </div>
                                 </div>
@@ -279,7 +272,9 @@
                                 </div>
                                 {% if BaseInfo.option_favorite_product %}
                                     {% if(is_favorite) %}
-                                    <form action="{{ url('refine_delete_favorite', {id:Product.id}) }}" method="post">
+                                    <form action="{{ url('mypage_favorite_delete', {id:Product.id}) }}" method="post">
+                                        {{ csrf_token_for_anchor() }}
+                                        <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" id="favorite" class="favorite">
                                             <i class="fa-sharp fa-solid fa-heart" style="color: #FF004E;"></i>
                                         </button>
@@ -303,15 +298,8 @@
             <div class="default">
                 <p class="price">
                     寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                {% else %}
+                {# TODO: Entity拡張未移行のため一時的にシンプル化 #}
                 <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                {% endif %}
             </div>
             {{ form_rest(form) }}
         </form>
@@ -339,15 +327,8 @@
             <div class="default">
                 <p class="price">
                     寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                {% else %}
+                {# TODO: Entity拡張未移行のため一時的にシンプル化 #}
                 <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                {% endif %}
             </div>
             {{ form_rest(form) }}
         </form>
@@ -390,6 +371,7 @@
                             </dl>
                         {% endif %}
 
+                        {# TODO: Entity拡張未移行のため一時無効 (capacity, allergy_labeling, expiration_date, operator_name)
                         {% if Product.capacity %}
                         <dl>
                             <dt>内容量</dt>
@@ -423,6 +405,7 @@
                             </dd>
                         </dl>
                         {% endif %}
+                        #}
 
                         {% if (Product.ProductClasses) %}
                         <dl>
@@ -438,6 +421,7 @@
                             <dt>申込条件</dt>
                             <dd>何度も申し込み可</dd>
                         </dl>
+                        {# TODO: Entity拡張未移行のため一時無効 (applicable_on, delivered_on, delivery methods)
                         {% if Product.applicable_on %}
                             <dl>
                                 <dt>申込期日</dt>
@@ -466,6 +450,7 @@
                                 <dd>冷凍配送</dd>
                             </dl>
                         {% endif %}
+                        #}
                     </div>
 
                     {# ##################	常設 #}
@@ -511,15 +496,8 @@
                         <div class="default">
                             <p class="price">
                                 寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                            {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                            {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                            {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                            <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                            {% else %}
+                            {# TODO: Entity拡張未移行のため一時的にシンプル化 (applicable_on_from/to, stock_find, out_of_stock) #}
                             <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                            {% endif %}
                         </div>
                         {{ form_rest(form) }}
                     </form>
@@ -544,15 +522,8 @@
             <div class="default">
                 <p class="price">
                     寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                {% else %}
+                {# TODO: Entity拡張未移行のため一時的にシンプル化 #}
                 <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                {% endif %}
             </div>
             {{ form_rest(form) }}
         </form>
