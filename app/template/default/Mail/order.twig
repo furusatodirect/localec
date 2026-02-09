@@ -11,104 +11,97 @@ file that was distributed with this source code.
 {% autoescape 'safe_textmail' %}
 {{ Order.name01 }} {{ Order.name02 }} 様
 
-この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違えがないかご確認下さい。
+紋別市へのふるさと納税の寄付お申込みを受付けいたしました。
+下記、お申込み内容となります。
 
 ************************************************
-　ご請求金額
-************************************************
-
-ご注文日時：{{ Order.order_date|date_sec }}
-ご注文番号：{{ Order.order_no }}
-お支払い合計：{{ Order.payment_total|price}}
-お支払い方法：{{ Order.payment_method }}
-{% if BaseInfo.isOptionPoint and Order.Customer is not null %}
-ご利用ポイント：{{ Order.usePoint|number_format }} pt
-加算ポイント：{{ Order.addPoint|number_format }} pt
-{% endif %}
-お問い合わせ：{{ Order.message }}
-
+【お申込み日時】　：{{ Order.order_date|date_sec }}
+【お申込み番号】　：MFS{{ Order.order_no }}-{{ Order.message|replace({"
 
 ************************************************
-　ご注文商品明細
+　クレジットカード決済情報
 ************************************************
-
-{% set isShowReducedTaxMess = false %}
-{% for OrderItem in Order.MergedProductOrderItems %}
-商品コード：{{ OrderItem.product_code }}
-商品名：{{ OrderItem.product_name }}  {{ OrderItem.classcategory_name1 }}  {{ OrderItem.classcategory_name2 }} {% if is_reduced_tax_rate(OrderItem) %}※{% set isShowReducedTaxMess = true %}{% endif %}
-
-単価：{{ OrderItem.price_inctax|price }}
-数量：{{ OrderItem.quantity|number_format }}
-
-{% endfor %}
-{% if isShowReducedTaxMess %}※は軽減税率対象商品です。
-{% endif %}
--------------------------------------------------
-小　計：{{ Order.subtotal|price }}
-手数料：{{ Order.charge|price }}
-送　料：{{ Order.delivery_fee_total|price}}
-{% if Order.taxable_discount < 0 %}
-値引き：{{ Order.taxable_discount|price }}
-{% endif %}
--------------------------------------------------
-合　計：{{ Order.taxable_total|price }}
-{% for item in Order.tax_free_discount_items %}
-{{ item.product_name }}：{{ item.total_price|price }}
-{% endfor %}
-============================================
-お支払い合計：{{ Order.payment_total|price }}
-  {% for rate, total in Order.total_by_tax_rate %}
-  ({{ rate }} %対象：{{ total|price }} 内消費税：{{ Order.tax_by_tax_rate[rate]|price }})
-  {% endfor %}
+決済取引ID:": ""})|raw }}
 
 ************************************************
-　ご注文者情報
+　お申込者基本情報
 ************************************************
-お名前：{{ Order.name01 }} {{ Order.name02 }} 様
-お名前(カナ)：{{ Order.kana01 }} {{ Order.kana02 }} 様
-{% if Order.company_name %}
-会社名：{{ Order.company_name }}
-{% endif %}
-郵便番号：〒{{ Order.postal_code }}
-住所：{{ Order.Pref.name }}{{ Order.addr01 }}{{ Order.addr02 }}
-電話番号：{{ Order.phone_number }}
-メールアドレス：{{ Order.email }}
+【お名前】　　　　：{{ Order.name01 }} {{ Order.name02 }} 様
+【お名前(カナ)】　：{{ Order.kana01 }} {{ Order.kana02 }} 様
+【郵便番号】　　　：〒{{ Order.postal_code }}
+【住所】　　　　　：{{ Order.Pref.name }}{{ Order.addr01 }}{{ Order.addr02 }}
+【電話番号】　　　：{{ Order.phone_number }}
+【メールアドレス】：{{ Order.email }}
+【生年月日】　　　：{{ Order.birth|date('Y/m/d', "Asia/Tokyo") }}
+【性別】　　　　　：{{ Order.sex }}
 
 ************************************************
-　配送情報
+　お申込内容
 ************************************************
+【寄付金の使い道】：{{ Order.DonationPurpose? Order.DonationPurpose.name : '' }}
 
+【寄付金額合計】　：{{ Order.payment_total|price}}
+【お支払い方法】　：{{ Order.payment_method }}
+【お支払い状況】　：{{ Order.OrderStatus? Order.OrderStatus.name: '' }}
+
+【ワンストップ特例申請書の希望有無】：{{ Order.one_stop? '希望する': '希望しない' }}
+【寄付者名の公表の有無】：{{ Order.name_announce? '公表する': '公表しない' }}
+
+【応援メッセージの公表の有無】：{{ Order.cheer_message_publish? '公表する': '公表しない' }}
+【応援メッセージ】：{{ Order.cheer_message }}
+
+【備考記入内容】　：{{ Order.offer_memo }}
+
+************************************************
+　お申込み内容詳細
+************************************************
 {%  for Shipping in Order.Shippings %}
 ◎お届け先{% if Order.multiple %}{{ loop.index }}{% endif %}
 
-お名前：{{ Shipping.name01 }} {{ Shipping.name02 }} 様
-お名前(カナ)：{{ Shipping.kana01 }} {{ Shipping.kana02 }} 様
-{% if Shipping.company_name %}
-会社名：{{ Shipping.company_name }}
-{% endif %}
-郵便番号：〒{{ Shipping.postal_code }}
-住所：{{ Shipping.Pref.name }}{{ Shipping.addr01 }}{{ Shipping.addr02 }}
-電話番号：{{ Shipping.phone_number }}
+【お名前】　　　　：{{ Shipping.name01 }} {{ Shipping.name02 }} 様
+【お名前(カナ)】　：{{ Shipping.kana01 }} {{ Shipping.kana02 }} 様
+【郵便番号】　　　：〒{{ Shipping.postal_code }}
+【住所】　　　　　：{{ Shipping.Pref.name }}{{ Shipping.addr01 }}{{ Shipping.addr02 }}
+【電話番号】　　　：{{ Shipping.phone_number }}
 
-配送方法：{{ Shipping.shipping_delivery_name }}
-お届け日：{{ Shipping.shipping_delivery_date is empty ? '指定なし' : Shipping.shipping_delivery_date|date_day }}
-お届け時間：{{ Shipping.shipping_delivery_time|default('指定なし') }}
 
 {%  for OrderItem in Shipping.productOrderItems %}
-商品コード：{{ OrderItem.product_code }}
-商品名：{{ OrderItem.product_name }}  {{ OrderItem.classcategory_name1 }}  {{ OrderItem.classcategory_name2 }}
-数量：{{ OrderItem.quantity|number_format }}
+【配送方法】　　　：{{ OrderItem.Product.refrigerated_delivery? '冷蔵配送': '' }}{{ OrderItem.Product.frozen_delivery? '冷凍配送': '' }}{{ (OrderItem.Product.refrigerated_delivery + OrderItem.Product.frozen_delivery)? '': '通常配送' }}
+【お礼の品コード】：{{ OrderItem.product_code }}
+【お礼の品名称】　：{{ OrderItem.product_name }}  {{ OrderItem.classcategory_name1 }}  {{ OrderItem.classcategory_name2 }}
+【数量】　　　　　：{{ OrderItem.quantity|number_format }}
+【寄付金額】　　　：{{ OrderItem.price_inctax|price }}
 
 {% endfor %}
 {% endfor %}
+==============================
+【寄付金合計】　　：{{ Order.taxable_total|price }}
+==============================
 
+
+============================================
+●寄付に関するお問い合わせは下記までお問い合わせください。
+
+【紋別市ふるさと納税お問い合わせ窓口】
+TEL：0120-049-791（平日8:45～17:30）
+FAX：0158-23-1833
+
+●ふるさと納税ワンストップ特例制度を利用される方へ
+※ふるさと納税ワンストップ特例制度の申請を行う場合、ふるさと納税を行った翌年の1月10日までに必着で、ワンストップ特例申請書（寄附金税額控除に係る申告特例申請書）と必要な添付書類を、下記住所へ郵送してください。
+→必要書類についてはこちらをご覧ください。https://mombetsu.furusato-direct.jp/guide
+
+【ワンストップ特例申請書類の送付先】
+〒320-8790
+日本郵便株式会社 宇都宮中央郵便局
+私書箱第64号 株式会社新朝プレス
+
+============================================
 {% if Order.complete_mail_message is not empty %}
 {{ Order.complete_mail_message }}
 {% endif %}
 
-============================================
-
-このメッセージはお客様へのお知らせ専用ですので、
+このメッセージはお知らせ専用です。
 このメッセージへの返信としてご質問をお送りいただいても回答できません。
 ご了承ください。
+
 {% endautoescape %}

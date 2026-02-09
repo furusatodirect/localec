@@ -34,10 +34,19 @@ file that was distributed with this source code.
 
             $('#customer').click(function() {
                 $(edit).each(function(index) {
-                    var name = $(this).text();
-                    var input = $('<input id="edit' + index + '" type="text" />').val(name);
-                    $(form[index]).empty().append(input);
+                    if (!$(this).hasClass('customer-sex')) {
+                        var name = $(this).text();
+                        var input = $('<input id="edit' + index + '" type="text" />').val(name);
+                        $(form[index]).empty().append(input);
+                    }
                 });
+
+                var sexValue = $('.customer-edit.customer-sex').text();
+                if (sexValue === '男性') {
+                    $('#edit-sex-male').prop('checked', true);
+                } else if (sexValue === '女性') {
+                    $('#edit-sex-female').prop('checked', true);
+                }
 
                 $('.non-customer-display').hide();
                 $('.non-customer-edit').show();
@@ -48,6 +57,11 @@ file that was distributed with this source code.
                 $(form).each(function(index) {
                     $(hidden[index]).val($(form[index]).children('input').val());
                 });
+
+                var birthValue = $('#customer-birth').val();
+                $('#customer-birth').val(birthValue + ' 00:00:00');
+                var sexValue = $('#edit-sex').val();
+                $('#customer-sex').val(sexValue);
 
                 var postData = {};
                 $(hidden).each(function() {
@@ -68,16 +82,30 @@ file that was distributed with this source code.
                             $(form[index]).empty();
                         });
 
-                        // kana field
                         $(edit[2]).empty().text(data.kana01);
                         $(edit[3]).empty().text(data.kana02);
                         $('#customer-kana01').val(data.kana01);
                         $('#customer-kana02').val(data.kana02);
+                        $('.customer-edit.customer-sex').empty().text(sexValue);
+                        var selectHtml = `
+                            <select id="edit-sex">
+                                <option value="回答しない">回答しない</option>
+                                <option value="男性">男性</option>
+                                <option value="女性">女性</option>
+                            </select>
+                        `;
+                        $('.customer-form.customer-sex').append(selectHtml);
+                        $('#edit-sex option').each(function() {
+                            if ($(this).val() == sexValue) {
+                                $(this).prop('selected', true);
+                            } else {
+                                $(this).prop('selected', false);
+                            }
+                        });
                     }
                 }).fail(function() {
                     alert('更新に失敗しました。入力内容を確認してください。');
                 }).always(function(data) {
-                    // overlayを無効
                     loadingOverlay('hide');
                 });
 
@@ -100,7 +128,7 @@ file that was distributed with this source code.
 
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.shopping.title'|trans }}</h1>
+            <h1>お申込手続き</h1>
         </div>
     </div>
 
@@ -111,39 +139,31 @@ file that was distributed with this source code.
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__cart_items'|trans }}
+                    <div class="ec-progress__label">選択したお礼の品
                     </div>
                 </li>
-                {% if is_granted('ROLE_USER') == false %}
-                    <li class="ec-progress__item">
-                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                        </div>
-                        <div class="ec-progress__label">{{ 'front.cart.nav__customer_info'|trans }}
-                        </div>
-                    </li>
-                {% endif %}
                 <li class="ec-progress__item is-complete">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__order'|trans }}
+                    <div class="ec-progress__label">申込手続き
                     </div>
                 </li>
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__confirm'|trans }}
+                    <div class="ec-progress__label">入力確認
                     </div>
                 </li>
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__complete'|trans }}
+                    <div class="ec-progress__label">完了
                     </div>
                 </li>
             </ul>
         </div>
 
-        <!-- アラートメッセージ -->
+        {# アラートメッセージ #}
         {{ include('Shopping/alert.twig') }}
     </div>
 
@@ -152,26 +172,71 @@ file that was distributed with this source code.
         {{ form_widget(form.redirect_to) }}
         <div class="ec-orderRole">
             <div class="ec-orderRole__detail">
+
+                {# ===== お申込者情報 ===== #}
                 <div class="ec-orderAccount">
                     <div class="ec-rectHeading">
-                        <h2>{{ 'front.shopping.customer_info'|trans }}</h2>
+                        <h2>お申込者情報</h2>
                     </div>
-                    {% if is_granted('ROLE_USER') == false %}
-                        <div class="ec-orderAccount__change non-customer-display">
-                            <button id="customer" class="ec-inlineBtn" type="button">{{ 'common.change'|trans }}</button>
-                        </div>
-                    {% endif %}
                     <div class="ec-orderAccount__account non-customer-display">
-                        <p class="ec-halfInput">{{ 'common.name.prefix'|trans }}<span class="customer-edit customer-name01">{{ Order.name01 }}</span> <span class="customer-edit customer-name02">{{ Order.name02 }}</span>{{ 'common.name.suffix'|trans }}</p>
-                        <p class="ec-halfInput"><span class="customer-edit customer-kana01">{{ Order.kana01 }}</span> <span class="customer-edit customer-kana02">{{ Order.kana02 }}</span></p>
-                        <p class="ec-input"><span class="customer-edit customer-company_name">{{ Order.companyName }}</span></p>
-                        <p class="ec-zipInput">〒<span class="customer-edit customer-postal_code">{{ Order.postal_code }}</span></p>
-                        <p class="ec-input"><span class="customer-edit customer-pref">{{ Order.pref }}</span><span class="customer-edit customer-addr01">{{ Order.addr01 }}</span><span class="customer-edit customer-addr02">{{ Order.addr02 }}</span></p>
-                        <p class="ec-telInput"><span class="customer-edit customer-phone_number">{{ Order.phone_number }}</span></p>
-                        <p class="ec-input"><span class="customer-edit customer-email">{{ Order.email }}</span></p>
+                        <p>『控除対象者』の情報が正しく記載されているかご確認ください。<br>※寄付申込完了後に変更はできません。</p>
+                        <table>
+                            <tr>
+                                <th>お名前︓</th>
+                                <td><span class="customer-edit customer-name01">{{ Order.name01 }}</span>　<span class="customer-edit customer-name02">{{ Order.name02 }}</span>様</td>
+                            </tr>
+                            <tr>
+                                <th>お名前カナ︓</th>
+                                <td><span class="customer-edit customer-kana01">{{ Order.kana01 }}</span>　<span class="customer-edit customer-kana02">{{ Order.kana02 }}</span>様</td>
+                            </tr>
+                            <tr style="display:none">
+                                <th>会社名︓</th>
+                                <td><span class="customer-edit customer-company_name">{{ Order.companyName }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>郵便番号︓</th>
+                                <td>〒<span class="customer-edit customer-postal_code">{{ Order.postal_code }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>住所︓</th>
+                                <td><span class="customer-edit customer-pref">{{ Order.pref }}</span>
+                                <span class="customer-edit customer-addr01">{{ Order.addr01 }}</span><br>
+                                <span class="customer-edit customer-addr02">{{ Order.addr02 }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>電話番号︓</th>
+                                <td><span class="customer-edit customer-phone_number">{{ Order.phone_number }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>メールアドレス︓</th>
+                                <td><span class="customer-edit customer-email">{{ Order.email }}</span></td>
+                            </tr>
+                            {% if is_granted('ROLE_USER') == false %}
+                            <tr>
+                                <th>生年月日︓</th>
+                                <td><span class="customer-edit customer-birth">{{ Order.birth|date('Y-m-d') }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>性別︓</th>
+                                <td><span class="customer-edit customer-sex">{{ Order.sex }}</span></td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <th>生年月日︓</th>
+                                <td><span class="customer-edit customer-birth">{{ Order.birth|date('Y年m月d日', 'Asia/Tokyo') }}</span></td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                        {% if is_granted('ROLE_USER') == false %}
+                        <div class="ec-orderAccount__change non-customer-display">
+                            <button id="customer" class="ec-inlineBtn customerinfo-change_btn" type="button"><p>お申込者情報を修正する</p></button>
+                        </div>
+                        {% else %}
+                        <a href="{{ url('mypage_change') }}" class="customerinfo-change_btn"><p>お申込者情報を修正する</p></a>
+                        {% endif %}
                     </div>
                     {% if is_granted('ROLE_USER') == false %}
-                        <div class="ec-borderedDefs  non-customer-edit" style="display:none;">
+                        <div class="ec-borderedDefs non-customer-edit" style="display:none;">
                             <dl>
                                 <dt>
                                     <label class="ec-label required">{{ 'common.name'|trans }}</label>
@@ -196,10 +261,7 @@ file that was distributed with this source code.
                                     </div>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt>
-                                    <label class="ec-label" for="nonmember_company_name">{{ 'common.company_name'|trans }}</label>
-                                </dt>
+                            <dl style="display:none">
                                 <dd>
                                     <div class="ec-halfInput">
                                         <span class="customer-form customer-company_name"></span>
@@ -259,6 +321,34 @@ file that was distributed with this source code.
                                     </div>
                                 </dd>
                             </dl>
+                            <dl>
+                                <dt>
+                                    <label class="ec-label required">生年月日</label>
+                                    <span class="ec-required">{{ 'common.required'|trans }}</span>
+                                </dt>
+                                <dd>
+                                    <div class="ec-input">
+                                        <span class="customer-form customer-birth"></span>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <label class="ec-label required">性別</label>
+                                    <span class="ec-required">{{ 'common.required'|trans }}</span>
+                                </dt>
+                                <dd>
+                                    <div class="ec-select">
+                                        <span class="customer-form customer-sex">
+                                            <select id="edit-sex">
+                                                <option value="回答しない" {% if Order.sex == '回答しない' %}selected{% endif %}>回答しない</option>
+                                                <option value="男性" {% if Order.sex == '男性' %}selected{% endif %}>男性</option>
+                                                <option value="女性" {% if Order.sex == '女性' %}selected{% endif %}>女性</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </dd>
+                            </dl>
                         </div>
                         <div class="mod-button" style="display:none;">
                             <span id="customer-ok"><button type="button" class="ec-inlineBtn">{{ 'common.ok'|trans }}</button></span>
@@ -275,21 +365,26 @@ file that was distributed with this source code.
                         <input type="hidden" id="customer-addr02" class="customer-in" name="customer_addr02" value="{{ Order.addr02 }}">
                         <input type="hidden" id="customer-phone_number" class="customer-in" name="customer_phone_number" value="{{ Order.phone_number }}">
                         <input type="hidden" id="customer-email" class="customer-in" name="customer_email" value="{{ Order.email }}">
+                        <input type="hidden" id="customer-birth" class="customer-in" name="customer_birth" value="{{ Order.birth|date('Y-m-d') }}">
+                        <input type="hidden" id="customer-sex" class="customer-in" name="customer_sex" value="{{ Order.sex }}">
                     {% endif %}
                 </div>
+
+                {# ===== お届け先情報 ===== #}
                 <div class="ec-orderDelivery">
                     <div class="ec-rectHeading">
-                        <h2>{{ 'front.shopping.delivery_info'|trans }}</h2>
+                        <h2>お届け先情報</h2>
                     </div>
+                    <p class="shipping-info">お届け先の郵便番号や住所・お名前に誤りがあると配送の遅れにつながります。今一度ご確認ください。</p>
                     {% for shipping in Order.shippings %}
                         {% set idx = loop.index0 %}
                         {% set isShowReducedTaxMess = false %}
                         <div class="ec-orderDelivery__title">{{ 'front.shopping.delivery_to'|trans }}{% if Order.multiple %}({{ loop.index }}){% endif %}
                             <div class="ec-orderDelivery__change">
                                 {% if is_granted('ROLE_USER') %}
-                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
+                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', { 'id': shipping.id }) }}">{{ 'common.change'|trans }}</button>
                                 {% else %}
-                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
+                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', { 'id': shipping.id }) }}">{{ 'common.change'|trans }}</button>
                                 {% endif %}
                             </div>
                         </div>
@@ -298,9 +393,16 @@ file that was distributed with this source code.
                                 {% for orderItem in shipping.productOrderItems %}
                                     <li>
                                         <div class="ec-imageGrid">
-                                            <div class="ec-imageGrid__img"><img src="{{ asset((orderItem.product is null ? null : orderItem.product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}"></div>
+                                            <div class="ec-imageGrid__img">
+                                                <a target="_blank" href="{{ url('product_detail', { id: orderItem.product.id }) }}">
+                                                    <img src="{{ asset((orderItem.product is null ? null : orderItem.product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}" loading="lazy">
+                                                </a>
+                                            </div>
                                             <div class="ec-imageGrid__content">
-                                                <p>{{ orderItem.productName }}{% if is_reduced_tax_rate(orderItem) %}{{ 'common.reduced_tax_rate_symbol'|trans }}{% set isShowReducedTaxMess = true %}{% endif %}</p>
+                                                <p>
+                                                    <a target="_blank" href="{{ url('product_detail', { id: orderItem.product.id }) }}">{{ orderItem.productName }}</a>
+                                                    {% if is_reduced_tax_rate(orderItem) %}{{ 'common.reduced_tax_rate_symbol'|trans }}{% set isShowReducedTaxMess = true %}{% endif %}
+                                                </p>
                                                 {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
                                                     <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
                                                 {% endif %}
@@ -309,6 +411,48 @@ file that was distributed with this source code.
                                                 {% endif %}
                                                 <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ 'common.subtotal__with_separator'|trans }}{{ orderItem.totalPrice|price }}</span></p>
                                             </div>
+                                        </div>
+                                        {# Custom: 配送方法・お届け先情報 #}
+                                        <table>
+                                            {% if orderItem.product is not null and orderItem.product.room_temperature_delivery == '1' %}
+                                            <tr>
+                                                <th>配送方法︓</th>
+                                                <td>常温配送</td>
+                                            </tr>
+                                            {% elseif orderItem.product is not null and orderItem.product.refrigerated_delivery == '1' %}
+                                            <tr>
+                                                <th>配送方法︓</th>
+                                                <td>冷蔵配送</td>
+                                            </tr>
+                                            {% elseif orderItem.product is not null and orderItem.product.frozen_delivery == '1' %}
+                                            <tr>
+                                                <th>配送方法︓</th>
+                                                <td>冷凍配送</td>
+                                            </tr>
+                                            {% endif %}
+                                            <tr>
+                                                <th>お名前︓</th>
+                                                <td>{{ shipping.name01 }} {{ shipping.name02 }}様</td>
+                                            </tr>
+                                            <tr>
+                                                <th>お名前カナ︓</th>
+                                                <td>{{ shipping.kana01 }} {{ shipping.kana02 }}様</td>
+                                            </tr>
+                                            <tr>
+                                                <th>郵便番号︓</th>
+                                                <td>〒{{ shipping.postal_code }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>住所︓</th>
+                                                <td>{{ shipping.pref }}{{ shipping.addr01 }}<br>{{ shipping.addr02 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>電話番号︓</th>
+                                                <td>{{ shipping.phone_number }}</td>
+                                            </tr>
+                                        </table>
+                                        <div class="ec-orderDelivery__change">
+                                            <a href="{{ url('shopping_shipping_multiple') }}" class="customerinfo-change_btn"><p>お届け先を変更する</p></a>
                                         </div>
                                     </li>
                                 {% endfor %}
@@ -324,17 +468,17 @@ file that was distributed with this source code.
                             <div class="ec-selects">
                                 <div class="ec-select">
                                     <label>{{ 'front.shopping.delivery_provider'|trans }}</label>
-                                    {{ form_widget(form.Shippings[idx].Delivery, { 'attr': { 'class': 'form-control', 'data-trigger': 'change' }}) }}
+                                    {{ form_widget(form.Shippings[idx].Delivery, { 'attr': { 'class': 'form-control', 'data-trigger': 'change' } }) }}
                                     {{ form_errors(form.Shippings[idx].Delivery) }}
                                 </div>
                                 <div class="ec-select ec-select__delivery">
                                     <label>{{ 'front.shopping.delivery_date'|trans }}</label>
-                                    {{ form_widget(form.Shippings[idx].shipping_delivery_date, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.Shippings[idx].shipping_delivery_date, { 'attr': { 'class': 'form-control' } }) }}
                                     {{ form_errors(form.Shippings[idx].shipping_delivery_date) }}
                                 </div>
                                 <div class="ec-select ec-select__time">
                                     <label>{{ 'front.shopping.delivery_time'|trans }}</label>
-                                    {{ form_widget(form.Shippings[idx].DeliveryTime, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.Shippings[idx].DeliveryTime, { 'attr': { 'class': 'form-control' } }) }}
                                     {{ form_errors(form.Shippings[idx].DeliveryTime) }}
                                 </div>
                             </div>
@@ -343,16 +487,22 @@ file that was distributed with this source code.
                     <div class="ec-orderDelivery__edit">
                         <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">{{ 'front.shopping.to_multiple'|trans }}</button>
                     </div>
+                    <p class="shipping-info">寄附証明書などの書類はお申込者のご住所にお送りいたします。</p>
                 </div>
+
+                {# ===== お支払い方法 ===== #}
                 <div class="ec-orderPayment">
                     <div class="ec-rectHeading">
-                        <h2>{{ 'front.shopping.payment_info'|trans }}</h2>
+                        <h2>お支払い方法と金額</h2>
                     </div>
-                    <div class="ec-radio">
+                    <div class="ec-rectHeading">
+                        <h3>お支払い方法</h3>
+                    </div>
+                    <div class="ec-radio ec-paymethod">
                         {% for key, child in form.Payment %}
                             <div style="display: block;">
                                 {% set Payment = form.Payment.vars.choices[key].data %}
-                                {{ form_widget(child, { 'attr': { 'data-trigger': 'change' }}) }}
+                                {{ form_widget(child, { 'attr': { 'data-trigger': 'change' } }) }}
                                 {% if Payment.payment_image is not null %}
                                     <p><img src="{{ asset(Payment.payment_image, 'save_image') }}"></p>
                                 {% endif %}
@@ -360,7 +510,13 @@ file that was distributed with this source code.
                         {% endfor %}
                     </div>
                     <div class="ec-input {{ has_errors(form.Payment) ? ' error' }}">{{ form_errors(form.Payment) }}</div>
+                    <div class="payment-attention">
+                        <p>JCB/VISA/MASTER/AMEX/Dinersのクレジットカードでお支払い頂けます。<br>必ずお申込者ご本人様名義のクレジットカードにてお申込みいただきますようお願いいたします。</p>
+                        <img src="{{ asset('assets/img/credit_img.png', 'user_data') }}" />
+                    </div>
                 </div>
+
+                {# ===== ポイント情報 ===== #}
                 {% if BaseInfo.isOptionPoint and Order.Customer is not null %}
                     <div class="ec-orderPayment">
                         <div class="ec-rectHeading">
@@ -368,20 +524,118 @@ file that was distributed with this source code.
                         </div>
                         <div class="ec-input {{ has_errors(form.use_point) ? ' error' }}">
                             <p>{{ 'front.shopping.available_point'|trans({ '%point%': Order.Customer.Point|number_format }) }}</p>
-                            {{ form_widget(form.use_point, { 'attr': { 'type': 'text', 'class': 'form-control', 'data-trigger': 'change' }}) }}
+                            {{ form_widget(form.use_point, { 'attr': { 'type': 'text', 'class': 'form-control', 'data-trigger': 'change' } }) }}
                             {{ form_errors(form.use_point) }}
                         </div>
                     </div>
                 {% endif %}
+
+                {# ===== 寄付情報 ===== #}
                 <div class="ec-orderConfirm">
                     <div class="ec-rectHeading">
-                        <h2>{{ 'front.shopping.message_info'|trans }}</h2>
+                        <h2>寄付情報</h2>
+                    </div>
+
+                    {# 寄付金の使い道 #}
+                    <div class="ec-select">
+                        <div class="ec-rectHeading">
+                            <h3>寄付金の使い道</h3>
+                        </div>
+                        <p class="shopping-description">紋別市ではいただいた寄付金の使い道を指定することが可能です。ご指定の使い道を選択してください。</p>
+                        {{ form_widget(form.DonationPurpose, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(form.DonationPurpose) }}
+                    </div>
+
+                    {# ワンストップ特例制度 #}
+                    <div class="ec-checkbox">
+                        <div class="ec-rectHeading one_stop_head">
+                            <h3>ワンストップ特例制度</h3>
+                            <p><a href="https://mombetsu.furusato-direct.jp/guide#step03" target="_blank">ワンストップ特例制度とは？</a></p>
+                        </div>
+                        <p class="shopping-description">「寄附金税額控除に係る申告特例（ワンストップ特例）」の申請書をご要望の方は、チェックを入れてください。</p>
+                        <div class="donate-checkbox">
+                            {{ form_widget(form.one_stop) }}
+                            <p><label for="shopping_order_one_stop">寄付金税額控除に係る申告特例申請書を要望する</label></p>
+                        </div>
+                        {{ form_errors(form.one_stop) }}
+                        <div class="one_stop-attention">
+                            <label>注意事項</label>
+                            <p>
+                                <span class="fw-b">こちらにチェックをつけただけでは控除の対象となりません</span><br>
+                                後日送付する「寄付金税額控除に係る申告特例申請書」に記入・捺印いただき、紋別市までご返送頂く必要があります。
+                            </p>
+                            <label>次の条件を満たしている必要があります</label>
+                            <p>
+                                <span class="fw-b">１：もともと確定申告をする必要のない給与所得者等であること。</span><br>
+                                ※年収2,0000万円以上の所得者や、医療費控除のために確定申告が必要な場合は確定申告で寄付金控除を申請してください
+                            </p>
+                            <p>
+                                <span class="fw-b">２：1年間の寄付先が5自治体以下であること。</span><br>
+                                ※1つの自治体に複数寄付しても1カウントとなります。
+                            </p>
+                        </div>
+                        <p class="shopping-description to-donate-step">ふるさと納税の仕組みと手続きについては<a href="https://mombetsu.furusato-direct.jp/guide" target="_blank">こちら</a></p>
+                    </div>
+
+                    {# 応援メッセージ #}
+                    <div class="ec-rectHeading">
+                        <h3>紋別市への応援メッセージ</h3>
                     </div>
                     <div class="ec-input">
-                        {{ form_widget(form.message, {'attr': {'class': 'form-control', 'placeholder': 'front.shopping.message_placeholder'|trans, 'rows': '6'}}) }}
-                        {{ form_errors(form.message) }}
+                        {{ form_widget(form.cheer_message, { 'attr': { 'class': 'form-control', 'placeholder': 'front.shopping.cheer_message_placeholder'|trans, 'rows': '6' } }) }}
+                        {{ form_errors(form.cheer_message) }}
                     </div>
+                    <div class="ec-checkbox">
+                        <p class="shopping-description">このコメント欄は、メッセージ・ご意見専用です。お礼品や書類の配送、各種変更等に関するご希望・ご連絡をご記入いただいても対応できかねますので、ご了承ください。<br><br>
+                        メッセージを紋別市ふるさと納税サイトや広報などでご紹介して良い場合は、チェックを入れてください。</p>
+                        <div class="donate-checkbox">
+                            {{ form_widget(form.cheer_message_publish) }}
+                            <p><label for="shopping_order_cheer_message_publish">応援メッセージを公表して良い</label></p>
+                        </div>
+                        {{ form_errors(form.cheer_message_publish) }}
+                    </div>
+
+                    {# 書類送付先 (hidden) #}
+                    <div class="ec-checkbox" style="display: none;">
+                        <label>{{ 'front.shopping.document_send_difference'|trans }}</label>
+                        {{ form_widget(form.document_send_difference) }}
+                        {{ form_errors(form.document_send_difference) }}
+                    </div>
+
+                    {# 寄付者名の公表 #}
+                    <div class="ec-rectHeading">
+                        <h3>寄付者名の公表</h3>
+                        <p class="shopping-description">ホームページなどへ寄付者名を公表して良い場合は、チェックを入れてください。</p>
+                        <div class="donate-checkbox">
+                            {{ form_widget(form.name_announce) }}
+                            <p><label for="shopping_order_name_announce">寄付者名を公表して良い</label></p>
+                        </div>
+                        {{ form_errors(form.name_announce) }}
+                    </div>
+
+                    {# 備考欄 #}
+                    <div class="ec-rectHeading">
+                        <h3>備考欄</h3>
+                    </div>
+                    <div class="ec-input">
+                        <p class="shopping-description">お礼の品のお届けについてご希望がございましたらご記入ください。内容によっては、ご希望に添えない場合がございます。また、着日の指定は承ることができません。あらかじめご承知おきください。</p>
+                        {{ form_widget(form.offer_memo, { 'attr': { 'class': 'form-control', 'placeholder': 'front.shopping.message_placeholder'|trans, 'rows': '6' } }) }}
+                        {{ form_errors(form.offer_memo) }}
+                    </div>
+
+                    {# 利用規約・同意 #}
+                    <p class="shipping-info">上記内容を確認し、よろしければチェックを入れて決済画面に進んでください。</p>
+                    <div class="to-agreement_wraop">
+                        <a class="to-agreement" target="_blank" href="{{ url('help_agreement') }}">利用規約を確認する</a>
+                    </div>
+                    <div class="donate-checkbox">
+                        {{ form_widget(form.agreement) }}
+                        <p><label for="shopping_order_agreement">上記事項および利用規約に同意の上申し込みます。</label></p>
+                    </div>
+                    {{ form_errors(form.agreement) }}
                 </div>
+
+                {# ===== 特定商取引法に基づく表記 (4.3) ===== #}
                 {% for activeTradeLaw in activeTradeLaws|filter(t => t.name and t.description) %}
                     <div class="ec-orderConfirm">
                         <div class="ec-rectHeading">
@@ -394,6 +648,9 @@ file that was distributed with this source code.
                 {% endfor %}
             </div>
             <div class="ec-orderRole__summary">
+                <div class="ec-rectHeading">
+                    <h3>寄付金額</h3>
+                </div>
                 <div class="ec-totalBox">
                     <dl class="ec-totalBox__spec">
                         <dt>{{ 'common.subtotal'|trans }}</dt>
@@ -420,7 +677,9 @@ file that was distributed with this source code.
                             <dd>{{ item.total_price|price }}</dd>
                         </dl>
                     {% endfor %}
-                    <div class="ec-totalBox__paymentTotal">{{ 'common.payment_total'|trans }}<span class="ec-totalBox__price">{{ Order.payment_total|price }}</span><span class="ec-totalBox__taxLabel">{{ 'common.tax_include'|trans }}</span></div>
+                    <div class="ec-totalBox__paymentTotal">
+                        <p>現在のお礼の品を希望する場合、<br><span>{{ Order.payment_total|number_format }}円</span>の寄付が必要です。</p>
+                    </div>
                     {% for rate, total in Order.total_by_tax_rate %}
                     <dl class="ec-totalBox__taxRate">
                         <dt>{{ 'common.tax_rate_target'|trans({ '%rate%': rate }) }}</dt>
@@ -440,8 +699,8 @@ file that was distributed with this source code.
                     </div>
                     {% endif %}
                     <div class="ec-totalBox__btn">
-                        <button type="submit" class="ec-blockBtn--action">{{ 'front.shopping.go_to_confirm'|trans }}</button>
-                        <a href="{{ url("cart") }}" class="ec-blockBtn--cancel">{{ 'front.shopping.back_to_cart'|trans }}</a>
+                        <button type="submit" class="ec-blockBtn--action">確認画面へ進む</button>
+                        <a href="{{ url("cart") }}" class="ec-blockBtn--cancel">前の画面に戻る</a>
                     </div>
                 </div>
             </div>

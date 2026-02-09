@@ -14,11 +14,18 @@ file that was distributed with this source code.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="eccube-csrf-token" content="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}">
-    <title>{{ BaseInfo.shop_name }}{% if subtitle is defined and subtitle is not empty %} / {{ subtitle }}{% elseif title is defined and title is not empty %} / {{ title }}{% endif %}</title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>MLJ 紋別stg</title>{# 紋別stg #}
     {% if Page.meta_tags is not empty %}
         {{ include(template_from_string(Page.meta_tags), sandboxed = true) }}
         {% if Page.description is not empty %}
             <meta name="description" content="{{ Page.description }}">
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="" />
+            <meta property="og:title" content="" />
+            <meta property="og:description" content="" />
+            <meta property="og:image" content="{{ asset('assets/img/ogp.png', 'user_data') }}" />
         {% endif %}
     {% else %}
         {{ include('meta.twig') }}
@@ -32,10 +39,27 @@ file that was distributed with this source code.
     {% if Page.meta_robots is not empty %}
         <meta name="robots" content="{{ Page.meta_robots }}">
     {% endif %}
+    <meta property="og:site_name" content="" />
+    <link rel="canonical" href="{{ app.request.uri }}" />
     <link rel="icon" href="{{ asset('assets/img/common/favicon.ico', 'user_data') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/common/apple-touch-icon.png', 'user_data') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/bootstrap.min.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/bootstrap-icons.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/themify-icons.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/destyle.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/base.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/slider-pro.min.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/all.min.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/slick.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/slick-theme.css', 'user_data') }}" media="all">
+    <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/css/nouislider.min.css', 'user_data') }}" media="all">
     <script src="{{ asset('front.bundle.js', 'bundle') }}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
     {% block stylesheet %}{% endblock %}
     <script>
         $(function() {
@@ -175,10 +199,20 @@ file that was distributed with this source code.
         {{ include('block.twig', {'Blocks': Layout.Drawer}) }}
     {% endif %}
 </div>
-<div class="ec-blockTopBtn pagetop">{{'common.pagetop'|trans}}</div>
+{#<div class="ec-blockTopBtn pagetop">{{'common.pagetop'|trans}}</div>#}
 {% include('@common/lang.twig') %}
 <script src="{{ asset('assets/js/function.js') }}"></script>
 <script src="{{ asset('assets/js/eccube.js') }}"></script>
+{% if not (app.request.get('_route') == 'shopping' and is_granted('ROLE_USER') == false) %}
+<script src="{{ asset('assets/js/jquery.js', 'user_data') }}"></script>
+{% endif %}
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/jquery.sliderPro.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/chart.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/nouislider.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/wNumb.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/swiper-bundle.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/js/slick.min.js', 'user_data') }}"></script>
 {% block javascript %}{% endblock %}
 {# Layout: CLOSE_BODY_BEFORE #}
 {% if Layout.CloseBodyBefore %}

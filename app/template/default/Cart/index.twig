@@ -16,7 +16,7 @@ file that was distributed with this source code.
 
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.cart.title'|trans }}</h1>
+            <h1>寄付カートの中身</h1>
         </div>
     </div>
 
@@ -27,33 +27,25 @@ file that was distributed with this source code.
                 <li class="ec-progress__item is-complete">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__cart_items'|trans }}
-                    </div>
-                </li>
-                {% if is_granted('ROLE_USER') == false %}
-                    <li class="ec-progress__item">
-                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                        </div>
-                        <div class="ec-progress__label">{{ 'front.cart.nav__customer_info'|trans }}
-                        </div>
-                    </li>
-                {% endif %}
-                <li class="ec-progress__item">
-                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                    </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__order'|trans }}
+                    <div class="ec-progress__label">選択したお礼の品
                     </div>
                 </li>
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__confirm'|trans }}
+                    <div class="ec-progress__label">申込手続き
                     </div>
                 </li>
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__complete'|trans }}
+                    <div class="ec-progress__label">入力確認
+                    </div>
+                </li>
+                <li class="ec-progress__item">
+                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                    </div>
+                    <div class="ec-progress__label">完了
                     </div>
                 </li>
             </ul>
@@ -144,19 +136,19 @@ file that was distributed with this source code.
                                 {% set Product = ProductClass.Product %}
                                 <ul class="ec-cartRow">
                                     <li class="ec-cartRow__delColumn">
-                                        <a href="{{ url('cart_handle_item', {'operation': 'remove', 'productClassId': ProductClass.id }) }}" {{ csrf_token_for_anchor() }} class="ec-icon" data-method="put" data-message="カートから商品を削除してもよろしいですか?">
+                                        <a href="{{ url('cart_handle_item', { 'operation': 'remove', 'productClassId': ProductClass.id }) }}" {{ csrf_token_for_anchor() }} class="ec-icon" data-method="put" data-message="カートから商品を削除してもよろしいですか?">
                                             <img src="{{ asset('assets/icon/cross.svg') }}" alt="delete">
                                         </a>
                                     </li>
                                     <li class="ec-cartRow__contentColumn">
                                         <div class="ec-cartRow__img">
-                                            <a target="_blank" href="{{ url('product_detail', {id : Product.id} ) }}">
-                                                <img src="{{ asset(Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ Product.name }}"/>
+                                            <a target="_blank" href="{{ url('product_detail', { id: Product.id }) }}">
+                                                <img src="{{ asset(Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"/>
                                             </a>
                                         </div>
                                         <div class="ec-cartRow__summary">
                                             <div class="ec-cartRow__name">
-                                                <a target="_blank" href="{{ url('product_detail', {id : Product.id} ) }}">{{ Product.name }}</a>
+                                                <a target="_blank" href="{{ url('product_detail', { id: Product.id }) }}">{{ Product.name }}</a>
                                                 {% if ProductClass.ClassCategory1 and ProductClass.ClassCategory1.id %}
                                                     <br>{{ ProductClass.ClassCategory1.ClassName.name }}：{{ ProductClass.ClassCategory1 }}
                                                 {% endif %}
@@ -164,7 +156,16 @@ file that was distributed with this source code.
                                                     <br>{{ ProductClass.ClassCategory2.ClassName.name }}：{{ ProductClass.ClassCategory2 }}
                                                 {% endif %}
                                             </div>
-                                            <div class="ec-cartRow__unitPrice">{{ CartItem.price|price }}</div>
+                                            {# Custom: 配送方法 #}
+                                            <div class="ec-cartRow__unitPrice">
+                                                {% if Product.room_temperature_delivery == '1' %}
+                                                <p>配送方法：常温配送</p>
+                                                {% elseif Product.refrigerated_delivery == '1' %}
+                                                <p>配送方法：冷蔵配送</p>
+                                                {% elseif Product.frozen_delivery == '1' %}
+                                                <p>配送方法：冷凍配送</p>
+                                                {% endif %}
+                                            </div>
                                             <div class="ec-cartRow__sutbtotalSP">{{ 'common.subtotal__with_separator'|trans }}{{ CartItem.total_price|price }}</div>
                                         </div>
                                     </li>
@@ -173,7 +174,7 @@ file that was distributed with this source code.
                                         <div class="ec-cartRow__amountSP">{{ 'common.quantity__with_separator'|trans }}{{ CartItem.quantity|number_format }}</div>
                                         <div class="ec-cartRow__amountUpDown">
                                             {% if CartItem.quantity > 1 %}
-                                                <a href="{{ url('cart_handle_item', {'operation': 'down', 'productClassId': ProductClass.id}) }}" {{ csrf_token_for_anchor() }} class="ec-cartRow__amountDownButton load-overlay" data-method="put" data-confirm="false">
+                                                <a href="{{ url('cart_handle_item', { 'operation': 'down', 'productClassId': ProductClass.id }) }}" {{ csrf_token_for_anchor() }} class="ec-cartRow__amountDownButton load-overlay" data-method="put" data-confirm="false">
                                                     <span class="ec-cartRow__amountDownButton__icon"><img src="{{ asset('assets/icon/minus-dark.svg') }}" alt="reduce"></span>
                                                 </a>
                                             {% else %}
@@ -181,7 +182,7 @@ file that was distributed with this source code.
                                                     <span class="ec-cartRow__amountDownButton__icon"><img src="{{ asset('assets/icon/minus.svg') }}" alt="reduce"></span>
                                                 </div>
                                             {% endif %}
-                                            <a href="{{ url('cart_handle_item', {'operation': 'up', 'productClassId': ProductClass.id}) }}" {{ csrf_token_for_anchor() }} class="ec-cartRow__amountUpButton load-overlay" data-method="put" data-confirm="false">
+                                            <a href="{{ url('cart_handle_item', { 'operation': 'up', 'productClassId': ProductClass.id }) }}" {{ csrf_token_for_anchor() }} class="ec-cartRow__amountUpButton load-overlay" data-method="put" data-confirm="false">
                                                 <span class="ec-cartRow__amountUpButton__icon"><img src="{{ asset('assets/icon/plus-dark.svg') }}" alt="increase"></span>
                                             </a>
                                         </div>
@@ -218,16 +219,23 @@ file that was distributed with this source code.
                         {% endif %}
                     </div>
                     <div class="ec-cartRole__actions">
-                        <div class="ec-cartRole__total">{{ 'common.total__with_separator'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span>
+                        <div class="ec-cartRole__total">
+                            合計金額 <span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|number_format }}</span> 円
                         </div>
-                        <a class="ec-blockBtn--action" href="{{ path('cart_buystep', {'cart_key':cartKey}) }}">{{ 'front.cart.checkout'|trans }}</a>
+                        <a class="ec-blockBtn--action" href="{{ path('cart_buystep', { 'cart_key': cartKey }) }}">次へ</a>
                         {% if loop.last %}
-                            <a class="ec-blockBtn--cancel" href="{{ path('homepage') }}">{{ 'front.cart.continue'|trans }}</a>
+                            <a class="ec-blockBtn--cancel" href="{{ path('homepage') }}">前の画面に戻る</a>
                         {% endif %}
                     </div>
                 {% endfor %}
             </form>
+            {# 注意事項 #}
+            <div class="attention">
+                <p><i class="fa fa-exclamation-triangle fa-fw"></i>注意事項</p>
+                <p>紋別市民の方へはお礼の品のお贈りはしておりませんのでご注意ください。</p>
+            </div>
         {% else %}
+            <p class="cart_blank">寄付カートには何も入っていません。</p>
             {% for CartIndex,Cart in Carts %}
                 {% set cartKey = Cart.cart_key %}
                 {% for error in app.session.flashbag.get('eccube.front.cart.' ~ cartKey ~ '.request.error') %}
@@ -245,20 +253,11 @@ file that was distributed with this source code.
                     </div>
                 {% endfor %}
             {% endfor %}
-            <div class="ec-role">
-                <div class="ec-off3Grid">
-                    <div class="ec-off3Grid__cell">
-                        <div class="ec-alert-warning">
-                            <div class="ec-alert-warning__inner">
-                                <div class="ec-alert-warning__inner__item">
-                                    <div class="ec-alert-warning__icon"><img src="{{ asset('assets/icon/exclamation-white.svg') }}"></div>
-                                    <div class="ec-alert-warning__text">{{ 'front.cart.no_items'|trans }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {% if is_granted('ROLE_USER') == false %}
+            <div class="login_link">
+                <a href="{{ url('mypage_login') }}">ログインページへ</a>
             </div>
+            {% endif %}
         {% endif %}
     </div>
 

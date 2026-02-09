@@ -1,0 +1,218 @@
+{% extends 'default_frame.twig' %}
+
+
+  {#author :MLJ start #}
+  {% block stylesheet %}
+  <style>
+    #p-donation .card {
+      background: #fff;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0px 0px 15px -7px rgb(0 0 0 / 60%);
+    }
+
+    #p-donation .card-header {
+      background: #00B84C;
+      border-radius: 12px 12px 0 0 / 12px 12px 0 0;
+    }
+
+    #p-donation .card-header p.title {
+      font-size: 2rem;
+      color: #FFF;
+      padding: 1vw 0;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    #p-donation .sub-header {
+    margin-bottom: 30px;
+    text-align: center!important;
+    background-color: #00B84C;
+    padding: 10px 0;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    }
+    
+    #p-donation .card-body p.lead {
+      font-size: 2rem;
+      padding: 1vw 0;
+      line-height: 2.5rem;
+    }
+
+    #p-donation .form-group p.stitle {
+      font-size: 2rem;
+      padding: 1rem 0;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #p-donation .form-control{
+      /*direction: rtl;*/
+      width: 60%;
+    }
+    #p-donation .attention {
+      background: rgba(239, 228, 67, 0.18);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 2rem;
+    }
+
+    #p-donation .attention p.title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FF004E;
+    }
+
+    #p-donation .attention p.lead {
+      font-size: 1.2rem;
+      color: #FF004E;
+    }
+    .ec-blockBtn--action{
+    border-radius: 5px;
+    color:white;
+    font-weight:normal;
+    position: relative;
+    background: #FF004E;
+    border: 1px solid #FF004E;
+}
+.ec-blockBtn--action:hover{
+    background-color: white;
+    color: #FF004E;
+    border-color: #cb3526;
+}
+.ec-blockBtn--action:active{
+    color: #fff; 
+    background-color: #d33828;
+    border-color: #cb3526;    
+}
+.ec-blockBtn--action:active:hover{
+    color: #fff;
+    background-color: #b53022;
+    border-color: #93271c;
+}
+.ec-blockBtn--action:after{
+    content:"＞";
+    /*background-image:url({{ asset('assets/img/action_btn.svg', 'user_data') }});*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: contain;*/
+    width:20px;
+    height:20px;
+    position: absolute;
+    /*top:35.5%;*/
+    right:15px;
+}
+.ec-blockBtn--cancel{
+    background-color:white;
+    color:#090000;
+    /*border:solid 1px #497E42;*/
+    border-radius: 5px;
+    font-weight:normal;
+    position: relative;
+    border: 1px solid #F6F6F6;
+    background: #F6F6F6;
+    margin-top: 1.5rem;
+    /*height: 40px;
+    line-height: 2.5;*/
+}
+.ec-blockBtn--cancel:hover{
+    background-color:white;
+    border:solid 1px #c8c8c8;
+    color:#090000;
+}
+
+.ec-blockBtn--cancel:before{
+    position: absolute;
+    left:15%;
+    content:"＜";    
+    margin-right:10px;
+    font-weight:200;
+}
+  </style>
+{% endblock %}
+{#author :MLJ end #}
+
+
+{% block main %}
+
+  <main id="about">
+
+   
+
+    <div class="container">
+        
+        
+
+      <div id="p-donation">
+        <div class="card col-md-8 mx-auto">
+
+          <div class="card-header">
+            <p class="title">stg紋別応援寄付</p>
+          </div>
+
+          <div class="row col-md-10 mx-auto">
+            <div class="card-body m-3">
+              <p class="lead">紋別応援寄付では返礼品を受け取ることはできませんが、<br>寄付金をもっと課題解決に役立てることができます。</p>
+
+            </div>
+          </div>
+
+          <div class="row m-0">
+                    <p class="sub-header">リストから好きな金額をお選びいただけます。</p>
+            <div class="col-6 col-md-4 m-3 mx-auto">
+              <form>
+                <div class="form-group">
+
+                  <div class="ec-select">
+                    <select id="donation_price" name="donation[price]" class="form-control">
+                      <option value="">-</option>
+                      <option value="2000">2,000</option>
+                      <option value="3000">3,000</option>
+                      <option value="4000">4,000</option>
+                      <option value="5000">5,000</option>
+                      <option value="6000">6,000</option>
+                      <option value="7000">7,000</option>
+                      <option value="8000">8,000</option>
+                      <option value="9000">9,000</option>
+                      <option value="10000">10,000</option>
+                      <option value="20000">20,000</option>
+                      <option value="30000">30,000</option>
+                      <option value="40000">40,000</option>
+                      <option value="50000">50,000</option>
+                      <option value="60000">60,000</option>
+                      <option value="70000">70,000</option>
+                      <option value="80000">80,000</option>
+                      <option value="90000">90,000</option>
+                      <option value="100000">100,000</option>
+                    </select>&nbsp;円
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="row m-0">
+            <div class="attention col-10 col-md-8 mx-auto">
+              <p class="title"><i class="fa fa-exclamation-triangle fa-fw"></i>注意事項</p>
+              <p class="lead">※2,000円以上の寄付金額からお申し込みいただけます。<br>
+                ※こちらの寄付では返礼品の申し込みはできません。</p>
+            </div>
+          </div>
+
+          <div class="row col-8 mb-5 mx-auto">
+            {% if is_granted('ROLE_USER') %} 
+            <a class="ec-blockBtn--action" href="{{ url('cart') }}">お申し込みに進む</a>
+          {% else %}
+          <a class="ec-blockBtn--action" href="{{ url('mypage_login') }}">お申し込みに進む</a>
+          {% endif %}
+          <a class="ec-blockBtn--cancel" href="{{ path('homepage') }}">前の画面に戻る</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+{% endblock %}

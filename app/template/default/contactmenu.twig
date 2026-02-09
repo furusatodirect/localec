@@ -1,0 +1,114 @@
+{% extends 'default_frame.twig' %}
+
+{#author :MLJ start #}
+{% block stylesheet %}
+<style>
+ 
+</style>
+{% endblock %}
+{#author :MLJ end #}
+
+{% block main %}
+
+  <main id="about">
+    <div class="container" style="min-height: 70vh">
+
+      <div class="ec-role">
+        <div class="ec-pageHeader">
+          <h1>お問い合わせ<br><a href="/help/about">
+            <span
+            style="text-decoration: underline;font-size: 1.5rem;font-weight: 700;color: #DE5D50;">よくある質問</span></a>
+            <span
+            style="font-size: 1.5rem;font-weight: 400;">では、さまざまなお問い合わせ内容についての回答を記載していますのでご確認ください。</span>
+          </h1>
+        </div>
+      </div>
+
+      <div id="faq" class="accordion">
+
+        <div class="ec-heading-bold">〇ふるさと納税に関するお問い合わせ先<br>
+          <span
+            style="text-decoration: underline;font-size: 1.2rem;font-weight: 400;">※紋別市では、各種お問い合わせ、お電話及びメール、ワンストップ特例申請受付は業務委託しており(株)新朝プレスがご対応いたします。</span>
+        </div>
+        <div class="option">
+          <input type="checkbox" id="toggle1" class="toggle" checked>
+          <label class="title" for="toggle1">
+            <p class="text">北海道紋別市ふるさと納税窓口</p>
+          </label>
+          <div class="content">
+            <p class="text">総合サイトをはじめとする、各ポータルサイトでの寄付お申込み後の各種お問い合わせにはついては、紋別市ふるさと納税窓口で承ります。
+            <br>紋別市ふるさと納税に関する各種お問い合わせは、こちらの<a href="https://mombetsu.jp/life/?content=541"><span
+                  style="text-decoration: underline;font-size: 1.5rem;font-weight: 700;">【紋別市ふるさと納税窓口お問い合わせフォーム】</span></a>よりお願いいたします。</p>
+            <p class="text">直接お電話やメールでのお問い合わせをご希望される方は、以下の連絡先までご連絡をお願いいたします。</p>
+            <p class="text pb-0"><span class="fi ti-mobile"></span>&ensp;<a href="tel:0120-049-791"><span
+                  class="textt">0120-049-791</span></a>（平日8:45～17:30）</p>
+            <p class="text pb-0"><span class="fi ti-email"></span>&ensp;<a
+                href="mailto:f012190-mombetsu-cs@mlosjapan.com?subject=北海道紋別市ふるさと納税お問い合わせ&amp;body=問い合わせ内容%0d%0a"><span
+                  class="textm">f012190-mombetsu-cs@mlosjapan.com</span></a></p>
+            <p class="text pb-0"><span class="fi ti-home"></span>&ensp;〒094-8707 北海道紋別市幸町2丁目1番18号</p>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle2" class="toggle">
+          <label class="title" for="toggle2">
+            <p class="text">ワンストップ特例申請書送付先</p>
+          </label>
+          <div class="content">
+            <p class="text">〒320-8790</br>
+              日本郵便株式会社&nbsp;宇都宮中央郵便局</br>
+              私書箱第64号&nbsp;(株)新朝プレス</br>
+              紋別市ふるさと納税サポートセンター宛</p>
+          </div>
+        </div>
+
+        <div class="ec-heading-bold pt-5">〇寄附後の各種確認と受領証明書再発行のご依頼</div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle3" class="toggle">
+          <label class="title" for="toggle3">
+            <p class="text">自治体マイページ</p>
+          </label>
+          <div class="content">
+            <p class="text">紋別市では、ふるさと納税に関するあらゆる情報が一元管理できる寄附者様専用のウェブページ「<a href="https://mypg.jp/auth/login/"
+                target="_blink"><span
+                  style="text-decoration: underline;font-size: 1.5rem;font-weight: 700;">自治体マイページ</span></a>」をご用意しています。ぜひ、ご登録・ログインいただき、各機能をご活用ください。
+            </p>
+            <div class="col-8 col-lg-4 mx-auto">
+              <p class="text">
+                【紋別市マイページでできること】<br>
+                ・寄附状況の確認<br>
+                ・お礼の品の配送状況の確認<br>
+                ・受領証明書再発行依頼<br>
+                ・ワンストップ特例申請の受付状況確認<br>
+                ・オンラインワンストップ特例申請<br>
+                ・オンラインワンストップ特例変更届</p>
+            </div>
+            <div class="col-12 col-lg-4 mx-auto">
+              <a href="https://mypg.jp/" target="_blink" class="bnr"><img src="{{ asset('assets/img/bnr_mypgjp.png', 'user_data') }}"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="ec-heading-bold pt-5">〇その他の当サイトに関するお問い合わせ先</div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle4" class="toggle">
+          <label class="title" for="toggle4">
+            <p class="text">その他</p>
+          </label>
+          <div class="content">
+            <p class="text">その他、操作方法などの当サイトに関するお問い合わせは、こちらの<a href="/contact"><span
+                  style="text-decoration: underline;font-size: 1.5rem;font-weight: 700;">【総合サイト問い合わせフォーム】</span></a>よりお願いいたします。<br>
+                  寄付お申込み後の各種お問い合わせについては、上記記載の<b>【紋別市ふるさと納税窓口お問い合わせフォーム】</b>をご利用ください。<br>
+                  内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+{% endblock %}

@@ -15,22 +15,53 @@ file that was distributed with this source code.
 {% block main %}
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.entry.complete_title__temporary'|trans }}</h1>
+            <h1>仮登録完了</h1>
         </div>
+    </div>
+    <div class="ec-cartRole__progress">
+        <ul class="ec-progress">
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">会員情報<br>入力
+                </div>
+            </li>
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">会員情報<br>確認
+                </div>
+            </li>
+            <li class="ec-progress__item is-complete">
+                <div class="ec-progress__label">仮登録<br>メール
+                </div>
+            </li>
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">会員登録<br>完了
+                </div>
+            </li>
+        </ul>
     </div>
     <div class="ec-registerCompleteRole">
         <div class="ec-reportHeading">
-            <h2>{{ 'front.entry.complete_message__title'|trans }}</h2>
+            <h2>仮登録ありがとうございます</h2>
         </div>
         <div class="ec-off3Grid ec-text-ac">
             <div class="ec-off3Grid__cell">
-
-                <p class="ec-reportDescription">{{ 'front.entry.complete_message__temporary'|trans|nl2br }}</p>
-
+                <p class="ec-reportDescription">現在、仮会員の状態です。ただいま、ご入力いただいたメールアドレス宛に、下記の内容でご本人様確認用のメールをお送りいたしました。<br>メール本文内のURLをクリックすると、本会員登録が完了となります。
+                <br><br><br>タイトル：会員登録のご確認<br>メールアドレス：info-mombetsu@furusato-direct.jp
+                </p>
             </div>
         </div>
         <div class="ec-off4Grid">
-            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a></div>
+            <div class="ec-off4Grid__cell ec-link">
+                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">トップページへ</a>
+            </div>
         </div>
+    </div>
+    <div class="form-bottom">
+        <div class="form-bottom_head">確認用メールが届かない場合</div>
+        <p>登録メールアドレスの入力間違いや迷惑メール設定などの可能性があります。なお、以下を確認しても解決しない場合は、<a href="/contact">お問い合わせフォーム</a>からお問い合わせください。</p>
+        <ul>
+            <li>登録メールアドレスが間違っている場合<br>正しいメールアドレスであることを確認の上、こちらから再度新規会員登録手続きをお試しください。</li>
+            <li>迷惑メールフォルダに振り分けられている場合<br>迷惑メールフォルダに保存されている場合があります。受信フォルダでメールが確認できない場合は、迷惑メールフォルダをご確認ください。</li>
+            <li>受信拒否設定されている場合<br>迷惑メール設定を見直してください。受信許可リストに「furusato-direct.jp」を受信できるように設定を変更してください。同一のメールアドレスでは登録ができませんので、<a href="/contact">お問い合わせフォーム</a>からお問い合わせください。</li>
+        </ul>
     </div>
 {% endblock %}

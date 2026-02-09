@@ -16,7 +16,7 @@ file that was distributed with this source code.
 
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'common.login'|trans }}</h1>
+            <h1>紋別市ふるさと納税へようこそ</h1>
         </div>
     </div>
 
@@ -29,13 +29,14 @@ file that was distributed with this source code.
                     <input type="hidden" name="_failure_path" value="{{ url('shopping_login') }}" />
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <div class="ec-login">
-                        <div class="ec-login__icon">
-                            <div class="ec-icon"><img src="{{ asset('assets/icon/user.svg') }}" alt=""></div>
-                        </div>
+                        <h1>会員ログイン</h1>
+                        <p>会員登録をされている方は、メールアドレス・パスワードを入力しログインしてください。</p>
                         <div class="ec-login__input">
                             <div class="ec-input">
-                                {{ form_widget(form.login_email, { attr: { 'style' : 'ime-mode: disabled;', placeholder: 'common.mail_address'|trans, 'autofocus': true }}) }}
-                                {{ form_widget(form.login_pass, { attr: { placeholder: 'common.password'|trans }}) }}
+                                <label>メールアドレス</label>
+                                {{ form_widget(form.login_email, { attr: { 'style': 'ime-mode: disabled;', placeholder: 'common.mail_address'|trans, 'autofocus': true } }) }}
+                                <label>パスワード</label>
+                                {{ form_widget(form.login_pass, { attr: { placeholder: 'common.password'|trans } }) }}
                             </div>
                             {% if BaseInfo.option_remember_me %}
                             <div class="ec-checkbox">
@@ -55,27 +56,47 @@ file that was distributed with this source code.
                         <div class="ec-grid2">
                             <div class="ec-grid2__cell">
                                 <div class="ec-login__actions">
-                                    <button type="submit" class="ec-blockBtn--cancel">{{ 'common.login'|trans}}</button>
+                                    <button type="submit" class="ec-blockBtn--cancel">ログインしてトップページへ</button>
                                 </div>
+                                <p>ログインしますとトップページが表示されますので、寄付カートより手続きへお進みください。</p>
                             </div>
                             <div class="ec-grid2__cell">
-                                <div class="ec-login__link"><a class="ec-link" href="{{ url('forgot') }}">{{ 'common.forgot_login'|trans}}</a>
-                                </div>
-                                <div class="ec-login__link"><a class="ec-link" href="{{ url('entry') }}">{{ 'common.signup'|trans}}</a>
+                                <div class="ec-login__link">
+                                    <a class="ec-link" href="{{ url('forgot') }}">パスワードをお忘れの方</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+
+                {# はじめての方 #}
+                <div class="form_bottom">
+                    <p class="b_head">紋別市ふるさと納税総合サイトが<br>はじめての方</p>
+                    <div class="ec-grid2__cell">
+                        <div class="ec-login__link">
+                            <a class="ec-link" href="{{ url('entry') }}">新規会員登録（無料）</a>
+                        </div>
+                        <div class="b_secure">
+                            <img src="{{ asset('assets/img/secure.png', 'user_data') }}">
+                            <p>お申込者の入力情報は、全て暗号化されて守られています。</p>
+                        </div>
+                    </div>
+                    <p>会員登録(無料)をしていただくと、ご利用時、情報入力の手間が省けます。また、マイページ機能を使って、寄付履歴の確認など、より簡単に・便利に寄付を行うことが出来ます。</p>
+                    <p class="mt-4"><i style="color:#ffcc00;" class="fa fa-exclamation-triangle fa-fw"></i> 当サイトを会員登録をされてご利用になる場合は、（旧）紋別市ふるさと納税特設サイトで会員登録されていた方も新たにご登録ください。（旧）特設サイトでご登録された会員情報は引き継がれておりませんので予めご了承ください。<br><br>また、ふるさとチョイス・楽天ふるさと納税・さとふる・ふるなびなどの各ふるさと納税ポータルサイトで紋別市にふるさと納税のお申込をされた方も当サイトを初めてご利用になる場合は、新規会員登録が必要となりますので予めご了承ください。</p>
+                </div>
             </div>
 
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
                 <div class="ec-grid3__cell">
                     <div class="ec-guest">
                         <div class="ec-guest__inner">
-                            <p>{{ 'front.shopping.guest_purchase_message'|trans }}</p>
-                            <div class="ec-guest__actions"><a class="ec-blockBtn--cancel" href="{{ url('shopping_nonmember') }}">{{ 'front.shopping.guest_purchase'|trans }}</a>
+                            <h1>会員登録せずにお申込み</h1>
+                            <p>会員登録をせずにお申込ををされたい方は、下記よりお進みください。</p>
+                            <div class="ec-guest__actions"><a class="ec-blockBtn--cancel" href="{{ url('shopping_nonmember') }}">お申込み手続きへ</a>
                             </div>
+                            <p class="mt-4"><i style="color:#ffcc00;" class="fa fa-exclamation-triangle fa-fw"></i> 会員登録をせず寄付申込をされる場合は、予め下記の<span style="color:#C00000;">当サイトドメインの受信許可</span>をお願いいたします。</p>
+                            <p style="width:60%;padding:1rem;background-color:#C00000;text-align:center;" class="mx-auto"><span style="color:#fff;">@furusato-direct.jp</span></p>
+                            <p>受信許可の設定をされていない場合、寄付のお申込みが完了しても、お申込み内容を記載した寄付お申込完了メールを受け取ることができなくなりますのでご注意ください。</p>
                         </div>
                     </div>
                 </div>
@@ -83,4 +104,6 @@ file that was distributed with this source code.
 
         </div>
     </div>
+
+    <a href="javascript:history.back()" class="to-back">前の画面に戻る</a>
 {% endblock %}

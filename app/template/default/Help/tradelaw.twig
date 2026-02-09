@@ -13,18 +13,19 @@ file that was distributed with this source code.
 {% block main %}
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1> {{ 'front.tradelaw.title'|trans }}</h1>
+            <h1>特定商取引法の表示</h1>
         </div>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
+                <p>本サイトはふるさと納税サイトです。特定商取引法の対象となる通信販売ではございませんが、みなさまに安心・安全にご利用いただけるよう、特定商取引法に準じて表示します。</p><br>
                 <div class="ec-borderedDefs">
-                    {% for tradelaw in tradelaws|filter(t => t.name and t.description)  %}
-                    <dl>
-                        <dt>
-                            <label class="ec-label">{{ tradelaw.name }}</label>
-                        </dt>
-                        <dd>{{ tradelaw.description|raw }}</dd>
-                    </dl>
+                    {% for tradelaw in tradelaws|filter(t => t.name and t.description) %}
+                        <dl>
+                            <dt>
+                                <label class="ec-label">{{ tradelaw.name }}</label>
+                            </dt>
+                            <dd>{{ tradelaw.description|raw }}</dd>
+                        </dl>
                     {% endfor %}
                 </div>
             </div>

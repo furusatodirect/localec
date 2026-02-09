@@ -15,17 +15,38 @@ file that was distributed with this source code.
 {% block main %}
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.entry.complete_title'|trans }}</h1>
+            <h1>会員登録完了</h1>
         </div>
+    </div>
+    <div class="ec-cartRole__progress">
+        <ul class="ec-progress">
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">会員情報<br>入力
+                </div>
+            </li>
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">会員情報<br>確認
+                </div>
+            </li>
+            <li class="ec-progress__item">
+                <div class="ec-progress__label">仮登録<br>メール
+                </div>
+            </li>
+            <li class="ec-progress__item is-complete">
+                <div class="ec-progress__label">会員登録<br>完了
+                </div>
+            </li>
+        </ul>
     </div>
     <div class="ec-registerCompleteRole">
         <div class="ec-reportHeading">
-            <h2>{{ 'front.entry.complete_message__title'|trans }}</h2>
+            <h2>会員登録ありがとうございます</h2>
         </div>
         <div class="ec-off3Grid ec-text-ac">
             <div class="ec-off3Grid__cell">
-                <p class="ec-reportDescription">{{ 'front.entry.complete_message__activated'|trans|nl2br }}</p>
-
+                <p class="ec-reportDescription">メールアドレスの確認が完了いたしました。<br>
+                ひきつづき、紋別市ふるさと納税総合サイトをお楽しみください。
+                </p>
             </div>
         </div>
         <div class="ec-off4Grid">
@@ -33,7 +54,8 @@ file that was distributed with this source code.
                 {% if qtyInCart %}
                     <a class="ec-blockBtn--action" style="margin-bottom: 3px" href="{{ url('cart') }}">{{ 'common.go_to_cart'|trans }}</a>
                 {% endif %}
-                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a>
+                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">トップページへ</a>
+                <a class="ec-blockBtn--cancel" href="{{ url('cart') }}">寄付の申込をする（寄付カートへ）</a>
             </div>
         </div>
     </div>

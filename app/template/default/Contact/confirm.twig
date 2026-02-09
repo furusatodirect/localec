@@ -15,7 +15,7 @@ file that was distributed with this source code.
 {% block main %}
     <div class="ec-contactConfirmRole">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.contact.title'|trans }}</h1>
+            <h1>その他サイトに関するお問い合わせ</h1>
         </div>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
@@ -25,7 +25,7 @@ file that was distributed with this source code.
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>
-                                {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label '}}) }}
+                                {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label ' } }) }}
                             </dt>
                             <dd>
                                 {{ form.name.name01.vars.data }}
@@ -36,7 +36,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' } }) }}
                             </dt>
                             <dd>
                                 {{ form.kana.kana01.vars.data }}
@@ -47,7 +47,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' } }) }}
                             </dt>
                             <dd>
                                 {# 郵便番号 #}
@@ -62,7 +62,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' } }) }}
                             </dt>
                             <dd>{{ form.phone_number.vars.data }}
                                 {{ form_widget(form.phone_number, { type : 'hidden' }) }}
@@ -70,7 +70,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.email, 'common.mail_address', {'label_attr': {'class': 'ec-label'}}) }}
+                                {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' } }) }}
                             </dt>
                             <dd>
                                 {{ form.email.vars.data }}
@@ -79,7 +79,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.contents, 'front.contact.inquiry_contents', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.contents, 'front.contact.inquiry_contents', { 'label_attr': { 'class': 'ec-label' } }) }}
                             </dt>
                             <dd>
                                 {{ form.contents.vars.data|nl2br }}
@@ -94,13 +94,13 @@ file that was distributed with this source code.
                             {% else %}
                                 <dl>
                                     <dt>
-                                        {% set label_class =  f.vars.label_attr.class is defined ? f.vars.label_attr.class : '' %}
-                                        {{ form_label(f, f.vars.label, { 'label_attr': {'class': label_class ~ ' ec-label' }}) }}
+                                        {% set label_class = f.vars.label_attr.class is defined ? f.vars.label_attr.class : '' %}
+                                        {{ form_label(f, f.vars.label, { 'label_attr': { 'class': label_class ~ ' ec-label' } }) }}
                                     </dt>
                                     <dd>
                                         <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
                                             {{ f.vars.data }}
-                                            {{ form_widget(f, { type: 'hidden'}) }}
+                                            {{ form_widget(f, { type: 'hidden' }) }}
                                         </div>
                                     </dd>
                                 </dl>

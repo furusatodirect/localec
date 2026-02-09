@@ -1,28 +1,49 @@
-{#
-This file is part of EC-CUBE
-
-Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
-
-http://www.ec-cube.co.jp/
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-#}
-<div class="ec-headerNaviRole">
-    <div class="ec-headerNaviRole__left">
-        <div class="ec-headerNaviRole__search">
-            {{ render(path('block_search_product')) }}
-        </div>
-        <div class="ec-headerRole__navSP">
-            {{ include('Block/nav_sp.twig') }}
-        </div>
-    </div>
-    <div class="ec-headerNaviRole__right">
-        <div class="ec-headerNaviRole__nav">
-            {{ include('Block/login.twig') }}
-        </div>
-        <div class="ec-headerRole__cart">
-            {{ include('Block/cart.twig') }}
-        </div>
-    </div>
+<header>
+<div class="container">
+<a class="logo" href="{{ url('homepage') }}"><img src="{{ asset('assets/img/logo.png') }}"><span>紋別市<br class="sp">ふるさと納税<br class="sp">総合サイト[開発環境]</span></a>
+<nav>
+<ul>
+<li><a href="https://mombetsu.furusato-direct.jp/about"><span class="fi ti-location-pin"></span><p>紋別市の紹介</p></a></li>
+<li><a id="popupbtns" tabindex="-1"><span class="fi ti-search"></span><p>見つける</p></a></li>
+{% if is_granted('ROLE_USER') %} 
+<li class="d-none d-md-block"><a href="{{ url('mymenu') }}"><span class="fi ti-user"></span><p>マイページ</p></a></li>
+{% else %}
+<li class="d-none d-md-block"><a href="{{ url('mypage_login') }}"><span class="fi ti-shift-right"></span><p>ログイン</p></a></li>
+{% endif %}
+{% set totalQuantity = get_carts_total_quantity() %}
+<li class="ec-headerRole__cart ">{{ include('Block/cart.twig') }}</li>
+{#<li><a href="{{ url('cart') }}"><img src="{{ asset('assets/img/icon_cart.png') }}"><p>カート<span class="cart_number">{{ totalQuantity|number_format }}</span></p></a></li>#}
+<li class="burger-btn"><a><div><span></span><span></span><span></span></div><p>メニュー</p></a></li>
+</ul>
+</nav>
 </div>
+
+<div class="burger-menu">
+      <div class="inner">
+        <ul>
+        {% if is_granted('ROLE_USER') %}  
+          <li><a href="/logout">ログアウト</a></li>
+        {% else %}
+          <li><a href="{{ url('mypage_login') }}">新規会員登録｜ログイン</a></li>
+        {% endif %}
+          <li><a href="{{ url('mymenu') }}">マイページ</a></li>
+        </ul>
+        <ul class="m-navi">
+          <li><a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}">新着のお礼の品</a></li>
+          <li><a href="https://mombetsu.furusato-direct.jp/about">紋別巡り</a></li>
+                    <li><a href="https://mombetsu.furusato-direct.jp/event">紋別イベントカレンダー</a></li>
+          <li><a href="https://mombetsu.furusato-direct.jp/use">寄付金の使い道</a></li>
+          <li><a href="https://mombetsu.furusato-direct.jp/jigyousya">事業者の紹介</a></li>
+          <li><a href="{{ url('news_index') }}">お知らせ</a></li>
+        </ul>
+        <ul class="s-navi">
+          <li><a href="/guide">ふるさと納税の仕組みと手続き</a></li>
+          <li><a href="/help/agreement">ご利用規約</a></li>
+          <li><a href="/help/tradelaw">特定商取引法の表示</a></li>
+          <li><a href="/help/privacy">個人情報保護方針</a></li>
+          <li><a href="/help/about">よくある質問</a></li>
+          <li><a href="/contactmenu">お問い合わせ</a></li>
+       </ul>
+      </div>
+</div>
+</header>

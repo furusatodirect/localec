@@ -18,9 +18,9 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__favorite'|trans }}</h1>
+                <h1>お気に入り一覧</h1>
             </div>
-            {% include 'Mypage/navi.twig' %}
+            {# {% include 'Mypage/navi.twig' %} #}
         </div>
 
         <div class="ec-mypageRole">
@@ -42,16 +42,23 @@ file that was distributed with this source code.
                                         </div>
                                     </a>
                                     <a class="ec-favoriteRole__itemThumb" href="{{ url('product_detail', {'id': Product.id}) }}">
-                                        <p class="ec-favoriteRole__item-image">
-                                            <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}">
-                                        </p>
+                                        <div class="mask">
+                                            <img class="b-pic"
+                                                 src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
+                                                 alt="{{ Product.name }}" loading="lazy">
+                                            <div class="c-pic">
+                                                <img
+                                                    src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
+                                                    alt="{{ Product.name }}" loading="lazy">
+                                            </div>
+                                        </div>
                                     </a>
                                     <p class="ec-favoriteRole__itemTitle">{{ Product.name }}</p>
                                     <p class="ec-favoriteRole__itemPrice">
                                         {% if Product.price02_inc_tax_min == Product.price02_inc_tax_max %}
-                                            {{ Product.price02_inc_tax_min|price }}
+                                            {{ Product.price02_inc_tax_min|number_format }}円
                                         {% else %}
-                                            {{ Product.price02_inc_tax_min|price }}～{{ Product.price02_inc_tax_max|price }}
+                                            {{ Product.price02_inc_tax_min|number_format }}円～{{ Product.price02_inc_tax_max|number_format }}円
                                         {% endif %}
                                     </p>
                                 </li>

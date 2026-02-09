@@ -1,37 +1,23 @@
-{#
-This file is part of EC-CUBE
+{#{% set Categories = repository('Eccube\\Entity\\Category').getList() %}#}
+{% set Categories = ExistsCategoryList() %}
 
-Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+{% macro tree(Category) %}
+{% from _self import tree %}
+<a href="{{ url('product_list') }}?category_id={{ Category.id }}&orderby={{eccube_config.eccube_product_order_price_lower}}"><button><img class="caticon" src="/html/user_data/assets/img/category/icon_{{ Category.id }}.svg"><p>{{ Category.name }}</p></button></a>
+{% endmacro %}
+{# @see https://github.com/bolt/bolt/pull/2388 #}
+{% from _self import tree %}
 
-http://www.ec-cube.co.jp/
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-#}
-
-<div class="ec-categoryRole">
-    <div class="ec-role">
-        <div class="ec-secHeading">
-            <span class="ec-secHeading__en">{{ 'front.block.category.category__en'|trans }}</span>
-            <span class="ec-secHeading__line"></span>
-            <span class="ec-secHeading__ja">{{ 'front.block.category.category__ja'|trans }}</span>
-        </div>
-        <div class="ec-categoryRole__list">
-            <div class="ec-categoryRole__listItem">
-                <a href="{{ url('product_list') }}?category_id=2">
-                    <img src="{{ asset('assets/img/top/fpo_355x150.png') }}">
-                </a>
-            </div>
-            <div class="ec-categoryRole__listItem">
-                <a href="{{ url('product_list') }}?category_id=1">
-                    <img src="{{ asset('assets/img/top/fpo_355x150.png') }}">
-                </a>
-            </div>
-            <div class="ec-categoryRole__listItem">
-                <a href="{{ url('product_list') }}?category_id=5">
-                    <img src="{{ asset('assets/img/top/fpo_355x150.png') }}">
-                </a>
-            </div>
-        </div>
-    </div>
+<header-cate>
+<div class="categorynav">
+    <button class="cate-prev"></button>
+	<ul class="scrollmenu">
+		<li><a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}"><button id="all"><img src="{{ asset('assets/img/category/icon_all.svg','user_data') }}"><p>すべて</p></button></a></li>
+		<li><a href="/products/list?category_id=3&name=%E3%81%BB%E3%81%9F%E3%81%A6&min_price=0&max_price=&category_id=3&orderby=1"><button><img src="{{ asset('assets/img/category/icon_hotate.svg','user_data') }}"><p>ホタテ</p></button></a></li>
+        {% for Category in Categories %}
+        <li>{{ tree(Category) }}</li>
+        {% endfor %}
+     </ul>
+     <button class="cate-next"></button>
 </div>
+</header-cate>

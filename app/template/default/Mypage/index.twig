@@ -18,23 +18,24 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__history'|trans }}</h1>
+                <h1>お申込履歴</h1>
             </div>
-            {% include 'Mypage/navi.twig' %}
+            {# {% include 'Mypage/navi.twig' %} #}
         </div>
         <div class="ec-mypageRole">
             {% if pagination.totalItemCount > 0 %}
-                <p class="ec-para-normal">{{ 'front.mypage.history_count'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                <p class="ec-para-normal">{{ pagination.totalItemCount }}件のお申込履歴があります。</p>
                 {% for Order in pagination %}
                     <div class="ec-historyRole">
+                        <p class="ec-historyListHeader__date">{{ Order.order_date|date_sec }}</p>
                         <div class="ec-historyRole__contents">
-
                             <div class="ec-historyRole__header">
                                 <div class="ec-historyListHeader">
-                                    <p class="ec-historyListHeader__date">{{ Order.order_date|date_sec }}</p>
-                                    <dl class="ec-definitions">
+                                    <dl class="ec-definitions order_no">
                                         <dt>{{ 'front.mypage.order_no'|trans }}</dt>
-                                        <dd>{{ Order.order_no }}</dd>
+                                        <dd>
+                                            <p class="ec-reportDescription">{{ Order.order_no }}</p>
+                                        </dd>
                                     </dl>
                                     {% if (BaseInfo.option_mypage_order_status_display) %}
                                         <dl class="ec-definitions">
@@ -42,9 +43,6 @@ file that was distributed with this source code.
                                             <dd>{{ Order.CustomerOrderStatus }}</dd>
                                         </dl>
                                     {% endif %}
-                                    <p class="ec-historyListHeader__action"><a class="ec-inlineBtn"
-                                                                               href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ 'front.mypage.view_detail'|trans }}</a>
-                                    </p>
                                 </div>
                             </div>
                             <div class="ec-historyRole__detail">
@@ -54,7 +52,10 @@ file that was distributed with this source code.
                                             {% if OrderItem.Product is null %}
                                                 <img src="{{ asset(''|no_image_product, 'save_image') }}"/>
                                             {% else %}
-                                                <img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}">
+                                                <div class="mask">
+                                                    <img class="b-pic" src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ OrderItem.product_name }}" loading="lazy">
+                                                    <div class="c-pic"><img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ OrderItem.product_name }}" loading="lazy"></div>
+                                                </div>
                                             {% endif %}
                                         </div>
                                         <div class="ec-imageGrid__content">
@@ -65,11 +66,14 @@ file that was distributed with this source code.
                                             {% if OrderItem.class_category_name2 is not empty %}
                                                 / {{ OrderItem.class_category_name2 }}
                                             {% endif %}
-                                            <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|price }}
+                                            <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|number_format }}円
                                                 × {{ OrderItem.quantity }}</p>
                                         </div>
                                     </div>
                                 {% endfor %}
+                                <p class="ec-historyListHeader__action">
+                                    <a class="ec-inlineBtn" href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ 'front.mypage.view_detail'|trans }}</a>
+                                </p>
                             </div>
                         </div>
                     </div>

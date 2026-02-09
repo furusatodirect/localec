@@ -12,80 +12,406 @@ file that was distributed with this source code.
 
 {% block main %}
 
-<div class="ec-role">
-    <div class="ec-pageHeader">
-        <h1>{{ 'front.about.title'|trans }}</h1>
-    </div>
-    <div class="ec-off1Grid">
-        <div class="ec-off1Grid__cell">
-            <div class="ec-borderedDefs">
-                {% if BaseInfo.shop_name|default is not empty %}
-                    <dl id="help_about_box__shop_name">
-                        <dt>
-                            <label class="ec-label">{{ 'common.shop_name'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.shop_name }}</dd>
-                    </dl>
-                {% endif %}
-                {% if BaseInfo.company_name|default is not empty %}
-                    <dl id="help_about_box__company_name">
-                        <dt>
-                            <label class="ec-label">{{ 'common.company_name'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.company_name }}</dd>
-                    </dl>
-                {% endif %}
-
-                {% if BaseInfo.postal_code|default is not empty %}
-                    <dl id="help_about_box__address">
-                        <dt>
-                            <label class="ec-label">{{ 'common.address'|trans }}</label>
-                        </dt>
-                        <dd>{{ 'common.postal_symbol'|trans }}{{ BaseInfo.postal_code }}<br />
-                            {{ BaseInfo.pref }}{{ BaseInfo.addr01 }}{{ BaseInfo.addr02 }}
-                        </dd>
-                    </dl>
-                {% endif %}
-
-                {% if BaseInfo.phone_number|default is not empty %}
-                    <dl id="help_about_box__phone_number">
-                        <dt>
-                            <label class="ec-label">{{ 'common.phone_number'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.phone_number }}</dd>
-                    </dl>
-                {% endif %}
-
-                {% if BaseInfo.business_hour|default is not empty %}
-                    <dl id="help_about_box__business_hour">
-                        <dt>
-                            <label class="ec-label">{{ 'front.about.business_hour'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.business_hour }}</dd>
-                    </dl>
-                {% endif %}
-
-                {% if BaseInfo.good_traded|default is not empty %}
-                    <dl id="help_about_box__good_traded">
-                        <dt>
-                            <label class="ec-label">{{ 'front.about.good_traded'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.good_traded|nl2br }}</dd>
-                    </dl>
-                {% endif %}
-
-                {% if BaseInfo.message|default is not empty %}
-                    <dl id="help_about_box__message">
-                        <dt>
-                            <label class="ec-label">{{ 'front.about.message'|trans }}</label>
-                        </dt>
-                        <dd>{{ BaseInfo.message|nl2br }}</dd>
-                    </dl>
-                {% endif %}
-            </div>
-
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>よくある質問</h1>
         </div>
     </div>
-</div>
+
+    <div id="faq" class="accordion">
+
+        <div class="ec-heading-bold">〇ふるさと納税について</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle1" class="toggle">
+            <label class="title" for="toggle1">
+                <p class="text">ふるさと納税とはどのような制度ですか？</p>
+            </label>
+            <div class="content">
+                <p class="text">全国の都道府県や市区町村などの自治体に寄付を行う制度のことです。寄付を行うと、お礼の品として特産品などを受け取れることもあります。
+                    寄付額のうち2,000円を超える部分は、所得税と住民税から控除されます。控除される金額は個人によって異なります。</p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle2" class="toggle">
+            <label class="title" for="toggle2">
+                <p class="text">ふるさと納税の限度額を教えてください。</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    限度額は所得や家族構成などの条件によります。<br>
+                    総務省ふるさと納税ポータルサイトなどで、おおよその上限額の確認ができます。<br>
+                    限度額の目安については、こちらの<a href="/html/user_data/assets/pdf/【総務省】（2022年度版）2,000円を除く全額が控除できる寄附金額の一覧（目安）.pdf" target="_blank" rel="noopener noreferrer"><u>控除上限額早見表</u></a>をご覧ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇ふるさと納税のお申込みについて</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle3" class="toggle">
+            <label class="title" for="toggle3">
+                <p class="text">自分の出身地以外にもふるさと納税をすることはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">はい、できます。生まれ故郷に限らず、ふるさと納税のお申込みは全国どこの自治体にも寄付をすることができます。ただし、居住地の自治体（住民票の住所の自治体）へふるさと納税をされてもお礼の品の贈呈はございません。詳しくは現在お住まいの自治体のふるさと納税担当窓口までお問い合わせください。</p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle4" class="toggle">
+            <label class="title" for="toggle4">
+                <p class="text">クレジットカードの名義は寄付者本人に限りますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    はい。寄付者ご本人名義のクレジットカードをご使用ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle5" class="toggle">
+            <label class="title" for="toggle5">
+                <p class="text">同じ自治体に何度も寄付をしてもよいのでしょうか？お礼の品は毎回受け取れますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    1年間に複数回の寄付を受け付けている自治体、1年に1度のみ、という制限を設けている自治体もあります。<br>
+                    お礼の品の贈呈も1年に1回のみとしている自治体もありますので、それぞれの自治体のふるさと納税担当窓口までお問い合わせください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle6" class="toggle">
+            <label class="title" for="toggle6">
+                <p class="text">夫婦それぞれが同じ自治体に寄付をすることはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    はい、できます。但し、税金の控除が受けられるのは所得税や住民税を納めている方のみです。共働き夫婦の場合はそれぞれに税金控除が適用されます。<br>
+                    専業主婦の方が寄付をした場合、税金控除は適用されません。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle7" class="toggle">
+            <label class="title" for="toggle7">
+                <p class="text">主婦、年金受給者もふるさと納税をすることはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    はい、主婦、年金受給者の方も寄付はできます。ただ、税金の控除が受けられないこともありますのでご注意ください。例えば、所得税や個人住民税を払う必要のない方は税金の控除は受けられません。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle8" class="toggle">
+            <label class="title" for="toggle8">
+                <p class="text">現住所の自治体にもふるさと納税をすることはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    はい、できます。ただし、基本的には、当該地域に居住している方へはお礼の品の贈呈はございません。<br>
+                    詳しくは現在お住まいの自治体のふるさと納税担当窓口までお問い合わせください。<br>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇お礼の品について</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle9" class="toggle">
+            <label class="title" for="toggle9">
+                <p class="text">品切れ中のお礼の品はいつ受付を開始しますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    入荷日や受付開始日はお礼の品によって異なります。<br>
+                    またお礼の品提供事業者の在庫状況等にもよるため、明確なご案内がいたしかねます。<br>
+                    ご不便をお掛けして申し訳ございませんが、サイト上で最新情報をご確認ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle10" class="toggle">
+            <label class="title" for="toggle10">
+                <p class="text">申込みすればお礼の品は確保してもらえますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    ご入金（決済）完了後、お礼の品を発送いたします。<br>
+                    お申込みのみで入金が完了していない場合は、お礼の品の確保が出来ません。予めご了承ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle11" class="toggle">
+            <label class="title" for="toggle11">
+                <p class="text">申し込みをしたお礼の品が、サイトのラインナップからなくなっています</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    品切れになったお礼の品・受付終了したお礼の品などは、サイト上で非表示にすることがあります。<br>
+                    既に入金（決済）済みのお申込みに対してのお礼の品に影響はございませんのでご安心ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇寄附金受領証明書について</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle12" class="toggle">
+            <label class="title" for="toggle12">
+                <p class="text">お礼の品の中に寄附金受領証明書が入っていない</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    お礼の品と寄附金受領証明書は別々にお届けしています。<br>
+                    お礼の品に先立って書類発送をしておりますのでご確認ください。<br>
+                    なお、紛失により再発行をご希望の場合は<a href="/contactmenu"><u>北海道紋別市ふるさと納税窓口</u></a>までご連絡ください。<br>
+                    また「自治体マイページ」からも寄附金受領証明書の再発行の依頼が可能です。いずれかの方法をご利用ください。<br>
+                    <br>
+                    「自治体マイページ」をご利用される方はこちらへ→<a href="https://mypg.jp/" target="_blank"><u>https://mypg.jp/</u></a><br>
+                    <br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle13" class="toggle">
+            <label class="title" for="toggle13">
+                <p class="text">寄附金受領証明書を紛失したので再発行して欲しい</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    再発行をご希望の場合は<a href="/contactmenu"><u>北海道紋別市ふるさと納税窓口</u></a>までご連絡ください。<br>
+                    また「自治体マイページ」からも寄附金受領証明書の再発行の依頼が可能です。<br><br>
+                    「自治体マイページ」は、ふるさと納税に関するあらゆる情報が一元管理できる、寄附者個人の専用ページです。<br>
+                    お礼の品の配送状況の確認をはじめ、ワンストップ特例のオンライン申請・受付状況の確認・変更・申請書のダウンロード、寄附金受領証明書の再発行の依頼など、さまざまな手続きが可能です。<br>
+                    <br>
+                    「自治体マイページ」をご利用される方はこちらへ→<a href="https://mypg.jp/" target="_blank"><u>https://mypg.jp/</u></a><br>
+                    <br>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇ワンストップ特例について</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle14" class="toggle">
+            <label class="title" for="toggle14">
+                <p class="text">「ワンストップ特例制度」とはなんですか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    確定申告が不要な給与所得者（サラリーマンなど）がふるさと納税で税金の控除を受ける場合、これまでは確定申告が必要でした。
+                    「ワンストップ特例制度」は、給与所得者が確定申告を行わなくても、ふるさと納税の寄付金控除を受けられる仕組みです。
+                    ワンストップ特例の申請には、年度単位で、寄付先が5自治体以内、ふるさと納税を行う際にそれぞれの自治体に申請書を提出するなどいくつかの決まりがあります。<br>
+                    ワンストップ特例をご希望の場合は、お申込み時に[ワンストップ特例を希望する]をご選択ください。申請書をご郵送いたします。<br>
+                    詳しくは、<a href="https://mombetsu.furusato-direct.jp/guide"><u>こちら</u></a>をご覧ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle15" class="toggle">
+            <label class="title" for="toggle15">
+                <p class="text">「ワンストップ特例制度」と「確定申告」とで控除内容に違いはありますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    受けられる控除の合計額は同じですが、控除方法が一部異なります。<br><br>
+                    ・確定申告の場合<br>
+                    寄付金控除の一部（約1割）　所得税の還付（口座へ振込）<br>
+                    残り　　　　　　（約9割）　住民税の控除<br>
+                    ・ワンストップ特例制度の場合<br>
+                    寄付金控除すべて（約10割） 住民税の控除<br>
+                    <br>
+                    ※その他控除がある場合（住宅ローン控除等）は上記と相違する可能性がございます。<br>
+                    詳しくは、最寄りの税務署等にお問い合わせください。
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle16" class="toggle">
+            <label class="title" for="toggle16">
+                <p class="text">ワンストップ特例申請をしたが確定申告をした場合はどうなりますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    確定申告をすると提出したワンストップ特例申請書は自動的に全て無効となります。
+                    ワンストップ特例申請書を提出した後、さまざまな事情により確定申告が必要となった場合、
+                    確定申告が優先されますのでふるさと納税の控除申請も確定申告にて再度ご申請をお願いいたします。
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle17" class="toggle">
+            <label class="title" for="toggle17">
+                <p class="text">6自治体以上に寄付をし、ワンストップ特例申請書を提出した場合はどうなりますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    申請書を6自治体以上に提出されると、すべてのワンストップ申請が無効となりますのでご注意ください。確定申告をお願いいたします。
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇配送について</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle18" class="toggle">
+            <label class="title" for="toggle18">
+                <p class="text">不在日があるため、お礼の品の配達日を指定したい</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    誠に申し訳ございませんが、配達日や曜日のご指定は承っておりません。<br>
+                    ご不在期間が有る場合は、ご寄付時に備考欄から、またはご寄付後は<a href="/contactmenu"><u>北海道紋別市ふるさと納税窓口</u></a>まで、ご不在期間についてご連絡をお願いいたします。<br>
+                    なお、配達時にご不在の場合は不在票が入りますので、配送業者へ再配達の依頼をお願いいたします。<br>
+                    長期保管等により配送業者が返品を行った場合、お礼の品の再送はいたしておりません。予めご了承くださいますようお願いいたします。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle19" class="toggle">
+            <label class="title" for="toggle19">
+                <p class="text">お礼の品はいつ届きますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    入金確認後、お礼の品を発送いたします。お届け予定の目安はお礼の品詳細ページにてご確認ください。なお、季節限定品や発送開始時期が設定されているものなどがございますのでご注意ください。<br>
+                    <br>
+                    また、お申込み後のお礼の品の配送状況は、「自治体マイページ」から確認が可能です。<br><br>
+                    「自治体マイページ」は、ふるさと納税に関するあらゆる情報が一元管理できる、寄附者個人の専用ページです。<br>
+                    お礼の品の配送状況の確認をはじめ、ワンストップ特例のオンライン申請・受付状況の確認・変更・申請書のダウンロード、寄附金受領証明書の再発行の依頼など、さまざまな手続きが可能です。<br>
+                    <br>
+                    「自治体マイページ」をご利用される方はこちらへ→<a href="https://mypg.jp/" target="_blank"><u>https://mypg.jp/</u></a><br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle20" class="toggle">
+            <label class="title" for="toggle20">
+                <p class="text">お礼の品を寄付申込者以外の住所に送ることはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    はい、可能です。ご寄付お申込みの際に、寄付カートにて、お礼の品の配送先をご入力ください。<br>
+                    ご登録がない場合は、お申込者ご住所へのお届けとなります。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle21" class="toggle">
+            <label class="title" for="toggle21">
+                <p class="text">お礼の品に不具合があった</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    お手数をお掛け致しますが<a href="/contactmenu"><u>北海道紋別市ふるさと納税窓口</u></a>までご連絡ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <div class="ec-heading-bold">〇その他</div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle22" class="toggle">
+            <label class="title" for="toggle22">
+                <p class="text">申込みを済ませましたが「寄付受付メール」が届かない</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    『紋別市ふるさと納税総合サイト』よりお申込みを頂いた場合、お申込み完了時に必ず「寄付受付メール」が送信されます。<br>
+                    会員登録されている方でメールが届かない場合は、迷惑メールボックスなどに振り分けられていないかご確認をお願いいたします。<br>
+                    会員登録をせずにお申込みをされた方は【@furusato-direct.jp】のドメインが受信許可されているかご確認をお願いいたします。
+                    受信許可がされていなかった場合は、まず受信許可の設定をしていただき、こちらの<a href="/contact"><span style="text-decoration: underline;font-size: 1.5rem;font-weight: 700;">【総合サイト問い合わせフォーム】</span></a>よりその旨記載のうえご連絡をお願いいたします。確認後、「寄付受付メール」を再送させていただきます。
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle23" class="toggle">
+            <label class="title" for="toggle23">
+                <p class="text">登録情報に誤りがあったので訂正したい</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    マイページからお申込者情報の変更が可能です。<br>
+                    <br>
+                    マイページではすでにお申込みされた寄付の内容は変更することができません。お申込後の内容の変更は<a href="/contactmenu"><u>北海道紋別市ふるさと納税窓口</u></a>までご連絡ください。<br>
+                    ※お礼の品配送手配後の配送先変更には転送費用が発生いたしますので予めご了承ください。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle24" class="toggle">
+            <label class="title" for="toggle24">
+                <p class="text">寄付申込後のキャンセルはできますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    申し訳ございませんが、ご寄付のキャンセルは出来ません。<br>
+                    ご寄付お手続きの前にお申込内容の十分なご確認をお願いいたします。<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle25" class="toggle">
+            <label class="title" for="toggle25">
+                <p class="text">寄付金はどのように使われますか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    お申込みの際に指定していただく、以下の施策分野に活用させていただきます。<br><br>
+                    1.アザラシの保護活動等のオホーツク海の海洋環境に関する事業 <br>
+                    2.森林、湖沼、河川等の環境保全啓発活動に関する事業<br>
+                    3.市内経済の活性化に関する事業<br>
+                    4.次代を担う人材の育成に関する事業<br>
+                    5.医療、福祉又は子育て支援の充実に関する事業<br>
+                    6.人口減少対策に関する事業<br>
+                    7.公共施設の整備に関する事業<br>
+                    8.市長が必要と認める事業<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="option">
+            <input type="checkbox" id="toggle26" class="toggle">
+            <label class="title" for="toggle26">
+                <p class="text">自治体マイページとは何ですか？</p>
+            </label>
+            <div class="content">
+                <p class="text">
+                    「自治体マイページ」は、ふるさと納税に関するあらゆる情報が一元管理できる、寄附者個人の専用ページです。<br>
+                    お礼の品の配送状況の確認をはじめ、ワンストップ特例のオンライン申請・受付状況の確認・変更・申請書のダウンロード、寄附金受領証明書の再発行の依頼など、さまざまな手続きが可能です。<br>
+                    <br>
+                    「自治体マイページ」をご利用される方はこちらへ→<a href="https://mypg.jp/" target="_blank"><u>https://mypg.jp/</u></a><br>
+                </p>
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}

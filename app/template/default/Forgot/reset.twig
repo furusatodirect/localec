@@ -15,20 +15,25 @@ file that was distributed with this source code.
 {% block main %}
     <div class="ec-registerRole">
         <div class="ec-pageHeader">
-            <h1>{{ 'front.forgot.reset_title'|trans }}</h1>
+            <h1>パスワード再設定</h1>
         </div>
+        <p class="forgot_top">ご登録メールアドレスと新しいパスワードを入力し、パスワードを再設定するボタンを押してください。</p>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
                 <form id="form1" method="post" novalidate>
                     {{ form_widget(form._token) }}
                     <div class="ec-borderedDefs">
+                        <div class="ec-rectHeading">
+                            <h3>ご登録メールアドレス　<span>※必須</span></h3>
+                        </div>
                         <dl>
                             <dt>
-                                {{ form_label(form.login_email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                確認のため、ご登録時のメールアドレスを入力してください。
                             </dt>
                             <dd>
                                 <div class="ec-input{{ has_errors(form.login_email) ? ' error' }}">
-                                    {{ form_widget(form.login_email) }}
+                                    {{ form_widget(form.login_email, {
+                                        'attr': { 'placeholder': '例：hotate@ashika.jp' } }) }}
                                     {{ form_errors(form.login_email) }}
                                     {% if error %}
                                         <p class="ec-errorMessage">{{ error }}</p>
@@ -36,9 +41,12 @@ file that was distributed with this source code.
                                 </div>
                             </dd>
                         </dl>
+                        <div class="ec-rectHeading">
+                            <h3>新しいパスワード　<span>※必須</span></h3>
+                        </div>
                         <dl>
                             <dt>
-                                {{ form_label(form.password, 'common.password', { 'label_attr': {'class': 'ec-label' }}) }}
+                                半角英数記号8〜32文字で入力してください。
                             </dt>
                             <dd>
                                 <div class="ec-input{{ has_errors(form.password.first) ? ' error' }}">
@@ -48,9 +56,16 @@ file that was distributed with this source code.
                                     }) }}
                                     {{ form_errors(form.password.first) }}
                                 </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                確認用
+                            </dt>
+                            <dd>
                                 <div class="ec-input{{ has_errors(form.password.second) ? ' error' }}">
                                     {{ form_widget(form.password.second, {
-                                        'attr': { 'placeholder': 'common.repeated_confirm'|trans },
+                                        'attr': { 'placeholder': '確認のため、もう一度入力してください。' },
                                         'type': 'password'
                                     }) }}
                                     {{ form_errors(form.password.second) }}
@@ -61,13 +76,13 @@ file that was distributed with this source code.
                     <div class="ec-registerRole__actions">
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
-                                <button class="ec-blockBtn--action" type="submit">{{ 'common.registration'|trans }}</button>
+                                <button class="ec-blockBtn--action" type="submit">パスワードを再設定してログインページへ</button>
                             </div>
                         </div>
                     </div>
                 </form>
+                <p class="forgot_bottom">ログインページが表示されますので、ご登録メールアドレスと新しいパスワードでログインしてください。</p>
             </div>
         </div>
     </div>
 {% endblock %}
-

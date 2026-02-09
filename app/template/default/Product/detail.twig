@@ -1,100 +1,9 @@
-{#
-This file is part of EC-CUBE
-
-Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
-
-http://www.ec-cube.co.jp/
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-#}
 {% extends 'default_frame.twig' %}
-
 {% set body_class = 'product_page' %}
 
-{% block stylesheet %}
-    <style>
-
-        .slick-slider {
-            margin-bottom: 30px;
-        }
-
-        .slick-dots {
-            position: absolute;
-            bottom: -45px;
-            display: block;
-            width: 100%;
-            padding: 0;
-            list-style: none;
-            text-align: center;
-        }
-
-        .slick-dots li {
-            position: relative;
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin: 0 5px;
-            padding: 0;
-
-            cursor: pointer;
-        }
-
-        .slick-dots li button {
-            font-size: 0;
-            line-height: 0;
-            display: block;
-            width: 20px;
-            height: 20px;
-            padding: 5px;
-            cursor: pointer;
-            color: transparent;
-            border: 0;
-            outline: none;
-            background: transparent;
-        }
-
-        .slick-dots li button:hover,
-        .slick-dots li button:focus {
-            outline: none;
-        }
-
-        .slick-dots li button:hover:before,
-        .slick-dots li button:focus:before {
-            opacity: 1;
-        }
-
-        .slick-dots li button:before {
-            content: " ";
-            line-height: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            text-align: center;
-            opacity: .25;
-            background-color: black;
-            border-radius: 50%;
-
-        }
-
-        .slick-dots li.slick-active button:before {
-            opacity: .75;
-            background-color: black;
-        }
-
-        .slick-dots li button.thumbnail img {
-            width: 0;
-            height: 0;
-        }
-
-    </style>
-{% endblock %}
-
 {% block javascript %}
-    <script>
-        eccube.classCategories = {{ class_categories_as_json(Product)|raw }};
+<script>
+    eccube.classCategories = {{ class_categories_as_json(Product)|raw }};
 
         // 規格2に選択肢を割り当てる。
         function fnSetClassCategories(form, classcat_id2_selected) {
@@ -122,40 +31,6 @@ file that was distributed with this source code.
                 }
             });
 
-            // Core Web Vital の Cumulative Layout Shift(CLS)対策のため
-            // img タグに width, height が付与されている.
-            // 630px 未満の画面サイズでは縦横比が壊れるための対策
-            // see https://github.com/EC-CUBE/ec-cube/pull/5023
-            $('.ec-grid2__cell').hide();
-            var removeSize = function () {
-                $('.slide-item').height('');
-                $('.slide-item img')
-                    .removeAttr('width')
-                    .removeAttr('height')
-                    .removeAttr('style');
-            };
-            var slickInitial = function(slick) {
-                $('.ec-grid2__cell').fadeIn(1500);
-                var baseHeight = $(slick.target).height();
-                var baseWidth = $(slick.target).width();
-                var rate = baseWidth / baseHeight;
-
-                $('.slide-item').height(baseHeight * rate); // 余白を削除する
-                // transform を使用することでCLSの影響を受けないようにする
-                $('.slide-item img')
-                    .css(
-                        {
-                            'transform-origin': 'top left',
-                            'transform': 'scaleY(' + rate + ')',
-                            'transition': 'transform .1s'
-                        }
-                    );
-                // 正しいサイズに近くなったら属性を解除する
-                setTimeout(removeSize, 500);
-            };
-            $('.item_visual').on('init', slickInitial);
-            // リサイズ時は CLS の影響を受けないため属性を解除する
-            $(window).resize(removeSize);
             $('.item_visual').slick({
                 dots: false,
                 arrows: false,
@@ -172,82 +47,92 @@ file that was distributed with this source code.
                 $('.item_visual').slick('slickGoTo', index, false);
             })
         });
+
     </script>
-    <script>
-        $(function() {
-            $('.add-cart').on('click', function(event) {
-                {% if form.classcategory_id1 is defined %}
-                // 規格1フォームの必須チェック
-                if ($('#classcategory_id1').val() == '__unselected' || $('#classcategory_id1').val() == '') {
-                    $('#classcategory_id1')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
-                    return true;
-                } else {
-                    $('#classcategory_id1')[0].setCustomValidity('');
-                }
-                {% endif %}
+<script>
+  $(function() {
+    $('.add-cart').on('click', function (event) {
+      {% if form.classcategory_id1 is defined %}
+      // 規格1フォームの必須チェック
+      if ($('#classcategory_id1').val() == '__unselected' || $('#classcategory_id1').val() == '') {
+        $('#classcategory_id1')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
+        return true;
+      } else {
+        $('#classcategory_id1')[0].setCustomValidity('');
+      }
+      {% endif %}
 
-                {% if form.classcategory_id2 is defined %}
-                // 規格2フォームの必須チェック
-                if ($('#classcategory_id2').val() == '__unselected' || $('#classcategory_id2').val() == '') {
-                    $('#classcategory_id2')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
-                    return true;
-                } else {
-                    $('#classcategory_id2')[0].setCustomValidity('');
-                }
-                {% endif %}
+      {% if form.classcategory_id2 is defined %}
+      // 規格2フォームの必須チェック
+      if ($('#classcategory_id2').val() == '__unselected' || $('#classcategory_id2').val() == '') {
+        $('#classcategory_id2')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
+        return true;
+      } else {
+        $('#classcategory_id2')[0].setCustomValidity('');
+      }
+      {% endif %}
 
-                // 個数フォームのチェック
-                if ($('#quantity').val() < 1) {
-                    $('#quantity')[0].setCustomValidity('{{ 'front.product.invalid_quantity'|trans }}');
-                    return true;
-                } else {
-                    $('#quantity')[0].setCustomValidity('');
-                }
+      // 個数フォームのチェック
+      if ($('#quantity').val() < 1) {
+        $('#quantity')[0].setCustomValidity('{{ 'front.product.invalid_quantity'|trans }}');
+        return true;
+      } else {
+        $('#quantity')[0].setCustomValidity('');
+      }
 
-                event.preventDefault();
-                $form = $('#form1');
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: $form.attr('method'),
-                    data: $form.serialize(),
-                    dataType: 'json',
-                    beforeSend: function(xhr, settings) {
-                        // Buttonを無効にする
-                        $('.add-cart').prop('disabled', true);
-                    }
-                }).done(function(data) {
-                    // レスポンス内のメッセージをalertで表示
-                    $.each(data.messages, function() {
-                        $('#ec-modal-header').text(this);
-                    });
-
-                    $('.ec-modal').show()
-
-                    // カートブロックを更新する
-                    $.ajax({
-                        url: "{{ url('block_cart') }}",
-                        type: 'GET',
-                        dataType: 'html'
-                    }).done(function(html) {
-                        $('.ec-headerRole__cart').html(html);
-                    });
-                }).fail(function(data) {
-                    alert('{{ 'front.product.add_cart_error'|trans }}');
-                }).always(function(data) {
-                    // Buttonを有効にする
-                    $('.add-cart').prop('disabled', false);
-                });
-            });
+      event.preventDefault();
+      $form = $('#form1');
+      $.ajax({
+        url: $form.attr('action'),
+        type: $form.attr('method'),
+        data: $form.serialize(),
+        dataType: 'json',
+        beforeSend: function (xhr, settings) {
+          // Buttonを無効にする
+          $('.add-cart').prop('disabled', true);
+        }
+      }).done(function (data) {
+        // レスポンス内のメッセージをalertで表示
+        $.each(data.messages, function () {
+          $('#ec-modal-header').html(this);
         });
 
-        $('.ec-modal-wrap').on('click', function(e) {
-            // モーダル内の処理は外側にバブリングさせない
-            e.stopPropagation();
+        //default  $('.ec-modal').show()
+        $('.addition').show()
+
+        // カートブロックを更新する
+        $.ajax({
+          url: "{{ url('block_cart') }}",
+          type: 'GET',
+          dataType: 'html'
+        }).done(function (html) {
+          $('.ec-headerRole__cart').html(html);
         });
-        $('.ec-modal-overlay, .ec-modal, .ec-modal-close, .ec-inlineBtn--cancel').on('click', function() {
-            $('.ec-modal').hide()
-        });
-    </script>
+      }).fail(function (data) {
+        alert('{{ 'front.product.add_cart_error'|trans }}');
+      }).always(function (data) {
+        // Buttonを有効にする
+        $('.add-cart').prop('disabled', false);
+      });
+    });
+});
+
+//default  $('.ec-modal-wrap').on('click', function(e) {
+    $('.addition').on('click', function (e) {
+      // モーダル内の処理は外側にバブリングさせない
+      e.stopPropagation();
+    });
+//default $('.ec-modal-overlay, .ec-modal, .ec-modal-close, .ec-inlineBtn--cancel').on('click', function() {
+    //default $('.ec-modal').hide()
+    $('.go-cart').on('click', function () {
+      $('.addition').hide()
+    });
+//MLJ
+  $('button[onclick="additionclose"]').on('click', function() {
+    $('.addition').hide();
+  });
+</script>
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org/",
@@ -255,7 +140,7 @@ file that was distributed with this source code.
         "name": "{{ Product.name }}",
         "image": [
             {% for img in Product.ProductImage %}
-                "{{ app.request.schemeAndHttpHost }}{{ asset(img, 'save_image') }}"{% if not loop.last %},{% endif %}
+                "{{ asset(img, 's3_image') }}"{% if not loop.last %},{% endif %}
 
             {% else %}
                 "{{ app.request.schemeAndHttpHost }}{{ asset(''|no_image_product, 'save_image') }}"
@@ -269,178 +154,566 @@ file that was distributed with this source code.
             "@type": "Offer",
             "url": "{{ url('product_detail', {'id': Product.id}) }}",
             "priceCurrency": "{{ eccube_config.currency }}",
-            "price": {{ Product.getPrice02IncTaxMin ? Product.getPrice02IncTaxMin : 0}},
+            "price": "{{ Product.getPrice02IncTaxMin }}",
             "availability": "{{ Product.stock_find ? "InStock" : "OutOfStock" }}"
         }
     }
     </script>
 {% endblock %}
 
-{% block main %}
-    <div class="ec-productRole">
-        <div class="ec-grid2">
-            <div class="ec-grid2__cell">
-                <div class="ec-sliderItemRole">
 
-                    <div class="item_visual">
-                        {% for ProductImage in Product.ProductImage %}
-                            <div class="slide-item"><img src="{{ asset(ProductImage, 'save_image') }}" alt="{{ loop.first ? Product.name : '' }}" width="550" height="550"{% if loop.index > 1 %} loading="lazy"{% endif %}></div>
-                        {% else %}
-                            <div class="slide-item"><img src="{{ asset(''|no_image_product, 'save_image') }}" alt="{{ loop.first ? Product.name : '' }}" width="550" height="550"></div>
-                        {% endfor %}
-                    </div>
-                    <div class="item_nav">
-                        {% for ProductImage in Product.ProductImage %}
-                            <div class="slideThumb" data-index="{{ loop.index0 }}"><img src="{{ asset(ProductImage, 'save_image') }}" alt="" width="133" height="133" loading="lazy"></div>
-                        {% endfor %}
-                    </div>
+
+{% block main %}
+    <main id="gift" class="detail">
+        <div class="container">
+
+
+            {# ##################	カートに入れるボタン #}
+
+
+<div id="df_cart">
+            <div class="floating_cart">
+
+                <div class="addition">
+                    <button onclick="location.href='{{ url('product_list') }}?orderby={{ eccube_config.eccube_product_order_price_lower }}'"><span>お礼の品一覧へ戻る</span></button>
+                    <button onclick="location.href='{{ url('cart') }}'">{{ 'common.go_to_cart'|trans }}</button>
                 </div>
-            </div>
-            <div class="ec-grid2__cell">
-                <div class="ec-productRole__profile">
-                    {# 商品名 #}
-                    <div class="ec-productRole__title">
-                        <h2 class="ec-headingTitle">{{ Product.name }}</h2>
-                    </div>
-                    {# タグ #}
-                    <ul class="ec-productRole__tags">
-                        {% for Tag in Product.Tags %}
-                            <li class="ec-productRole__tag tag_{{ Tag.id }}">{{ Tag }}</li>
-                        {% endfor %}
-                    </ul>
-                    {# 通常価格 #}
-                    {% if Product.hasProductClass -%}
-                        <div class="ec-productRole__priceRegular">
-                            {% if Product.getPrice01Min is not null and Product.getPrice01IncTaxMin == Product.getPrice01IncTaxMax %}
-                                <span class="ec-productRole__priceRegularPrice">{{ 'front.product.normal_price'|trans }}：<span class="price01-default">{{ Product.getPrice01IncTaxMin|price }}</span></span>
-                                <span class="ec-productRole__priceRegularTax">{{ 'common.tax_include'|trans }}</span>
-                            {% elseif Product.getPrice01Min is not null and Product.getPrice01Max is not null %}
-                                <span class="ec-productRole__priceRegularPrice">{{ 'front.product.normal_price'|trans }}：<span class="price01-default">{{ Product.getPrice01IncTaxMin|price }}～ {{ Product.getPrice01IncTaxMax|price }}</span></span>
-                                <span class="ec-productRole__priceRegularTax">{{ 'common.tax_include'|trans }}</span>
-                            {% endif %}
-                        </div>
-                    {% else %}
-                        {% if Product.getPrice01Max is not null %}
-                            <span class="ec-productRole__priceRegularPrice">{{ 'front.product.normal_price'|trans }}：{{ Product.getPrice01IncTaxMin|price }}</span>
-                            <span class="ec-productRole__priceRegularTax">{{ 'common.tax_include'|trans }}</span>
-                        {% endif %}
-                    {% endif %}
-                    {# 販売価格 #}
-                    <div class="ec-productRole__price">
-                        {% if Product.hasProductClass -%}
-                            {% if Product.getPrice02IncTaxMin == Product.getPrice02IncTaxMax %}
-                                <div class="ec-price">
-                                    <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }}</span>
-                                    <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
-                                </div>
+
+
+                <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+                        <div class="default"><p class="price">
+                                寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+
+                            {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+                            {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+                            {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
                             {% else %}
-                                <div class="ec-price">
-                                    <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}</span>
-                                    <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
-                                </div>
+                            <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
                             {% endif %}
-                        {% else %}
-                            <div class="ec-price">
-                                <span class="ec-price__price">{{ Product.getPrice02IncTaxMin|price }}</span>
-                                <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
-                            </div>
-                        {% endif %}
-                    </div>
-                    {# 商品コード #}
-                    {% if Product.code_min is not empty %}
-                        <div class="ec-productRole__code">
-                            {{ 'front.product.code'|trans }}： <span class="product-code-default">{{ Product.code_min }}{% if Product.code_min != Product.code_max %} ～ {{ Product.code_max }}{% endif %}</span>
+
                         </div>
-                    {% endif %}
-                    {# 関連カテゴリ #}
-                    {% if Product.ProductCategories is not empty %}
-                        <div class="ec-productRole__category">
-                            <div>{{ 'front.product.related_category'|trans }}</div>
-                            {% for ProductCategory in Product.ProductCategories %}
-                                <ul>
-                                    <li>
-                                        {% for Category in ProductCategory.Category.path %}
-                                            <a href="{{ url('product_list') }}?category_id={{ Category.id }}">{{ Category.name }}</a> {%- if loop.last == false %}
-                                            <span>＞</span>{% endif -%}
-                                        {% endfor %}
-                                    </li>
-                                </ul>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
-                        {% if Product.stock_find %}
-                            <div class="ec-productRole__actions">
-                                {% if form.classcategory_id1 is defined %}
-                                    <div class="ec-select">
-                                        {{ form_row(form.classcategory_id1) }}
-                                        {{ form_errors(form.classcategory_id1) }}
+
+                    {{ form_rest(form) }}
+
+                </form>
+
+            </div>
+</div>
+
+
+            <section class="sec1">
+
+
+                {# ##################	返礼品スライド #}
+                <div class="Lside">
+                    <div id="thum-slide" class="slider-pro">
+                        <ul class="sp-thumbnails">
+                            {% for ProductImage in Product.ProductImage %}
+                                <li class="sp-thumbnail">
+                                    <img class="b-pic"
+                                         src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                         alt="{{ Product.name }}" loading="lazy">
+                                    <div class="c-pic">
+                                        <img
+                                            src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                            alt="{{ Product.name }}" loading="lazy">
                                     </div>
-                                    {% if form.classcategory_id2 is defined %}
-                                        <div class="ec-select">
-                                            {{ form_row(form.classcategory_id2) }}
-                                            {{ form_errors(form.classcategory_id2) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <ul class="sp-slides">
+                            {% if(Product.ProductImage.count()) %}
+                            {% for ProductImage in Product.ProductImage %}
+                                <li class="sp-slide">
+                                    <div class="sp-image">
+                                        <img class="b-pic"
+                                             src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                             alt="{{ Product.name }}" loading="lazy">
+                                        <div class="c-pic">
+                                            <img
+                                                src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                                alt="{{ Product.name }}" loading="lazy">
                                         </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="sp-slide">
+                                <div class="sp-image">
+                                    <img class="b-pic"
+                                         src="{{ asset(''|no_image_product, 's3_image') }}"
+                                         alt="no_image_product" loading="lazy">
+                                    <div class="c-pic">
+                                        <img
+                                            src="{{ asset(''|no_image_product, 's3_image') }}"
+                                            alt="no_image_product" loading="lazy">
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <ul class="marks">
+                            <li class="icons">
+                                <button class="share" onclick="showBalloon()">
+                                    <img src="{{ asset('assets/img/icon_share.png') }}">
+                                </button>
+                                <div class="balloon1" id="share-list">
+                                    <a href="https://twitter.com/share?url={{ url('product_detail', {'id': Product.id}) }}" target="_blank">
+                                        <i class="bi bi-twitter"></i><span>Twitter</span>
+                                    </a>
+                                    <a href="http://line.me/R/msg/text/?{{ url('product_detail', {'id': Product.id}) }}" target="_blank" rel="nofollow noopener">
+                                        <i class="bi bi-line"></i><span>LINE</span>
+                                    </a>
+                                    <a href="http://www.facebook.com/share.php?u={{ url('product_detail', {'id': Product.id}) }}" rel="nofollow noopener" target="_blank">
+                                        <i class="bi bi-facebook"></i><span>Facebook</span>
+                                    </a>
+                                    <a href="mailto:?&body=紋別市ふるさと納税総合サイト| {{ Product.name }}%0D%0A{{ url('product_detail', {'id': Product.id}) }}">
+                                        <i class="bi bi-send"></i><span>メール</span>
+                                    </a>
+                                    <a onclick="copyToClipboard()">
+                                        <i class="bi bi-link-45deg"></i><span>リンクをコピー</span>
+                                    </a>
+                                </div>
+                                {% if BaseInfo.option_favorite_product %}
+                                    {% if(is_favorite) %}
+                                    <form action="{{ url('refine_delete_favorite', {id:Product.id}) }}" method="post">
+                                        <button type="submit" id="favorite" class="favorite">
+                                            <i class="fa-sharp fa-solid fa-heart" style="color: #FF004E;"></i>
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                        <button class="favorite" onclick="addFavoriteProduct({{ Product.id }})">
+                                            <i class="fa-sharp fa-solid fa-heart" style="color: gray;"></i>
+                                        </button>
                                     {% endif %}
                                 {% endif %}
-                                <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
-                                    {{ form_widget(form.quantity) }}
-                                    {{ form_errors(form.quantity) }}
-                                </div>
-                            </div>
-                            <div class="ec-productRole__btn">
-                                <button type="submit" class="ec-blockBtn--action add-cart">
-                                    {{ 'front.product.add_cart'|trans }}
-                                </button>
-                            </div>
-                        {% else %}
-                            <div class="ec-productRole__btn">
-                                <button type="button" class="ec-blockBtn--action" disabled="disabled">
-                                    {{ 'front.product.out_of_stock'|trans }}
-                                </button>
-                            </div>
-                        {% endif %}
-
-                        {{ form_rest(form) }}
-                    </form>
-                    <div class="ec-modal">
-                        <div class="ec-modal-overlay">
-                            <div class="ec-modal-wrap">
-                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
-                                <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
-                                <div class="ec-modal-box">
-                                    <div class="ec-role">
-                                        <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
-                                        <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% if BaseInfo.option_favorite_product %}
-                        <form action="{{ url('product_add_favorite', {id:Product.id}) }}" method="post">
-                            <div class="ec-productRole__btn">
-                                {% if is_favorite == false %}
-                                    <button type="submit" id="favorite" class="ec-blockBtn--cancel">
-                                        {{ 'front.product.add_favorite'|trans }}
-                                    </button>
-                                {% else %}
-                                    <button type="submit" id="favorite" class="ec-blockBtn--cancel"
-                                            disabled="disabled">{{ 'front.product.add_favorite_alrady'|trans }}
-                                    </button>
-                                {% endif %}
-                            </div>
-                        </form>
-                    {% endif %}
-                    <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
+
+
+{# SP sticky cart #}
+<section class="btup sticky-bt d-md-none">
+    <div id="sec_bt_cart">
+        <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+            <div class="default">
+                <p class="price">
+                    寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+                {% else %}
+                <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+                {% endif %}
+            </div>
+            {{ form_rest(form) }}
+        </form>
+
+        <div class="addition">
+            <div class="btns">
+                <button onclick="additionclose"><span class="fi ti-close"></span></button>
+                <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
             </div>
         </div>
-        {% if Product.freearea %}
-             <div class="ec-productRole__description">
-                 {{ include(template_from_string(Product.freearea), sandboxed = true) }}
-            </div>
-        {% endif %}
+
     </div>
+</section>
+
+                {# ##################	返礼品詳細 #}
+                <div class="Rside">
+                    <div class="part">
+                        <h3 class="product">{{ Product.name }}</h3>
+                        <p>{{ Product.description_detail|raw|nl2br }}</p>
+
+{# PC sticky cart #}
+<section class="btup sticky-bt d-none d-md-block">
+    <div id="sec_bt_cart">
+        <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+            <div class="default">
+                <p class="price">
+                    寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+                {% else %}
+                <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+                {% endif %}
+            </div>
+            {{ form_rest(form) }}
+        </form>
+
+        <div class="addition">
+            <div class="btns">
+                <button onclick="additionclose"><span class="fi ti-close"></span></button>
+                <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+                    </div>
+
+                    {# ##################	360データ項目 #}
+                    <div class="part">
+                        <h3>お礼の品詳細</h3>
+
+                        {% if Product.ProductCategories is not empty %}
+                            <dl class="category">
+                                <dt>カテゴリー</dt>
+                                <dd>
+                                    {% for ProductCategory in Product.ProductCategories %}
+                                        <ul>
+                                            <li>
+                                                {% for Category in ProductCategory.Category.path %}
+                                                    <a href="{{ url('product_list') }}?category_id={{ Category.id }}">
+                                                        <span>{{ Category.name }}</span>
+                                                    </a>
+                                                    {%- if loop.last == false %}
+                                                    <span>＞</span>
+                                                    {% endif -%}
+                                                {% endfor %}
+                                            </li>
+                                        </ul>
+                                    {% endfor %}
+                                </dd>
+                            </dl>
+                        {% endif %}
+
+                        {% if Product.capacity %}
+                        <dl>
+                            <dt>内容量</dt>
+                            <dd><p>{{ Product.capacity|nl2br }}</p></dd>
+                        </dl>
+                        {% endif %}
+
+                        {% if Product.allergy_labeling %}
+                        <dl>
+                        <dt>アレルギー表示</dt>
+                        <dd>{{ Product.allergy_labeling|nl2br }}</dd>
+                        </dl>
+                        {% endif %}
+
+                        {% if Product.expiration_date %}
+                        <dl>
+                            <dt>消費期限/賞味期限</dt>
+                            <dd>{{ Product.expiration_date }}</dd>
+                        </dl>
+                        {% endif %}
+
+                        {% if (Product.operator_name) %}
+                        <dl>
+                            <dt>事業者名</dt>
+                            <dd>
+                                <p class="Fbold">{{ Product.operator_name }}</p>
+                                <a class="others"
+                                   href="{{ url('product_list') }}?operator_name={{ Product.operator_name }}">
+                                    他のお礼の品を見る
+                                </a>
+                            </dd>
+                        </dl>
+                        {% endif %}
+
+                        {% if (Product.ProductClasses) %}
+                        <dl>
+                            <dt>管理ID</dt>
+                            <dd>{{ Product.ProductClasses.first() ? Product.ProductClasses.first().code : '' }}</dd>
+                        </dl>
+                        {% endif %}
+                    </div>
+
+                    <div class="part">
+                        <h3>お申し込みについて</h3>
+                        <dl>
+                            <dt>申込条件</dt>
+                            <dd>何度も申し込み可</dd>
+                        </dl>
+                        {% if Product.applicable_on %}
+                            <dl>
+                                <dt>申込期日</dt>
+                                <dd>{{ Product.applicable_on }}</dd>
+                            </dl>
+                        {% endif %}
+                        {% if Product.delivered_on %}
+                            <dl>
+                                <dt>発送期日</dt>
+                                <dd>{{ Product.delivered_on }}</dd>
+                            </dl>
+                        {% endif %}
+                        {% if Product.room_temperature_delivery == '1' %}
+                            <dl>
+                                <dt>配送方法</dt>
+                                <dd>常温配送</dd>
+                            </dl>
+                        {% elseif Product.refrigerated_delivery == '1' %}
+                            <dl>
+                                <dt>配送方法</dt>
+                                <dd>冷蔵配送</dd>
+                            </dl>
+                        {% elseif Product.frozen_delivery == '1' %}
+                            <dl>
+                                <dt>配送方法</dt>
+                                <dd>冷凍配送</dd>
+                            </dl>
+                        {% endif %}
+                    </div>
+
+                    {# ##################	常設 #}
+                    <div class="part">
+                        <h3>ふるさと納税の手続きについて</h3>
+                        <p>ふるさと納税は、現在居住地の自治体に対して支払っている住民税を、自分が応援したい自治体に『寄付』という形で振替納税が出来る制度です。<br>
+                            自治体への寄付金は、2,000円を超える額について、個人の年収に伴った控除額の上限内で納税が受けられます。</p>
+                        <a class="btn-re" href="/guide">もっと詳しく</a>
+                    </div>
+
+                    {% if BaseInfo.option_favorite_product %}
+                        <script type="text/javascript">
+                            const apiAddFavoriteProductUrl = "{{ url('api_product_add_favorite', {id: 0}) }}";
+                            function addFavoriteProduct(id)
+                            {
+                                const requestURL = apiAddFavoriteProductUrl.replace(/0$/, id);
+                                $.ajax({
+                                    url: requestURL,
+                                    type: 'post',
+                                    dataType: 'json',
+                                }).then((data) =>{
+                                    console.log(data);
+                                    window.location.reload();
+                                }).fail((error)=> {
+                                    if (error.status===406) {
+                                        window.location = '{{ url('mypage_login') }}'
+                                    }
+                                });
+                            }
+                        </script>
+
+                    {% endif %}
+
+                </div>
+
+
+            </section>
+
+            {# PC bottom cart #}
+            <section class="btdown sec_bt_cart_under d-none d-md-block mb-5">
+                <div id="sec_bt_cart">
+                    <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+                        <div class="default">
+                            <p class="price">
+                                寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+                            {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+                            {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+                            {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+                            <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+                            {% else %}
+                            <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+                            {% endif %}
+                        </div>
+                        {{ form_rest(form) }}
+                    </form>
+
+                    <div class="addition">
+                        <div class="btns">
+                            <button onclick="additionclose"><span class="fi ti-close"></span></button>
+                            <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+{# ##################	バナー群 #}
+<div id="kifu_bnrs">
+
+{# SP bottom cart #}
+<section class="btdown d-md-none mb-5">
+    <div id="sec_bt_cart">
+        <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+            <div class="default">
+                <p class="price">
+                    寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+                {% else %}
+                <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+                {% endif %}
+            </div>
+            {{ form_rest(form) }}
+        </form>
+
+        <div class="addition">
+            <div class="btns">
+                <button onclick="additionclose"><span class="fi ti-close"></span></button>
+                <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div class="part">
+        <h3>ポータルサイトから寄付する</h3>
+
+<ul class="kifu_bnrs">
+  <li>
+    <a id="bnr_rakuten" href="https://hb.afl.rakuten.co.jp/hgc/2e287241.d9aa9d80.2e287242.8baf850c/?pc=http%3A%2F%2Fwww.rakuten.co.jp%2Ff012190-mombetsu%2F&link_type=hybrid_url&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJoeWJyaWRfdXJsIiwiY29sIjoxLCJjYXQiOjEsImJhbiI6MTYzOTY1MSwiYW1wIjpmYWxzZX0%3D" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_rakuten.png" alt="楽天ふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_furunavi" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=885918552&vc_url=https%3A%2F%2Ffurunavi.jp%2FMunicipal%2FProduct%2FSearch%3Fmunicipalid%3D19%26utm_source%3Dvc%26utm_medium%3Daffiliate%26utm_campaign%3Dproduct_detail" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_furunavi.png" alt="ふるなび">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_satofull" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=885918470&vc_url=https%3A%2F%2Fwww.satofull.jp%2Fproducts%2Flist.php%3Fs4%3D%25E5%258C%2597%25E6%25B5%25B7%25E9%2581%2593%26s3%3D%25E7%25B4%258B%25E5%2588%25A5%25E5%25B8%2582%26utm_source%3Dvaluecomme%26utm_medium%3Daffiliate" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_satofull.png" alt="さとふる">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_choice" href="https://www.furusato-tax.jp/city/product/01219?utm_source=hokkaido_mombetsushi&utm_medium=referral&utm_campaign=lgmk_01219" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_choice.png" alt="ふるさとチョイス">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_furulabo" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=889531503&vc_url=https%3A%2F%2Ffurusato.asahi.co.jp%2Fgoods%2F%3Fcm%3D21%26cs%3D1" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_furulabo.png" alt="ふるラボ">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_mynavi" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=889531781&vc_url=https%3A%2F%2Ffurusato.mynavi.jp%2Fproducts%2Fcm%3A30%2F" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_mynavi.png" alt="マイナビふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_ana" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=889531784&vc_url=https%3A%2F%2Ffurusato.ana.co.jp%2Fproducts%2Flist.php%3Fs3%3D%25E5%258C%2597%25E6%25B5%25B7%25E9%2581%2593_%25E5%258C%2597%25E6%25B5%25B7%25E9%2581%2593_%25E7%25B4%258B%25E5%2588%25A5%25E5%25B8%2582%26sort%3Dnumber5%2CScore%2CNumber1" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_ana.png" alt="ANAのふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_honpo" href="//ck.jp.ap.valuecommerce.com/servlet/referral?sid=3354228&pid=889531493&vc_url=https%3A%2F%2Ffurusatohonpo.jp%2Fdonate%2Fmunicipality%2F%3FlocalGovernmentId%3D81459d3a-00e0-494d-9977-72dc5031de60" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_honpo.png" alt="ふるさと本舗">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_nippon" href="https://furusato-nippon.com/hokkaido/012190" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_nippon.png" alt="ふるさと納税ニッポン">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_wowma" href="https://furusato.wowma.jp/012190/" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_wowma.png" alt="au PAYふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_saisoncard" href="https://furusato.saisoncard.co.jp/city.php?n=012190" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_saisoncard.png" alt="セゾンのふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_fururi" href="https://fururi.jp/city/01_hokkaido/2190_mombetsu/" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_fururi.png" alt="ふるり">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_palette" href="https://tokyu-furusato.jp/city/detail/012190" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_palette.png" alt="ふるさとパレット">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_gcall" href="https://www.g-call.com/furusato/city/?ygo_no=29244&amp;pg=1#pgtop" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_gcall.png" alt="G-Callふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_plus" href="https://furusatoplus.com/local/012190/" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_plus.png" alt="ふるさとぷらす">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_premium" href="https://26p.jp/areas/monbetsu-city" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_premium.png" alt="ふるさとプレミアム">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_jre" href="https://www.jreastmall.com/shop/c/cf081/" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_jre.png" alt="JRE MALL ふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_jal" href="https://furusato.jal.co.jp/municipality/012190" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_jal.png" alt="JALふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_mitsukoshi" href="https://mifurusato.jp/j/012190.html" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_mitsukoshi.png" alt="三越伊勢丹ふるさと納税">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_gurusuguri" href="https://gurusuguri.com/shop/city_mombetsu/?push_page_id=0_1__&amp;push_slot_id=CL-05&amp;push_campaign_id=8&amp;moduleclick=t" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_gurusuguri.png" alt="ぐるすぐり">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_hyakusen" href="https://dshopping-furusato.docomo.ne.jp/jichitai/012190" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_hyakusen.png" alt="ふるさと納税百選">
+    </a>
+  </li>
+  <li>
+    <a id="bnr_furusatomarket" href="https://furusatomarkets.jp/area/city/19" target="_blank">
+      <img src="/html/user_data/assets/img/bnr/kifu_furusatomarket.png" alt="ふるさとマーケット">
+    </a>
+  </li>
+</ul>
+
+    </div>
+</div>
+
+
+
+        </div>
+    </main>
+
+<script type="text/javascript">
+    function showBalloon(){
+        var wObjballoon	= document.getElementById("share-list");
+        if (wObjballoon.className == "balloon1"){
+        wObjballoon.className = "balloon";
+        }else{
+        wObjballoon.className = "balloon1";
+        }
+    }
+
+    $('#share-list a').click(function() {
+        $('#share-list').removeClass("balloon");
+        $('#share-list').addClass("balloon1");
+    });
+</script>
+<script>
+    function copyToClipboard(){
+        const element = document.createElement('input');
+        element.value = location.href;
+        document.body.appendChild(element);
+        element.select();
+        document.execCommand("Copy");
+        document.body.removeChild(element);
+    }
+</script>
+
 {% endblock %}

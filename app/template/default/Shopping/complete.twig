@@ -13,75 +13,104 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 
 {% block main %}
-<div class="ec-role">
-    <div class="ec-pageHeader">
-        <h1>{{ 'front.shopping.complete_title'|trans }}</h1>
-    </div>
-</div>
 
-<div class="ec-cartRole">
-    <div class="ec-cartRole__progress">
-        <ul class="ec-progress">
-            {% set step = 1 %}
-            <li class="ec-progress__item">
-                <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                </div>
-                <div class="ec-progress__label">{{ 'front.cart.nav__cart_items'|trans }}
-                </div>
-            </li>
-            {% if is_granted('ROLE_USER') == false %}
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ 'front.shopping.complete_title'|trans }}</h1>
+        </div>
+    </div>
+
+    <div class="ec-cartRole">
+        <div class="ec-cartRole__progress">
+            <ul class="ec-progress">
+                {% set step = 1 %}
                 <li class="ec-progress__item">
                     <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                     </div>
-                    <div class="ec-progress__label">{{ 'front.cart.nav__customer_info'|trans }}
+                    <div class="ec-progress__label">選択したお礼の品
                     </div>
                 </li>
-            {% endif %}
-            <li class="ec-progress__item">
-                <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                </div>
-                <div class="ec-progress__label">{{ 'front.cart.nav__order'|trans }}
-                </div>
-            </li>
-            <li class="ec-progress__item">
-                <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                </div>
-                <div class="ec-progress__label">{{ 'front.cart.nav__confirm'|trans }}
-                </div>
-            </li>
-            <li class="ec-progress__item  is-complete">
-                <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                </div>
-                <div class="ec-progress__label">{{ 'front.cart.nav__complete'|trans }}
-                </div>
-            </li>
-        </ul>
+                <li class="ec-progress__item">
+                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                    </div>
+                    <div class="ec-progress__label">お申込手続き
+                    </div>
+                </li>
+                <li class="ec-progress__item">
+                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                    </div>
+                    <div class="ec-progress__label">入力確認
+                    </div>
+                </li>
+                <li class="ec-progress__item  is-complete">
+                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                    </div>
+                    <div class="ec-progress__label">完了
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<div class="ec-cartCompleteRole">
-    <div class="ec-reportHeading">
-        <h2>{{ 'front.shopping.complete_message__title'|trans }}</h2>
-    </div>
-    <div class="ec-off3Grid ec-text-ac">
-        <div class="ec-off3Grid__cell">
-            <p class="ec-reportDescription">
-                {{ 'front.shopping.complete_message__body'|trans|nl2br }}
-                {% if Order.id %}
-                    <br /><br /><strong>{{ 'front.shopping.order_no'|trans }} : {{ Order.orderNo }}</strong>
+    <div class="ec-cartCompleteRole">
+        <div class="ec-off3Grid ec-text-ac">
+            <div class="ec-off3Grid__cell">
+                <div class="ec-reportHeading">
+                    <h2>北海道紋別市へふるさと納税の<br>お申込ありがとうございました！</h2>
+                </div>
+                <p class="ec-reportDescription" style="margin-bottom:0;">
+                    {{ Order.name01 }} {{ Order.name02 }}さん、北海道紋別市へふるさと納税のお申込いただき、ありがとうございました。<br>
+                    ただいま、下記の内容でお申込の確認メールをお送りさせていただきました。<br><br>
+                    タイトル：紋別市へのふるさと納税のお申込ありがとうございます。<br>
+                    差出人：info-mombetsu@furusato-direct.jp
+                </p>
+                <div class="order_no">
+                    <p class="ec-reportDescription">{% if Order.id %}お申込番号：MFS{{ Order.orderNo }}-{{ Order.complete_message|striptags|replace({'■クレジットカード決済情報': '', '決済取引ID:': '', (' '): '', '/\\s+/g': '', ' ': ''}) |trim }}{% endif %}</p>
+                </div>
+                {% if Order.complete_message is not empty %}
+                    {{ Order.complete_message|raw|purify }}
                 {% endif %}
-            </p>
-            {% if Order.complete_message is not empty %}
-                {{ Order.complete_message|raw|purify }}
+            </div>
+        </div>
+        <div class="ec-off4Grid">
+            {% if hasNextCart %}
+                <div class="ec-off4Grid__cell"><a class="ec-blockBtn--primary" href="{{ url('cart') }}">{{ 'front.shopping.continue'|trans }}</a></div>
+            {% else %}
+                <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a></div>
             {% endif %}
         </div>
     </div>
-    <div class="ec-off4Grid">
-        {% if hasNextCart %}
-            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--primary" href="{{ url('cart') }}">{{ 'front.shopping.continue'|trans }}</a></div>
-        {% else %}
-            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a></div>
-        {% endif %}
+
+    {# 確認用メールが届かない場合 #}
+    <div class="form-bottom">
+        <div class="form-bottom_head">確認用メールが届かない場合</div>
+        <p>登録メールアドレスの入力間違いや迷惑メール設定などの可能性があります。なお、以下を確認しても解決しない場合は、<a href="{{ url('contact') }}">お問い合わせフォーム</a>からお問い合わせください。</p>
+        <ul>
+            <li>登録メールアドレスが間違っている場合<br>正しいメールアドレスであることをマイページの<a href="{{ url('mypage_change') }}">お申込者情報ページ</a>から確認・変更の上、<a href="{{ url('contact') }}">お問い合わせフォーム</a>から再度新規会員登録手続きをお試しください。</li>
+            <li>迷惑メールフォルダに振り分けられている場合<br>迷惑メールフォルダに保存されている場合があります。受信フォルダでメールが確認できない場合は、迷惑メールフォルダをご確認ください。</li>
+            <li>受信拒否設定されている場合<br>迷惑メール設定を見直してください。受信許可リストに「furusato-direct.jp」を受信できるように設定を変更の上、<a href="{{ url('contact') }}">お問い合わせフォーム</a>からお問い合わせください。</li>
+        </ul>
     </div>
-</div>
+
+    {# その他のお問い合わせ #}
+    <div class="form-bottom">
+        <div class="form-bottom_head">その他のお問い合わせ</div>
+        <div class="fb_inner">
+            <div class="contact__tel">
+                <h4>お電話でのお問い合わせ</h4>
+                <div class="tel_num"><img src="{{ asset('assets/img/tel_logo.jpg', 'user_data') }}"><p>0120-049-791</p></div>
+                <p>紋別市ふるさと納税コールセンター<br>
+                平日9:30〜17:30（年末年始除く）<br>
+                ※新朝プレスがご対応いたします。<br>
+                お電話の内容はお客様からのご質問やご要望などを正確に把握するため、通話内容を録音しておりますので、あらかじめご了承ください
+                </p>
+            </div>
+            <div class="contact__mypage">
+                <h4>自治体マイページからお問い合わせ</h4>
+                <p>お問い合わせには、自治体マイページのアカウントが必要になります。アカウントをお持ちの方は、自治体マイページよりお問い合わせください。
+                </p>
+                <a href="https://mypg.jp/" target="_blank">自治体マイページで問い合わせる</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

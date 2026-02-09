@@ -1,0 +1,138 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<style>
+#mymenu .container{
+    padding-top: 8vw;
+}
+#mymenu .mymenu_intro{
+    margin-bottom:2rem;
+}
+#mymenu .ec-pageHeader{
+    text-align: center
+}
+#mymenu .ec-pageHeader h1{
+    border-top:none;
+    display: inline-block;
+    font-size:2.8rem;
+    border:none;
+}
+.my-menu_list{
+    text-align: left;
+}
+.my-menu_list h2{
+    font-size: 2rem;   
+    margin-bottom:2rem; 
+    font-weight: 600;
+}
+.my-menu_list li{
+    position: relative;
+    margin-bottom:1.5rem;
+    font-size: 1.4rem;
+}
+.my-menu_list li:after{
+    position: absolute;
+    top:10px;
+    right:0;
+    content:'>';
+}
+.my-menu_list:not(:last-child){
+    border-bottom:solid 1px #aaa;
+    padding-bottom:2rem;
+    margin-bottom:2rem;
+}
+.my-menu_list ul li:before{
+    content:"";
+    display: inline-block;
+    width:30px;
+    height:30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: bottom;
+    background-position: bottom;
+    margin-right: 10px;
+    margin-bottom: -3px;
+}
+.my-menu_list.use_list ul a:first-child li:before{
+    background-image: url({{ asset('assets/img/history.png', 'user_data') }});
+}
+.my-menu_list.use_list ul a:last-child li:before{
+    background-image: url({{ asset('assets/img/favo.png', 'user_data') }});
+}
+.my-menu_list.info_list ul a:first-child li:before{
+    background-image: url({{ asset('assets/img/info.png', 'user_data') }});
+}
+.my-menu_list.info_list ul a:last-child li:before{
+    background-image: url({{ asset('assets/img/deliv.png', 'user_data') }});
+}
+.my-menu_list.other_list ul a:first-child li:before{
+    background-image: url({{ asset('assets/img/contact.png', 'user_data') }});
+}
+.my-menu_list.other_list ul a:last-child li:before{
+    background-image: url({{ asset('assets/img/withdrow.png', 'user_data') }});
+}
+.my-menu_list ul li a{
+    vertical-align: bottom;    
+}
+@media screen and (min-width:769px){
+    #mymenu .container{
+        padding-top:50px;
+    }
+    .ec-mypageRole{
+        max-width: 500px;
+    }
+    .my-menu_list li:after{
+        top:0;
+        line-height: 2;
+    }
+    .other_list{
+        margin-bottom: 7rem;
+    }
+}
+.bnr:hover{
+opacity: 0.7 ;
+}
+</style>
+
+
+<main id="mymenu">
+<div class="container">
+
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>マイページ</h1>
+            </div>
+            <p class="mymenu_intro">{% if is_granted('ROLE_USER') %}{{ app.user.name01 }} {{ app.user.name02 }} さん、{% else %}{% endif %}紋別市ふるさと納税総合サイトをご利用いただきありがとうございます。</p>
+        </div>
+        <div class="ec-mypageRole">
+            <div class="my-menu_list use_list">
+                <h2>利用履歴</h2>
+                <ul>
+                    <a href="{{ url('mypage') }}"><li>お申込履歴</li></a>
+                    <a href="{{ url('mypage_favorite') }}"><li>お気に入り一覧</li></a>
+                </ul>
+            </div>
+            <div class="my-menu_list info_list">
+                <h2>ユーザー情報設定</h2>
+                <ul>
+                    <a href="{{ url('mypage_change') }}"><li>お申込者情報（会員情報）変更</li></a>
+                    <a href="{{ url('mypage_delivery') }}"><li>お届け先一覧</li></a>
+                </ul>
+            </div>
+            <div class="my-menu_list other_list">
+                <h2>その他</h2>
+                <ul>
+                    <a href="{{ url('contact') }}"><li>お問い合わせ</li></a>
+                    <a href="{{ url('mypage_withdraw') }}"><li>退会手続き</li></a>
+                </ul>
+            </div>
+            <a href="https://mypg.jp/" target="_blink" class="bnr"><img src="{{ asset('assets/img/bnr_mypgjp.png', 'user_data') }}"></a>
+            
+        </div>
+    </div>
+    
+</div>
+</main>
+{% endblock %}

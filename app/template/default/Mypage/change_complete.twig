@@ -18,9 +18,9 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__customer_complete'|trans }}</h1>
+                <h1>会員登録内容変更完了</h1>
             </div>
-            {% include 'Mypage/navi.twig' %}
+            {# {% include 'Mypage/navi.twig' %} #}
         </div>
         <div class="ec-registerCompleteRole">
             <div class="ec-reportHeading">
@@ -28,12 +28,26 @@ file that was distributed with this source code.
             </div>
             <div class="ec-off2Grid ec-text-ac">
                 <div class="ec-off2Grid__cell">
-                    <p class="ec-reportDescription">{{ 'front.mypage.customer_complete_message__body'|trans }}</p>
-                </div>
-            </div>
-            <div class="ec-off4Grid">
-                <div class="ec-off4Grid__cell">
-                    <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.back'|trans }}</a>
+                    <div class="ec-off4Grid return-shopping">
+                        <div class="ec-off4Grid__cell">
+                            <p class="attention_head"><i class="fa fa-exclamation-triangle fa-fw"></i>注意事項</p>
+                            <p>申込手続き中の方へ</p>
+                            <p class="change_description">
+                                ご住所を変更された場合は、下記よりお届け先の変更をお願いします。<br>
+                                ※会員情報を変更してもお届け先のご住所は自動で変更されませんのでご注意ください。
+                            </p>
+                            <a href="{{ url('shopping_shipping_multiple') }}" class="shipping_change"><span>お届け先を変更する</span></a>
+                            <a class="ec-blockBtn--cancel ec-blockBtn--return" href="{{ url('shopping') }}">
+                                お届け先の変更をせずに<br>申込手続きへ戻る<br>
+                                <span>住所以外を変更した方もこちら</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ec-off4Grid">
+                        <div class="ec-off4Grid__cell">
+                            <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">トップページへ戻る</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,9 +18,9 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__customer_address'|trans }}</h1>
+                <h1>お届け先一覧</h1>
             </div>
-            {{ include('Mypage/navi.twig') }}
+            {# {{ include('Mypage/navi.twig') }} #}
         </div>
         <div class="ec-mypageRole">
             {% if Customer.CustomerAddresses|length > 0 %}
@@ -32,24 +32,10 @@ file that was distributed with this source code.
         <div class="ec-mypageRole">
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
-                    <div class="ec-addressRole">
-                        <div class="ec-addressRole__actions">
-                            {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
-                                <a class="ec-inlineBtn" href="{{ url('mypage_delivery_new') }}">{{ 'front.mypage.add_customer_address'|trans }}</a>
-                            {% else %}
-                                <span class="ec-errorMessage">{{ 'common.customer_address_count_is_over'|trans({ '%count%': eccube_config.eccube_deliv_addr_max }) }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
                     {% if Customer.CustomerAddresses|length > 0 %}
                         <div class="ec-addressList">
                             {% for CustomerAddress in Customer.CustomerAddresses %}
                                 <div class="ec-addressList__item">
-                                    <a class="ec-addressList__remove" href="{{ url('mypage_delivery_delete', { id : CustomerAddress.id }) }}" {{ csrf_token_for_anchor() }} data-method="delete">
-                                        <div class="ec-icon">
-                                            <img src="{{ asset('assets/icon/cross.svg') }}" alt="remove">
-                                        </div>
-                                    </a>
                                     <div class="ec-addressList__address">
                                         <div>{{ CustomerAddress.name01 }}&nbsp;{{ CustomerAddress.name02 }}</div>
                                         <div>{{ 'common.postal_symbol'|trans }}{{ CustomerAddress.postal_code }} {{ CustomerAddress.Pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}</div>
@@ -57,11 +43,20 @@ file that was distributed with this source code.
                                     </div>
                                     <div class="ec-addressList__action">
                                         <a class="ec-inlineBtn" href="{{ url('mypage_delivery_edit', { id : CustomerAddress.id }) }}">{{ 'common.change'|trans }}</a>
+                                        <a class="ec-addressList__remove" href="{{ url('mypage_delivery_delete', { id : CustomerAddress.id }) }}" {{ csrf_token_for_anchor() }} data-method="delete">削除</a>
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     {% endif %}
+                    <div class="ec-addressRole">
+                        {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
+                            <a class="ec-blockBtn--action" href="{{ url('mypage_delivery_new') }}">新しいお届け先を追加する</a>
+                        {% else %}
+                            <span class="ec-errorMessage">{{ 'common.customer_address_count_is_over'|trans({ '%count%': eccube_config.eccube_deliv_addr_max }) }}</span>
+                        {% endif %}
+                        <a class="ec-blockBtn--cancel" href="{{ url('mymenu') }}">前の画面に戻る</a>
+                    </div>
                 </div>
             </div>
         </div>

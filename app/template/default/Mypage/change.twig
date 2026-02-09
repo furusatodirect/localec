@@ -24,47 +24,64 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__customer'|trans }}</h1>
+                <h1>お申込者情報変更</h1>
             </div>
-            {% include 'Mypage/navi.twig' %}
+            {# {% include 'Mypage/navi.twig' %} #}
         </div>
         <div class="ec-mypageRole">
             <div class="ec-editRole">
                 <div class="ec-off1Grid">
                     <div class="ec-off1Grid__cell">
+                        <h2>お申込者情報</h2>
+                        <p>控除を受けようとされる方のお名前・ご住所で登録をお願いいたします。</p>
                         <form method="post" action="{{ url('mypage_change') }}" novalidate class="h-adr">
                             <span class="p-country-name" style="display:none;">Japan</span>
                             {{ form_widget(form._token) }}
                             <div class="ec-borderedDefs">
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        お名前　<span>※必須</span>
                                     </dt>
                                     <dd>
-                                        <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error'}}">
-                                            {{ form_widget(form.name.name01, { 'attr': { 'placeholder': 'common.last_name' }}) }}
-                                            {{ form_widget(form.name.name02, { 'attr': { 'placeholder': 'common.first_name' }}) }}
-                                            {{ form_errors(form.name.name01) }}
-                                            {{ form_errors(form.name.name02) }}
+                                        <div class="{{ has_errors(form.name.name01, form.name.name02) ? ' error'}}">
+                                            <div class="name_name">
+                                                <div class="name_name1">
+                                                    <label>姓</label>
+                                                    {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '例：帆立' } }) }}
+                                                </div>
+                                                <div class="name_name2">
+                                                    <label>名</label>
+                                                    {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '例：海驢' } }) }}
+                                                </div>
+                                            </div>
+                                            <div class="name_name">
+                                                {{ form_errors(form.name.name01) }}
+                                                {{ form_errors(form.name.name02) }}
+                                            </div>
+                                        </div>
+                                    </dd>
+                                    <dd>
+                                        <div class="{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
+                                            <div class="name_kana">
+                                                <div class="name_kana1">
+                                                    <label>セイ</label>
+                                                    {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': '例：ホタテ' } }) }}
+                                                </div>
+                                                <div class="name_kana2">
+                                                    <label>メイ</label>
+                                                    {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': '例：アシカ' } }) }}
+                                                </div>
+                                            </div>
+                                            <div class="name_kana">
+                                                {{ form_errors(form.kana.kana01) }}
+                                                {{ form_errors(form.kana.kana02) }}
+                                            </div>
                                         </div>
                                     </dd>
                                 </dl>
-                                <dl>
+                                <dl style="display:none;">
                                     <dt>
-                                        {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                    </dt>
-                                    <dd>
-                                        <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
-                                            {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': 'common.last_name_kana' }}) }}
-                                            {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': 'common.first_name_kana' }}) }}
-                                            {{ form_errors(form.kana.kana01) }}
-                                            {{ form_errors(form.kana.kana02) }}
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt>
-                                        {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' } }) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
@@ -75,67 +92,71 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        住所　<span>※必須</span>
                                     </dt>
                                     <dd>
-                                        <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}"><span>{{ 'common.postal_symbol'|trans }}</span>
-                                            {{ form_widget(form.postal_code) }}
+                                        <p>住民票と同一のご住所を記入してください。</p>
+                                        <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}">
+                                            <label>郵便番号（ハイフン無し）</label><br>
+                                            {{ form_widget(form.postal_code, { 'attr': { 'placeholder': '例：1730123' } }) }}
                                             <div class="ec-zipInputHelp">
                                                 <div class="ec-zipInputHelp__icon">
-                                                    <div class="ec-icon"><img
-                                                                src="{{ asset('assets/icon/question-white.svg') }}" alt="">
-                                                    </div>
-                                                </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ 'common.search_postal_code'|trans }}</span></a>
+                                                    <div class="ec-icon"><img src="{{ asset('assets/icon/question-white.svg') }}" alt=""></div>
+                                                </div>
+                                                <a href="https://www.post.japanpost.jp/zipcode/" target="_blank" class="code-search"><span>{{ 'common.search_postal_code'|trans }}</span></a>
                                             </div>
                                             {{ form_errors(form.postal_code) }}
                                         </div>
-
                                         <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
                                             {{ form_widget(form.address.pref) }}
                                             {{ form_errors(form.address.pref) }}
                                         </div>
                                         <div class="ec-input{{ has_errors(form.address.addr01) ? ' error' }}">
-                                            {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': 'common.address_sample_01' }}) }}
+                                            <label>市区町村名</label>
+                                            {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '例：板橋区海洋公園町' } }) }}
                                             {{ form_errors(form.address.addr01) }}
                                         </div>
                                         <div class="ec-input{{ has_errors(form.address.addr02) ? ' error' }}">
-                                            {{ form_widget(form.address.addr02,  { 'attr': { 'placeholder': 'common.address_sample_02' }}) }}
+                                            <label>番地・ビル名</label>
+                                            {{ form_widget(form.address.addr02, { 'attr': { 'placeholder': '例：230-230 ガリンコタワー230' } }) }}
                                             {{ form_errors(form.address.addr02) }}
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        電話番号（ハイフン無し）　<span>※必須</span>
                                     </dt>
                                     <dd>
                                         <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
-                                            {{ form_widget(form.phone_number) }}
+                                            {{ form_widget(form.phone_number, { 'attr': { 'placeholder': '例：0302300230' } }) }}
                                             {{ form_errors(form.phone_number) }}
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        メールアドレス（ログイン時のユーザーIDとなります。）　<span>※必須</span>
                                     </dt>
                                     <dd>
                                         <div class="ec-input{{ has_errors(form.email.first) ? ' error' }}">
-                                            {{ form_widget(form.email.first, { 'attr': { 'placeholder': 'common.mail_address_sample' }}) }}
+                                            {{ form_widget(form.email.first, { 'attr': { 'placeholder': '例：hotate@ashika.jp' } }) }}
                                             {{ form_errors(form.email.first) }}
                                         </div>
+                                        <div>確認用</div>
                                         <div class="ec-input{{ has_errors(form.email.second) ? ' error' }}">
-                                            {{ form_widget(form.email.second, { 'attr': { 'placeholder': 'common.repeated_confirm' }}) }}
+                                            {{ form_widget(form.email.second, { 'attr': { 'placeholder': '確認のため、もう一度入力してください。' } }) }}
                                             {{ form_errors(form.email.second) }}
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.plain_password, 'common.password', { 'label_attr': {'class': 'ec-label' }}) }}
+                                        パスワード　<span>※必須</span>
                                     </dt>
                                     <dd>
                                         <div class="ec-input{{ has_errors(form.plain_password.first) ? ' error' }}">
+                                            <label>半角英数記号8〜32文字</label>
                                             {{ form_widget(form.plain_password.first, {
                                                 'attr': { 'placeholder': 'common.password_sample'|trans({ '%min%': eccube_config.eccube_password_min_len, '%max%': eccube_config.eccube_password_max_len }) },
                                                 'type': 'password'
@@ -143,6 +164,7 @@ file that was distributed with this source code.
                                             {{ form_errors(form.plain_password.first) }}
                                         </div>
                                         <div class="ec-input{{ has_errors(form.plain_password.second) ? ' error' }}">
+                                            <label>確認用</label>
                                             {{ form_widget(form.plain_password.second, {
                                                 'attr': { 'placeholder': 'common.repeated_confirm'|trans },
                                                 'type': 'password'
@@ -153,20 +175,20 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.birth, 'common.birth_day', { 'label_attr': {'class': 'ec-label' }}) }}
+                                        生年月日　<span>※必須</span>
                                     </dt>
                                     <dd>
-                                        <div class="ec-birth{{ has_errors(form.birth) ? ' error'}}">
-                                            {{ form_widget(form.birth.year) }}<span>/</span>
-                                            {{ form_widget(form.birth.month) }}<span>/</span>
-                                            {{ form_widget(form.birth.day) }}
+                                        <div class="ec-birth{{ has_errors(form.birth) ? ' error' }}">
+                                            {{ form_widget(form.birth.year) }}<span>年</span>
+                                            {{ form_widget(form.birth.month) }}<span>月</span>
+                                            {{ form_widget(form.birth.day) }}<span>日</span>
                                             {{ form_errors(form.birth) }}
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.sex, 'common.gender', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.sex, 'common.gender', { 'label_attr': { 'class': 'ec-label' } }) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-radio{{ has_errors(form.sex) ? ' error' }}">
@@ -177,7 +199,7 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.job, 'common.job', { 'label_attr': {'class': 'ec-label' }}) }}
+                                        {{ form_label(form.job, 'common.job', { 'label_attr': {'class': 'ec-label' } }) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-select{{ has_errors(form.job) ? ' error' }}">
@@ -186,6 +208,7 @@ file that was distributed with this source code.
                                         </div>
                                     </dd>
                                 </dl>
+
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                                     {% if f.vars.eccube_form_options.form_theme %}
@@ -194,8 +217,8 @@ file that was distributed with this source code.
                                     {% else %}
                                         <dl>
                                             <dt>
-                                                {% set label_class =  f.vars.label_attr.class is defined ? f.vars.label_attr.class : '' %}
-                                                {{ form_label(f, f.vars.label, { 'label_attr': {'class': label_class ~ ' ec-label' }}) }}
+                                                {% set label_class = f.vars.label_attr.class is defined ? f.vars.label_attr.class : '' %}
+                                                {{ form_label(f, f.vars.label, { 'label_attr': {'class': label_class ~ ' ec-label' } }) }}
                                             </dt>
                                             <dd>
                                                 <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
@@ -212,7 +235,8 @@ file that was distributed with this source code.
                                 <div class="ec-off4Grid">
                                     <div class="ec-off4Grid__cell">
                                         <button type="submit"
-                                                class="ec-blockBtn--cancel">{{ 'common.registration'|trans }}</button>
+                                                class="ec-blockBtn--action">{{ 'common.registration'|trans }}</button>
+                                        <a class="ec-blockBtn--cancel to-back" href="{{ url('mymenu') }}">前の画面に戻る</a>
                                     </div>
                                 </div>
                             </div>
