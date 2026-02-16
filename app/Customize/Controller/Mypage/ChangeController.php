@@ -65,7 +65,7 @@ class ChangeController extends AbstractController
         $this->entityManager->detach($LoginCustomer);
 
         $previous_password = $Customer->getPassword();
-        $Customer->setPassword($this->eccubeConfig['eccube_default_password']);
+        $Customer->setPlainPassword($this->eccubeConfig['eccube_default_password']);
 
         /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
         $builder = $this->formFactory->createBuilder(EntryType::class, $Customer);
@@ -86,14 +86,40 @@ class ChangeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('会員編集開始');
 
-            if ($Customer->getPassword() === $this->eccubeConfig['eccube_default_password']) {
-                $Customer->setPassword($previous_password);
-            } else {
+            // plain_password: 空・null・デフォルト(マスク値)なら変更なし、それ以外ならハッシュ化して設定
+            $plainPassword = $Customer->getPlainPassword();
+            if ($plainPassword !== '' && $plainPassword !== null && $plainPassword !== $this->eccubeConfig['eccube_default_password']) {
                 $Customer->setPassword(
-                    $this->passwordHasher->hashPassword($Customer, $Customer->getPassword())
+                    $this->passwordHasher->hashPassword($Customer, $Customer->getPlainPassword())
                 );
+            } else {
+                $Customer->setPassword($previous_password);
             }
-            $this->entityManager->flush();
+
+            // フォーム由来のSex/Job/Prefをマネージド実体に差し替え（flush用）
+            if ($Customer->getSex()) {
+                $Sex = $this->entityManager->getRepository('Eccube\Entity\Master\Sex')->find($Customer->getSex()->getId());
+                if ($Sex) {
+                    $Customer->setSex($Sex);
+                }
+            }
+            if ($Customer->getJob()) {
+                $Job = $this->entityManager->getRepository('Eccube\Entity\Master\Job')->find($Customer->getJob()->getId());
+                if ($Job) {
+                    $Customer->setJob($Job);
+                }
+            }
+            if ($Customer->getPref()) {
+                $Pref = $this->entityManager->getRepository('Eccube\Entity\Master\Pref')->find($Customer->getPref()->getId());
+                if ($Pref) {
+                    $Customer->setPref($Pref);
+                }
+            }
+            if ($Customer->getMailMagazine() === null) {
+                $Customer->setMailMagazine(false);
+            }
+
+            $this->entityManager->flush($Customer);
 
             log_info('会員編集完了');
 

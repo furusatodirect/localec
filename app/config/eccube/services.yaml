@@ -238,6 +238,11 @@ services:
             $serviceContainer: !tagged_locator { tag: 'eccube_payment_method' }
         tags: [ 'controller.service_arguments' ]
 
+    Customize\Controller\ShoppingController:
+        arguments:
+            $serviceContainer: !tagged_locator { tag: 'eccube_payment_method' }
+        tags: [ 'controller.service_arguments' ]
+
     Eccube\Util\CacheUtil:
         arguments:
             $container: !tagged_locator { tag: 'cache.pool.clearer' }

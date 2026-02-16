@@ -84,6 +84,10 @@ file that was distributed with this source code.
                                 <th>メールアドレス</th>
                                 <td>{{ Order.email }}</td>
                             </tr>
+                            <tr>
+                                <th>生年月日</th>
+                                <td>{{ Order.birth ? Order.birth|date('Y年m月d日', 'Asia/Tokyo') : '' }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -115,6 +119,27 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                     <table>
+                                        {% if orderItem.Product is not null and orderItem.Product.room_temperature_delivery == '1' %}
+                                        <tr>
+                                            <th>配送方法︓</th>
+                                            <td>常温配送</td>
+                                        </tr>
+                                        {% elseif orderItem.Product is not null and orderItem.Product.refrigerated_delivery == '1' %}
+                                        <tr>
+                                            <th>配送方法︓</th>
+                                            <td>冷蔵配送</td>
+                                        </tr>
+                                        {% elseif orderItem.Product is not null and orderItem.Product.frozen_delivery == '1' %}
+                                        <tr>
+                                            <th>配送方法︓</th>
+                                            <td>冷凍配送</td>
+                                        </tr>
+                                        {% elseif orderItem.Product is not null %}
+                                        <tr>
+                                            <th>配送方法︓</th>
+                                            <td>通常配送</td>
+                                        </tr>
+                                        {% endif %}
                                         <tr>
                                             <th>数量︓</th>
                                             <td>{{ orderItem.quantity|number_format }}</td>

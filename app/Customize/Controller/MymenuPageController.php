@@ -2,19 +2,21 @@
 
 namespace Customize\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Eccube\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * マイメニューページ（4.3版）
+ */
 class MymenuPageController extends AbstractController
 {
     /**
-     * @Route("/mymenu", name="mymenu")
-     * @Template("mymenu.twig")
+     * @Route("/mymenu", name="mymenu", methods={"GET"})
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
-            return [];
+        return $this->render('mymenu.twig', []);
     }
 }

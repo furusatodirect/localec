@@ -24,6 +24,7 @@ use Eccube\Form\Type\Front\CustomerLoginType;
 use Eccube\Form\Type\Front\ShoppingShippingType;
 use Eccube\Form\Type\Shopping\CustomerAddressType;
 use Customize\Form\Type\Shopping\OrderType;
+use Eccube\Repository\Master\SexRepository;
 use Eccube\Repository\OrderRepository;
 use Eccube\Service\CartService;
 use Eccube\Service\MailService;
@@ -37,7 +38,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Eccube\Session\Session;
 use Symfony\Component\Routing\RouterInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ShoppingController extends AbstractShoppingController
@@ -62,16 +65,37 @@ class ShoppingController extends AbstractShoppingController
      */
     protected $orderRepository;
 
+    /**
+     * @var ContainerInterface
+     */
+    protected $serviceContainer;
+
+    /**
+     * @var Session
+     */
+    protected $session;
+
+    /**
+     * @var SexRepository
+     */
+    protected $sexRepository;
+
     public function __construct(
         CartService $cartService,
         MailService $mailService,
         OrderRepository $orderRepository,
-        OrderHelper $orderHelper
+        OrderHelper $orderHelper,
+        ContainerInterface $serviceContainer,
+        Session $session,
+        SexRepository $sexRepository
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
         $this->orderRepository = $orderRepository;
         $this->orderHelper = $orderHelper;
+        $this->serviceContainer = $serviceContainer;
+        $this->session = $session;
+        $this->sexRepository = $sexRepository;
     }
 
     /**
@@ -135,7 +159,44 @@ class ShoppingController extends AbstractShoppingController
         // マイページで会員情報が更新されていれば, Orderの注文者情報も更新する.
         if ($Customer->getId()) {
             $this->orderHelper->updateCustomerInfo($Order, $Customer);
+            // 会員時: 性別・生年月日をCustomerからOrderに反映
+            if ($Customer->getSex()) {
+                $Order->setSex($Customer->getSex());
+            }
+            if ($Customer->getBirth()) {
+                $Order->setBirth($Customer->getBirth());
+            }
             $this->entityManager->flush();
+        }
+
+        // 非会員時: セッションの性別・生年月日をOrderに反映（4.1互換・Customize/Serviceは使わない）
+        if (!$Customer->getId()) {
+            $data = $this->session->get(OrderHelper::SESSION_NON_MEMBER);
+            if (!empty($data)) {
+                if (!empty($data['birth'])) {
+                    $birth = $data['birth'];
+                    if (!$birth instanceof \DateTimeInterface) {
+                        $birth = is_string($birth) ? new \DateTime($birth) : null;
+                    }
+                    if ($birth) {
+                        $Order->setBirth($birth);
+                    }
+                }
+                if (!empty($data['sex'])) {
+                    $sexId = $data['sex'] instanceof \Eccube\Entity\Master\Sex
+                        ? $data['sex']->getId()
+                        : $data['sex'];
+                    $Sex = $this->sexRepository->find($sexId);
+                    if ($Sex) {
+                        $Order->setSex($Sex);
+                    }
+                }
+                try {
+                    $this->entityManager->flush($Order);
+                } catch (\Throwable $e) {
+                    log_error('非会員の性別・生年月日をOrderに反映してflushした際にエラー', [$e->getMessage(), $e->getFile(), $e->getLine()]);
+                }
+            }
         }
 
         $form = $this->createForm(OrderType::class, $Order);
@@ -720,7 +781,7 @@ class ShoppingController extends AbstractShoppingController
      */
     private function createPaymentMethod(Order $Order, FormInterface $form)
     {
-        $PaymentMethod = $this->container->get($Order->getPayment()->getMethodClass());
+        $PaymentMethod = $this->serviceContainer->get($Order->getPayment()->getMethodClass());
         $PaymentMethod->setOrder($Order);
         $PaymentMethod->setFormType($form);
 

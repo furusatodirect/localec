@@ -16,7 +16,7 @@ class SearchCustomerMailMagazineType extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options = $builder
+        $builder
             ->add('mail_magazine', CheckboxType::class, [
                 'label' => 'admin.common.mail_magazine',
                 'required' => false,

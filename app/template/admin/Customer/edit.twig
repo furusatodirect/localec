@@ -23,6 +23,10 @@ file that was distributed with this source code.
 {% endblock javascript %}
 
 {% block main %}
+    {% set pageMaxis = pageMaxis is defined ? pageMaxis : [] %}
+    {% set pagination = pagination is defined ? pagination : null %}
+    {% set page_count = page_count is defined ? page_count : 10 %}
+    {% set page_no = page_no is defined ? page_no : 1 %}
     <form name="customer_form" role="form" id="customer_form" method="post" class="h-adr"
           action="{%- if Customer.id %}{{ url('admin_customer_edit', { id : Customer.id }) }}{% else %}{{ url('admin_customer_new') }}{% endif -%}"
           novalidate>
@@ -174,14 +178,28 @@ file that was distributed with this source code.
                                         {{ form_errors(form.phone_number) }}
                                     </div>
                                 </div>
+                                {% set password_field = null %}
+                                {% for name, child in form.children %}
+                                    {% if name == 'plain_password' %}
+                                        {% set password_field = child %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if password_field is null %}
+                                    {% for name, child in form.children %}
+                                        {% if name == 'password' %}
+                                            {% set password_field = child %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% if password_field %}
                                 <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.common.password'|trans }}</span>
                                         <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.plain_password.first, { type : 'password'}) }}
-                                        {{ form_errors(form.plain_password.first) }}
+                                        {{ form_widget(password_field.first, { type : 'password'}) }}
+                                        {{ form_errors(password_field.first) }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -190,10 +208,11 @@ file that was distributed with this source code.
                                         <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.plain_password.second, { type : 'password'}) }}
-                                        {{ form_errors(form.plain_password.second) }}
+                                        {{ form_widget(password_field.second, { type : 'password'}) }}
+                                        {{ form_errors(password_field.second) }}
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.common.gender'|trans }}</span>
@@ -230,9 +249,18 @@ file that was distributed with this source code.
                                         {{ form_errors(form.point) }}
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>自治体からのメール</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.mail_magazine, {'label_attr': {'class': 'radio-inline'}}) }}
+                                        {{ form_errors(form.mail_magazine) }}
+                                    </div>
+                                </div>
 
                                 {# エンティティ拡張の自動出力 #}
-                                {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                                {% for f in form|filter(f => f.vars.eccube_form_options.auto_render and f.vars.name != 'vt4g_account_id') %}
                                     {% if f.vars.eccube_form_options.form_theme %}
                                         {% form_theme f f.vars.eccube_form_options.form_theme %}
                                         {{ form_row(f) }}
@@ -429,7 +457,7 @@ file that was distributed with this source code.
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                                        {% if pagination.totalItemCount > 0 %}
+                                        {% if pagination and pagination.totalItemCount > 0 %}
                                                 <div class="row justify-content-md-center pb-4">
                                                     {% include "@admin/pager.twig" with { 'id':Customer.id, 'pages' : pagination.paginationData, 'routes' : 'admin_customer_edit' } %}
                                                 </div>

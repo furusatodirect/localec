@@ -349,9 +349,13 @@ class CustomerRepository extends AbstractRepository
      */
     public function getProvisionalCustomerBySecretKey($secretKey)
     {
+        $status = $this->getEntityManager()->find(CustomerStatus::class, CustomerStatus::PROVISIONAL);
+        if (!$status) {
+            return null;
+        }
         return $this->findOneBy([
             'secret_key' => $secretKey,
-            'Status' => CustomerStatus::PROVISIONAL,
+            'Status' => $status,
         ]);
     }
 

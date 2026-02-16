@@ -171,8 +171,8 @@ class MasterdataController extends AbstractController
                         $request
                     );
                     $this->eventDispatcher->dispatch(
-                        EccubeEvents::ADMIN_SETTING_SYSTEM_MASTERDATA_EDIT_COMPLETE,
-                        $event
+                        $event,
+                        EccubeEvents::ADMIN_SETTING_SYSTEM_MASTERDATA_EDIT_COMPLETE
                     );
 
                     $this->addSuccess('admin.common.save_complete', 'admin');

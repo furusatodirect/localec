@@ -1,5 +1,4 @@
-{# 4.1: CustomizeNewProduct() → 4.3: repository()で新着商品取得 #}
-{% set Products = repository('Eccube\\Entity\\Product').findBy({'Status': 1}, {'create_date': 'DESC'}, 16) %}
+{% set Products = CustomizeNewProduct() %}
 
 {% if Products|length > 0 %}
 <div class="container">
@@ -8,7 +7,7 @@
 <h3>新着のお礼の品</h3>
 <ul class="p-box">
 {% for Product in Products %}
-{# TODO: Entity拡張未移行のため一時無効 (out_of_print, published_at_from/to) - Entity移行後に復活
+{#author :MT start#}
     {% if Product.out_of_print == 0 %}
         {% if (Product.published_at_from  <= date() or Product.published_at_from == null) and (Product.published_at_to  > date() or Product.published_at_to == null) %}
             {% set publish_p =1 %}
@@ -19,22 +18,22 @@
         {% set publish_p =0 %}
     {% endif %}
 {% if publish_p == 1 %}
-#}
+{#author :MT end#}
 <li>
     
 {# TODO: お気に入りAPIプラグイン(plg_product_favorite_api)未導入のため一時無効 #}
 <a href="{{ url('product_detail', {'id': Product.id}) }}">
 <div class="mask">
     
-{# TODO: Entity拡張未移行のため一時無効 (applicable_on_from/to, stock_find, out_of_stock) - Entity移行後に復活
-{% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+{#author :MT start#}
+{% if  Product.applicable_on_from != null and Product.applicable_on_from > date() %}
 <div class="status-wrap"><p>{{Product.applicable_on_from|date_format('', 'm月d日')}}より<br>受付開始</p></div>
 {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
 <div class="status-wrap"><p>受付終了</p></div>
 {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
 <div class="status-wrap"><p>品切れ中</p></div>
 {% endif %}
-#}
+{#author :MT end#}
 
 <img class="b-pic" src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"><div class="c-pic"><img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"></div>
 <div class="price"><p>寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p></div>
@@ -43,9 +42,9 @@
 </a>
 </li>
 
-{# TODO: Entity拡張のpublish_p判定のendif - Entity移行後に復活
+{#author :MT start#}
 {% endif %}
-#}
+{#author :MT end#}
 
 {% endfor %}
 </ul>

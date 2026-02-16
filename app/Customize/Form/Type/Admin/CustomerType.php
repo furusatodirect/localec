@@ -24,7 +24,6 @@ use Eccube\Form\Type\NameType;
 use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
 use Eccube\Form\Type\RepeatedPasswordType;
-use Eccube\Form\Validator\Email;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -90,7 +89,7 @@ class CustomerType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Email(['strict' => $this->eccubeConfig['eccube_rfc_email_check']]),
+                    new Assert\Email($this->eccubeConfig['eccube_rfc_email_check'] ? ['mode' => 'strict'] : []),
                 ],
                 'attr' => [
                     'placeholder' => 'common.mail_address_sample',
@@ -116,13 +115,12 @@ class CustomerType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('password', RepeatedPasswordType::class, [
-                // 'type' => 'password',
+            ->add('plain_password', RepeatedPasswordType::class, [
                 'first_options' => [
-                    'label' => 'member.label.pass',
+                    'label' => 'admin.common.password',
                 ],
                 'second_options' => [
-                    'label' => 'member.label.verify_pass',
+                    'label' => 'admin.common.password_for_confirmation',
                 ],
             ])
             ->add('status', CustomerStatusType::class, [
@@ -164,7 +162,7 @@ class CustomerType extends AbstractType
             /** @var Customer $Customer */
             $Customer = $event->getData();
             if ($Customer->getPassword() != '' && $Customer->getPassword() == $Customer->getEmail()) {
-                $form['password']['first']->addError(new FormError(trans('common.password_eq_email')));
+                $form['plain_password']['first']->addError(new FormError(trans('common.password_eq_email')));
             }
         });
 
@@ -204,3 +202,4 @@ class CustomerType extends AbstractType
         ];
     }
 }
+

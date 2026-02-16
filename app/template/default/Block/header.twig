@@ -6,7 +6,7 @@
 <li><a href="https://mombetsu.furusato-direct.jp/about"><span class="fi ti-location-pin"></span><p>紋別市の紹介</p></a></li>
 <li><a id="popupbtns" tabindex="-1"><span class="fi ti-search"></span><p>見つける</p></a></li>
 {% if is_granted('ROLE_USER') %} 
-<li class="d-none d-md-block"><a href="{{ url('mypage') }}"><span class="fi ti-user"></span><p>マイページ</p></a></li>
+<li class="d-none d-md-block"><a href="{{ url('mymenu') }}"><span class="fi ti-user"></span><p>マイページ</p></a></li>
 {% else %}
 <li class="d-none d-md-block"><a href="{{ url('mypage_login') }}"><span class="fi ti-shift-right"></span><p>ログイン</p></a></li>
 {% endif %}
@@ -26,7 +26,7 @@
         {% else %}
           <li><a href="{{ url('mypage_login') }}">新規会員登録｜ログイン</a></li>
         {% endif %}
-          <li><a href="{{ url('mypage') }}">マイページ</a></li>
+          <li><a href="{{ url('mymenu') }}">マイページ</a></li>
         </ul>
         <ul class="m-navi">
           <li><a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}">新着のお礼の品</a></li>

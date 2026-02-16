@@ -91,7 +91,11 @@ file that was distributed with this source code.
                         </tr>
                         <tr>
                             <th>生年月日︓</th>
-                            <td>{{ Order.birth|date('Y年m月d日', 'Asia/Tokyo') }}</td>
+                            <td>{{ Order.birth ? Order.birth|date('Y年m月d日', 'Asia/Tokyo') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>性別︓</th>
+                            <td>{{ Order.Sex ? Order.Sex.name : '' }}</td>
                         </tr>
                     </table>
                 </div>
@@ -266,7 +270,7 @@ file that was distributed with this source code.
             </div>
 
             {# ===== 特定商取引法に基づく表記 (4.3) ===== #}
-            {% for activeTradeLaw in activeTradeLaws|filter(t => t.name and t.description) %}
+            {% for activeTradeLaw in (activeTradeLaws is defined ? activeTradeLaws : [])|filter(t => t.name and t.description) %}
                 <div class="ec-orderConfirm">
                     <div class="ec-rectHeading">
                         <h2>{{ activeTradeLaw.name }}</h2>

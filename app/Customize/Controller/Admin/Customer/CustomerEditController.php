@@ -19,7 +19,10 @@ use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Customize\Form\Type\Admin\CustomerType;
 use Eccube\Repository\CustomerRepository;
+use Eccube\Repository\Master\PageMaxRepository;
+use Eccube\Repository\OrderRepository;
 use Eccube\Util\StringUtil;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,12 +41,26 @@ class CustomerEditController extends AbstractController
      */
     protected $passwordHasher;
 
+    /**
+     * @var OrderRepository
+     */
+    protected $orderRepository;
+
+    /**
+     * @var PageMaxRepository
+     */
+    protected $pageMaxRepository;
+
     public function __construct(
         CustomerRepository $customerRepository,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        OrderRepository $orderRepository,
+        PageMaxRepository $pageMaxRepository
     ) {
         $this->customerRepository = $customerRepository;
         $this->passwordHasher = $passwordHasher;
+        $this->orderRepository = $orderRepository;
+        $this->pageMaxRepository = $pageMaxRepository;
     }
 
     /**
@@ -51,7 +68,7 @@ class CustomerEditController extends AbstractController
      * @Route("/%eccube_admin_route%/customer/{id}/edit", requirements={"id" = "\d+"}, name="admin_customer_edit", methods={"GET", "POST"})
      * @Template("@admin/Customer/edit.twig")
      */
-    public function index(Request $request, $id = null)
+    public function index(Request $request, PaginatorInterface $paginator, $id = null)
     {
         $this->entityManager->getFilters()->enable('incomplete_order_status_hidden');
         // 編集
@@ -64,15 +81,13 @@ class CustomerEditController extends AbstractController
             }
 
             $oldStatusId = $Customer->getStatus()->getId();
-            // 編集用にデフォルトパスワードをセット
-            $previous_password = $Customer->getPassword();
-            $Customer->setPassword($this->eccubeConfig['eccube_default_password']);
+            // 編集用にデフォルトパスワードをセット（plain_password にセットしてフォームに表示）
+            $Customer->setPlainPassword($this->eccubeConfig['eccube_default_password']);
         // 新規登録
         } else {
             $Customer = $this->customerRepository->newCustomer();
 
             $oldStatusId = null;
-            $previous_password = null;
         }
 
         // 会員登録フォーム
@@ -92,17 +107,39 @@ class CustomerEditController extends AbstractController
 
         $form->handleRequest($request);
 
+        $page_count = (int) $this->session->get('eccube.admin.customer_edit.order.page_count',
+            $this->eccubeConfig->get('eccube_default_page_count'));
+        $page_count_param = (int) $request->get('page_count');
+        $pageMaxis = $this->pageMaxRepository->findAll();
+        if ($page_count_param) {
+            foreach ($pageMaxis as $pageMax) {
+                if ($page_count_param == $pageMax->getName()) {
+                    $page_count = $pageMax->getName();
+                    $this->session->set('eccube.admin.customer_edit.order.page_count', $page_count);
+                    break;
+                }
+            }
+        }
+        $page_no = (int) $request->get('page_no', 1);
+        $qb = $this->orderRepository->getQueryBuilderByCustomer($Customer);
+        $pagination = [];
+        if (!is_null($Customer->getId())) {
+            $pagination = $paginator->paginate(
+                $qb,
+                $page_no > 0 ? $page_no : 1,
+                $page_count
+            );
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('会員登録開始', [$Customer->getId()]);
 
-            if ($Customer->getPassword() === $this->eccubeConfig['eccube_default_password']) {
-                $Customer->setPassword($previous_password);
-            } else {
+            if ($Customer->getPlainPassword() !== $this->eccubeConfig['eccube_default_password']) {
                 if ($Customer->getSecretKey() === null) {
                     $Customer->setSecretKey($this->customerRepository->getUniqueSecretKey());
                 }
                 $Customer->setPassword(
-                    $this->passwordHasher->hashPassword($Customer, $Customer->getPassword())
+                    $this->passwordHasher->hashPassword($Customer, $Customer->getPlainPassword())
                 );
             }
 
@@ -136,6 +173,10 @@ class CustomerEditController extends AbstractController
         return [
             'form' => $form->createView(),
             'Customer' => $Customer,
+            'pagination' => $pagination,
+            'pageMaxis' => $pageMaxis,
+            'page_no' => $page_no,
+            'page_count' => $page_count,
         ];
     }
 }

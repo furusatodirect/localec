@@ -174,13 +174,36 @@ class EntryController extends AbstractController
                 case 'complete':
                     log_info('会員登録開始');
 
-                    $password = $Customer->getPassword();
+                    $password = $Customer->getPlainPassword();
                     $secretKey = $this->customerRepository->getUniqueSecretKey();
 
                     $Customer
                         ->setPassword($this->passwordHasher->hashPassword($Customer, $password))
                         ->setSecretKey($secretKey)
                         ->setPoint(0);
+
+                    // フォーム由来のSex/Jobがデタッチされている場合があるため、マネージド実体に差し替え
+                    if ($Customer->getSex()) {
+                        $Sex = $this->entityManager->getRepository('Eccube\Entity\Master\Sex')->find($Customer->getSex()->getId());
+                        if ($Sex) {
+                            $Customer->setSex($Sex);
+                        }
+                    }
+                    if ($Customer->getJob()) {
+                        $Job = $this->entityManager->getRepository('Eccube\Entity\Master\Job')->find($Customer->getJob()->getId());
+                        if ($Job) {
+                            $Customer->setJob($Job);
+                        }
+                    }
+                    if ($Customer->getPref()) {
+                        $Pref = $this->entityManager->getRepository('Eccube\Entity\Master\Pref')->find($Customer->getPref()->getId());
+                        if ($Pref) {
+                            $Customer->setPref($Pref);
+                        }
+                    }
+                    if ($Customer->getMailMagazine() === null) {
+                        $Customer->setMailMagazine(false);
+                    }
 
                     $this->entityManager->persist($Customer);
                     $this->entityManager->flush();
@@ -244,7 +267,7 @@ class EntryController extends AbstractController
     /**
      * 会員のアクティベート（本会員化）を行う.
      *
-     * @Route("/entry/activate/{secret_key}/{qtyInCart}", name="entry_activate", methods={"GET"})
+     * @Route("/entry/activate/{secret_key}/{qtyInCart?}", name="entry_activate", methods={"GET"}, requirements={"qtyInCart": "\d+"})
      * @Template("Entry/activate.twig")
      */
     public function activate(Request $request, $secret_key, $qtyInCart = null)
@@ -318,8 +341,8 @@ class EntryController extends AbstractController
             $qtyInCart += $Cart->getTotalQuantity();
         }
 
-        // 本会員登録してログイン状態にする
-        $token = new UsernamePasswordToken($Customer, null, 'customer', ['ROLE_USER']);
+        // 本会員登録してログイン状態にする（Symfony 6: credentials 引数は削除済）
+        $token = new UsernamePasswordToken($Customer, 'customer', ['ROLE_USER']);
         $this->tokenStorage->setToken($token);
         $request->getSession()->migrate(true);
 
@@ -332,3 +355,4 @@ class EntryController extends AbstractController
         return $qtyInCart;
     }
 }
+

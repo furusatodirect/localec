@@ -13,8 +13,8 @@
 
 namespace Customize\Form\Type\Admin;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Eccube\Entity\Master\CustomerOrderStatus;
@@ -53,7 +53,7 @@ class MasterdataType extends AbstractType
         $masterdata = [];
 
         /** @var MappingDriverChain $driverChain */
-        $driverChain = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
+        $driverChain = $this->entityManager->getConfiguration()->getMetadataDriverImpl()->getDriver();
         /** @var MappingDriver[] $drivers */
         $drivers = $driverChain->getDrivers();
 

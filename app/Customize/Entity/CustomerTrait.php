@@ -15,6 +15,13 @@ trait CustomerTrait //ファイル名と合わせる
 {
     //ココに実際の拡張内容などを記述していきます
 
+    /**
+     * VeriTrans4G2 プラグイン用会員ID（プラグイン削除後も参照エラー回避のため保持）
+     *
+     * @var string|null
+     * @ORM\Column(name="vt4g_account_id", type="string", length=255, nullable=true)
+     */
+    public $vt4g_account_id;
 
     /**
      * @ORM\Column(name="mail_magazine",type="boolean",nullable=false,options={"default":false})
@@ -45,6 +52,29 @@ trait CustomerTrait //ファイル名と合わせる
     public function getMailMagazine()
     {
         return $this->mail_magazine;
+    }
+
+    /**
+     * Set vt4g_account_id.
+     *
+     * @param string|null $vt4gAccountId
+     * @return Customer
+     */
+    public function setVt4gAccountId($vt4gAccountId = null)
+    {
+        $this->vt4g_account_id = $vt4gAccountId;
+
+        return $this;
+    }
+
+    /**
+     * Get vt4g_account_id.
+     *
+     * @return string|null
+     */
+    public function getVt4gAccountId()
+    {
+        return $this->vt4g_account_id;
     }
 
 }

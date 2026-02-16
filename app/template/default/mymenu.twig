@@ -1,5 +1,7 @@
 {% extends 'default_frame.twig' %}
 
+{% set body_class = 'mypage mymenu_page' %}
+
 {% block main %}
 <style>
 #mymenu .container{
@@ -128,7 +130,7 @@ opacity: 0.7 ;
                     <a href="{{ url('mypage_withdraw') }}"><li>退会手続き</li></a>
                 </ul>
             </div>
-            <a href="https://mypg.jp/" target="_blink" class="bnr"><img src="{{ asset('assets/img/bnr_mypgjp.png', 'user_data') }}"></a>
+            <a href="https://mypg.jp/" target="_blank" class="bnr"><img src="{{ asset('assets/img/bnr_mypgjp.png', 'user_data') }}"></a>
             
         </div>
     </div>

@@ -218,12 +218,16 @@ file that was distributed with this source code.
                             </tr>
                             <tr>
                                 <th>性別︓</th>
-                                <td><span class="customer-edit customer-sex">{{ Order.sex }}</span></td>
+                                <td><span class="customer-edit customer-sex">{{ Order.Sex ? Order.Sex.name : '' }}</span></td>
                             </tr>
                             {% else %}
                             <tr>
                                 <th>生年月日︓</th>
-                                <td><span class="customer-edit customer-birth">{{ Order.birth|date('Y年m月d日', 'Asia/Tokyo') }}</span></td>
+                                <td><span class="customer-edit customer-birth">{{ Order.birth ? Order.birth|date('Y年m月d日', 'Asia/Tokyo') : '' }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>性別︓</th>
+                                <td><span class="customer-edit customer-sex">{{ Order.Sex ? Order.Sex.name : '' }}</span></td>
                             </tr>
                             {% endif %}
                         </table>
@@ -341,9 +345,9 @@ file that was distributed with this source code.
                                     <div class="ec-select">
                                         <span class="customer-form customer-sex">
                                             <select id="edit-sex">
-                                                <option value="回答しない" {% if Order.sex == '回答しない' %}selected{% endif %}>回答しない</option>
-                                                <option value="男性" {% if Order.sex == '男性' %}selected{% endif %}>男性</option>
-                                                <option value="女性" {% if Order.sex == '女性' %}selected{% endif %}>女性</option>
+                                                <option value="回答しない" {% if Order.Sex and Order.Sex.name == '回答しない' %}selected{% endif %}>回答しない</option>
+                                                <option value="男性" {% if Order.Sex and Order.Sex.name == '男性' %}selected{% endif %}>男性</option>
+                                                <option value="女性" {% if Order.Sex and Order.Sex.name == '女性' %}selected{% endif %}>女性</option>
                                             </select>
                                         </span>
                                     </div>
@@ -366,7 +370,7 @@ file that was distributed with this source code.
                         <input type="hidden" id="customer-phone_number" class="customer-in" name="customer_phone_number" value="{{ Order.phone_number }}">
                         <input type="hidden" id="customer-email" class="customer-in" name="customer_email" value="{{ Order.email }}">
                         <input type="hidden" id="customer-birth" class="customer-in" name="customer_birth" value="{{ Order.birth|date('Y-m-d') }}">
-                        <input type="hidden" id="customer-sex" class="customer-in" name="customer_sex" value="{{ Order.sex }}">
+                        <input type="hidden" id="customer-sex" class="customer-in" name="customer_sex" value="{{ Order.Sex ? Order.Sex.name : '' }}">
                     {% endif %}
                 </div>
 
@@ -636,7 +640,7 @@ file that was distributed with this source code.
                 </div>
 
                 {# ===== 特定商取引法に基づく表記 (4.3) ===== #}
-                {% for activeTradeLaw in activeTradeLaws|filter(t => t.name and t.description) %}
+                {% for activeTradeLaw in (activeTradeLaws is defined ? activeTradeLaws : [])|filter(t => t.name and t.description) %}
                     <div class="ec-orderConfirm">
                         <div class="ec-rectHeading">
                             <h2>{{ activeTradeLaw.name }}</h2>
