@@ -30,24 +30,8 @@
                     location.reload(true);
                 }
             });
-
-            $('.item_visual').slick({
-                dots: false,
-                arrows: false,
-                responsive: [{
-                    breakpoint: 768,
-                    settings: {
-                        dots: true
-                    }
-                }]
-            });
-
-            $('.slideThumb').on('click', function() {
-                var index = $(this).attr('data-index');
-                $('.item_visual').slick('slickGoTo', index, false);
-            })
+            // 商品画像スライダーは Swiper（customize.js で初期化）
         });
-
     </script>
 <script>
   $(function() {
@@ -207,54 +191,50 @@
             <section class="sec1">
 
 
-                {# ##################	返礼品スライド #}
+                {# ##################	返礼品スライド（Swiper） #}
                 <div class="Lside">
-                    <div id="thum-slide" class="slider-pro">
-                        <ul class="sp-thumbnails">
-                            {% for ProductImage in Product.ProductImage %}
-                                <li class="sp-thumbnail">
-                                    <img class="b-pic"
-                                         src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
-                                         alt="{{ Product.name }}" loading="lazy">
-                                    <div class="c-pic">
-                                        <img
-                                            src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
-                                            alt="{{ Product.name }}" loading="lazy">
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        <ul class="sp-slides">
-                            {% if(Product.ProductImage.count()) %}
-                            {% for ProductImage in Product.ProductImage %}
-                                <li class="sp-slide">
+                    <div id="thum-slide" class="product-gallery-swiper">
+                        <div class="swiper product-swiper-main">
+                            <div class="swiper-wrapper">
+                                {% if Product.ProductImage.count() %}
+                                {% for ProductImage in Product.ProductImage %}
+                                <div class="swiper-slide">
                                     <div class="sp-image">
                                         <img class="b-pic"
                                              src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
                                              alt="{{ Product.name }}" loading="lazy">
-                                        <div class="c-pic">
-                                            <img
-                                                src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
-                                                alt="{{ Product.name }}" loading="lazy">
-                                        </div>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                            {% else %}
-                            <li class="sp-slide">
-                                <div class="sp-image">
-                                    <img class="b-pic"
-                                         src="{{ asset(''|no_image_product, 'save_image') }}"
-                                         alt="no_image_product" loading="lazy">
-                                    <div class="c-pic">
-                                        <img
-                                            src="{{ asset(''|no_image_product, 'save_image') }}"
-                                            alt="no_image_product" loading="lazy">
                                     </div>
                                 </div>
-                            </li>
-                            {% endif %}
-                        </ul>
+                                {% endfor %}
+                                {% else %}
+                                <div class="swiper-slide">
+                                    <div class="sp-image">
+                                        <img class="b-pic" src="{{ asset(''|no_image_product, 'save_image') }}"
+                                             alt="no_image_product" loading="lazy">
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <div class="swiper product-swiper-thumbs">
+                            <div class="swiper-wrapper">
+                                {% if Product.ProductImage.count() %}
+                                {% for ProductImage in Product.ProductImage %}
+                                <div class="swiper-slide">
+                                    <img src="{{ asset(ProductImage.file_name|no_image_product, 'save_image') }}"
+                                         alt="{{ Product.name }}" loading="lazy">
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="swiper-slide">
+                                    <img src="{{ asset(''|no_image_product, 'save_image') }}" alt="no_image_product" loading="lazy">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                         <ul class="marks">
                             <li class="icons">
                                 <button class="share" onclick="showBalloon()">

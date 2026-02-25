@@ -13,12 +13,9 @@ file that was distributed with this source code.
 {% set body_class = 'registration_page' %}
 
 {% block main %}
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            <h1>会員登録完了</h1>
-        </div>
-    </div>
-    <div class="ec-cartRole__progress">
+    <div class="container">
+        <h3>会員登録完了</h3>
+        <div class="ec-cartRole__progress">
         <ul class="ec-progress">
             <li class="ec-progress__item">
                 <div class="ec-progress__label">会員情報<br>入力
@@ -58,5 +55,6 @@ file that was distributed with this source code.
                 <a class="ec-blockBtn--cancel" href="{{ url('cart') }}">寄付の申込をする（寄付カートへ）</a>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}

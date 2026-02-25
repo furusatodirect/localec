@@ -11,12 +11,9 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% block main %}
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            <h1>パスワード再発行メール送信完了</h1>
-        </div>
-    </div>
-    <div class="ec-forgetCompleteRole">
+    <div class="container">
+        <h3>パスワード再発行メール送信完了</h3>
+        <div class="ec-forgetCompleteRole">
         <div class="ec-off3Grid ec-text-ac">
             <div class="ec-off3Grid__cell">
                 <p class="ec-reportDescription">ご登録メールアドレスに下記の内容でパスワードを再発行するためのメールを送信いたしました。<br>
@@ -38,5 +35,6 @@ file that was distributed with this source code.
             <li>迷惑メールフォルダに振り分けられている場合<br>迷惑メールフォルダに保存されている場合があります。受信フォルダでメールが確認できない場合は、迷惑メールフォルダをご確認ください。</li>
             <li>受信拒否設定されている場合<br>迷惑メール設定を見直してください。受信許可リストに「@furusato-direct.jp」を受信できるように設定を変更の上、再度パスワードの再発行をお試しください。設定をしてもメールが届かない場合は、<a class="text-link" href="/contact">お問い合わせフォーム</a>からお問い合わせください。</li>
         </ul>
+    </div>
     </div>
 {% endblock %}

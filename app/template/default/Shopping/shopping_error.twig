@@ -13,13 +13,8 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 
 {% block main %}
-
-<div class="ec-role">
-    <div class="ec-pageHeader">
-        <h1>お申込エラー</h1>
-    </div>
-</div>
-
+    <div class="container">
+        <h3>お申込エラー</h3>
 <!-- アラートメッセージ -->
 {{ include('Shopping/alert.twig', { 'error_only': true }) }}
 
@@ -34,4 +29,5 @@ file that was distributed with this source code.
         </div>
     </div>
 </div>
+    </div>
 {% endblock %}

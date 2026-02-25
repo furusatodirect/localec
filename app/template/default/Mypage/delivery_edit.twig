@@ -21,17 +21,12 @@ file that was distributed with this source code.
 {% endblock javascript %}
 
 {% block main %}
-    <div class="ec-layoutRole__main">
-        <div class="ec-mypageRole">
-            <div class="ec-pageHeader">
-                {% if app.request.get('_route') == 'mypage_delivery_new' %}
-                    <h1>お届け先追加</h1>
-                {% else %}
-                    <h1>お届け先変更</h1>
-                {% endif %}
-            </div>
-            {# {{ include('Mypage/navi.twig') }} #}
-        </div>
+    <div class="container">
+        {% if app.request.get('_route') == 'mypage_delivery_new' %}
+            <h3>お届け先追加</h3>
+        {% else %}
+            <h3>お届け先変更</h3>
+        {% endif %}
         <div class="ec-mypageRole">
             <form method="post" action="?" novalidate class="h-adr">
                 <div class="ec-editRole">

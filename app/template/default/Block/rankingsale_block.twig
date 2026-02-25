@@ -2,28 +2,7 @@
 {% set Config = repository('Plugin\\rankingsale\\Entity\\rankingsaleConfig').get %}
 
 <style>
-.status-wrap{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
-    z-index: 40;
-}
-.status-wrap p{
-    color:white;
-    font-size: 2.5rem;
-    position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      text-align: center;
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-}
-.p-box li{
-    position: relative;
-}
+/* .status-wrap, .p-box li は customize.css へ集約済み */
 #page_product_list .ranking .p-box li button.favorite {
     padding:0 2px;
     right:8px;

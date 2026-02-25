@@ -13,12 +13,9 @@ file that was distributed with this source code.
 {% set body_class = 'registration_page' %}
 
 {% block main %}
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            <h1>仮登録完了</h1>
-        </div>
-    </div>
-    <div class="ec-cartRole__progress">
+    <div class="container">
+        <h3>仮登録完了</h3>
+        <div class="ec-cartRole__progress">
         <ul class="ec-progress">
             <li class="ec-progress__item">
                 <div class="ec-progress__label">会員情報<br>入力
@@ -63,5 +60,6 @@ file that was distributed with this source code.
             <li>迷惑メールフォルダに振り分けられている場合<br>迷惑メールフォルダに保存されている場合があります。受信フォルダでメールが確認できない場合は、迷惑メールフォルダをご確認ください。</li>
             <li>受信拒否設定されている場合<br>迷惑メール設定を見直してください。受信許可リストに「furusato-direct.jp」を受信できるように設定を変更してください。同一のメールアドレスでは登録ができませんので、<a href="/contact">お問い合わせフォーム</a>からお問い合わせください。</li>
         </ul>
+    </div>
     </div>
 {% endblock %}

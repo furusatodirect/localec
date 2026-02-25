@@ -17,11 +17,9 @@ file that was distributed with this source code.
 {% endblock javascript %}
 
 {% block main %}
-
-    <div class="ec-contactRole">
-        <div class="ec-pageHeader">
-            <h1>その他サイトに関するお問い合わせ</h1>
-        </div>
+    <div class="container">
+        <h3>お問い合わせ</h3>
+        <div class="ec-contactRole">
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
                 <form method="post" action="{{ url('contact') }}" class="h-adr" novalidate>
@@ -152,6 +150,6 @@ file that was distributed with this source code.
                 </form>
             </div>
         </div>
+        </div>
     </div>
-
 {% endblock %}

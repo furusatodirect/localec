@@ -1,10 +1,10 @@
 <header>
 <div class="container">
-<a class="logo" href="{{ url('homepage') }}"><img src="{{ asset('assets/img/logo.png') }}"><span>紋別市<br class="sp">ふるさと納税<br class="sp">総合サイト[開発環境]</span></a>
+<a class="logo" href="{{ url('homepage') }}"><img src="{{ asset('assets/img/logo.png', 'user_data') }}"><span>紋別市<br class="sp">ふるさと納税<br class="sp">総合サイト[開発環境]</span></a>
 <nav>
 <ul>
 <li><a href="https://mombetsu.furusato-direct.jp/about"><span class="fi ti-location-pin"></span><p>紋別市の紹介</p></a></li>
-<li><a id="popupbtns" tabindex="-1"><span class="fi ti-search"></span><p>見つける</p></a></li>
+<li><a href="#" id="popupbtns" tabindex="0" role="button"><span class="fi ti-search"></span><p>見つける</p></a></li>
 {% if is_granted('ROLE_USER') %} 
 <li class="d-none d-md-block"><a href="{{ url('mymenu') }}"><span class="fi ti-user"></span><p>マイページ</p></a></li>
 {% else %}
@@ -30,6 +30,7 @@
         </ul>
         <ul class="m-navi">
           <li><a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}">新着のお礼の品</a></li>
+          <li><a href="#" id="popupbtns-sp" class="js-popup-trigger" role="button"><span class="fi ti-search"></span> 見つける</a></li>
           <li><a href="https://mombetsu.furusato-direct.jp/about">紋別巡り</a></li>
                     <li><a href="https://mombetsu.furusato-direct.jp/event">紋別イベントカレンダー</a></li>
           <li><a href="https://mombetsu.furusato-direct.jp/use">寄付金の使い道</a></li>

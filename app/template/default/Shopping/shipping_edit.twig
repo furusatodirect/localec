@@ -23,18 +23,13 @@ file that was distributed with this source code.
 {% endblock javascript %}
 
 {% block main %}
-
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            {% if is_granted('ROLE_USER') %}
-                <h1>{{ 'front.shopping.shipping_edit_header_customer'|trans }}</h1>
-            {% else %}
-                <h1>{{ 'front.shopping.shipping_edit_header_nonmember'|trans }}</h1>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="ec-role">
+    <div class="container">
+        {% if is_granted('ROLE_USER') %}
+            <h3>お届け先の追加</h3>
+        {% else %}
+            <h3>お届け先の追加</h3>
+        {% endif %}
+        <div class="ec-role">
         <div class="ec-registerRole">
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
@@ -158,5 +153,6 @@ file that was distributed with this source code.
                 </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}

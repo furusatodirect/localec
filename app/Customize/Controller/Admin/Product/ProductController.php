@@ -365,7 +365,7 @@ class ProductController extends AbstractController
      * @Route("/%eccube_admin_route%/product/product/{id}/edit", requirements={"id" = "\d+"}, name="admin_product_product_edit", methods={"GET", "POST"})
      * @Template("@admin/Product/product.twig")
      */
-    public function edit(Request $request, $id = null, RouterInterface $router, CacheUtil $cacheUtil)
+    public function edit(Request $request, RouterInterface $router, CacheUtil $cacheUtil, $id = null)
     {
         $has_class = false;
         if (is_null($id)) {
@@ -690,7 +690,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/%eccube_admin_route%/product/product/{id}/delete", requirements={"id" = "\d+"}, name="admin_product_product_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, $id = null, CacheUtil $cacheUtil)
+    public function delete(Request $request, CacheUtil $cacheUtil, $id = null)
     {
         $this->isTokenValid();
         $session = $request->getSession();

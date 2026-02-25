@@ -16,14 +16,15 @@ namespace Customize\Controller;
 use Customize\Repository\ProductRepository;
 use Eccube\Controller\AbstractController;
 use Eccube\Entity\BaseInfo;
+use Eccube\Entity\Master\ProductListOrderBy;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Eccube\Form\Type\AddCartType;
 use Eccube\Form\Type\Master\ProductListMaxType;
-use Customize\Form\Type\Master\ProductListOrderByType;
 use Customize\Form\Type\SearchProductType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Eccube\Repository\BaseInfoRepository;
 use Eccube\Repository\CustomerFavoriteProductRepository;
 use Eccube\Repository\Master\ProductListMaxRepository;
@@ -179,8 +180,13 @@ class ProductController extends AbstractController
         $ProductsAndClassCategories = $this->productRepository->findProductsWithSortedClassCategories($ids, 'p.id');
 
         // addCart form
+        // findProductsWithSortedClassCategories は pc.visible=true で絞るため、pagination の商品が含まれない場合がある
         $forms = [];
         foreach ($pagination as $Product) {
+            $productId = $Product->getId();
+            if (!isset($ProductsAndClassCategories[$productId])) {
+                continue;
+            }
 
             /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
             $builder = $this->formFactory->createNamedBuilder(
@@ -188,13 +194,13 @@ class ProductController extends AbstractController
                 AddCartType::class,
                 null,
                 [
-                    'product' => $ProductsAndClassCategories[$Product->getId()],
+                    'product' => $ProductsAndClassCategories[$productId],
                     'allow_extra_fields' => true,
                 ]
             );
             $addCartForm = $builder->getForm();
 
-            $forms[$Product->getId()] = $addCartForm->createView();
+            $forms[$productId] = $addCartForm->createView();
         }
 
         // 表示件数
@@ -223,12 +229,18 @@ class ProductController extends AbstractController
 
         $dispNumberForm->handleRequest($request);
 
-        // ソート順
+        // ソート順（EntityType + 明示的 choices で IdReader 型エラー回避）
+        $orderByChoices = $this->entityManager->getRepository(ProductListOrderBy::class)->findAll();
         $builder = $this->formFactory->createNamedBuilder(
             'orderby',
-            ProductListOrderByType::class,
+            EntityType::class,
             null,
             [
+                'class' => ProductListOrderBy::class,
+                'choices' => $orderByChoices,
+                'choice_label' => 'name',
+                'choice_value' => 'id',
+                'placeholder' => false,
                 'required' => false,
                 'allow_extra_fields' => true,
                 'constraints' => [

@@ -1,6 +1,8 @@
 {% extends 'default_frame.twig' %}
 {% set body_class = 'product_page' %}
 
+{# Product list スタイル（status-wrap, .p-box li, #page_product_list 等）は customize.css へ集約済み #}
+
 {% block javascript %}
     <script>
         eccube.productsClassCategories = {
@@ -97,7 +99,7 @@
     {% for item in search_form %}
         {% if item.vars.name == 'category_ids' %}
             {% for value in item.vars.value %}
-                <input type="hidden" id="{{ item.vars.id }}" name="{{ item.vars.full_name }}" {% if value is not empty %}value="{{ value }}" {% endif %}/>
+                <input type="hidden" id="{{ item.vars.id }}" name="{{ item.vars.full_name }}" {% if value is not empty %}value="{{ value.id|default(value) }}" {% endif %}/>
             {% endfor %}
         {% else %}
             <input type="hidden" id="{{ item.vars.id }}" name="{{ item.vars.full_name }}" {% if item.vars.value is not empty %}value="{{ item.vars.value }}" {% endif %}/>

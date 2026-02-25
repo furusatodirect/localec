@@ -10,10 +10,10 @@
 {# @see https://github.com/bolt/bolt/pull/2388 #}
 {% from _self import tree %}
 
-<div class="popup" id="js-popup">
+<div class="popup" id="js-popup" style="display:none" aria-hidden="true">
     <div class="innerbox">
         <div class="midashi"><span>見つける</span></div>
-        <div class="closebtn" id="popup-close"><img src="{{ asset('assets/img/popup_close.png') }}" alt="close"></div>
+        <div class="closebtn" id="popup-close"><img src="{{ asset('assets/img/popup_close.png', 'user_data') }}" alt="close"></div>
         <div class="scrollbox">
             <input type="text" name="sa" placeholder="キーワードから探す" class="search" id="input-keywords">
             <section>
@@ -34,16 +34,10 @@
             <section>
                 <h6>カテゴリー</h6>
                 <ul class="L_categories">
-                    <li id="all-top-category">
+                    <li class="all-top-category" id="all-category-item">
                         <a href="{{ url('product_list') }}?orderby={{eccube_config.eccube_product_order_price_lower}}">
-                            <img src="{{ asset('assets/img/category/icon_all.svg','user_data') }}" alt="all category">
+                            <img src="{{ asset('assets/img/category/icon_all.svg','user_data') }}" alt="すべて">
                             <p>すべて</p>
-                        </a>
-                    </li>
-                    <li id="all-top-category">
-                        <a href="/products/list?category_id=3&name=%E3%81%BB%E3%81%9F%E3%81%A6&min_price=0&max_price=&category_id=3&orderby=1">
-                            <img src="{{ asset('assets/img/category/icon_hotate.svg','user_data') }}" alt="all category">
-                            <p>ホタテ</p>
                         </a>
                     </li>
                     {% for Category in Categories %}
@@ -82,12 +76,10 @@
 </div><!--/popup-->
 
 <script type="text/javascript">
-
-    /*見つけるポップアップ　価格帯チャート・スライダーレンジ複合*/
+    /*見つけるポップアップ　価格帯チャート・スライダーレンジ複合（noUiSlider読み込み後に実行されるようdefault_frameでinclude）*/
     $(() => {
         const limitVal = 500000;
         const clearForm = document.getElementById('clearForm');
-        const countSpan = document.getElementById('product_count');
         const searchButton = document.getElementById('search-product');
         const $slider = $('.range-slider').get(0); //スライダー作成場所を指定
         const $min = $('.min-box'); //最小値を入力するボックスを指定
@@ -98,16 +90,20 @@
 
 
         clearForm.addEventListener('click', function (e) {
-            keywordsInput.value = ''
+            e.preventDefault();
+            keywordsInput.value = '';
             minPriceInput.value = 0;
-            maxPriceInput.value = label_source.slice(-1)[0] || 10000;
-            $slider.noUiSlider.set([minPriceInput.value, maxPriceInput.value]);
+            const maxPriceVal = label_source.length ? label_source[label_source.length - 1] : 100000;
+            maxPriceInput.value = maxPriceVal;
+            if ($slider.noUiSlider) {
+                $slider.noUiSlider.set([minPriceInput.value, maxPriceVal]);
+            }
 
-            searchValues.name = keywordsInput.value;
+            searchValues.name = '';
             searchValues.category_id = '';
             searchValues.category_ids = [];
-            searchValues.min_price = minPriceInput.value;
-            searchValues.max_price = searchValues.max_price;
+            searchValues.min_price = 0;
+            searchValues.max_price = maxPriceVal;
             updateProductCount();
 
             document.querySelectorAll('.L_categories li').forEach(element=>{
@@ -135,7 +131,13 @@
 
         searchButton.addEventListener('click', function (e) {
             e.preventDefault();
-            window.location = '{{ url('product_list') }}?' + new URLSearchParams(searchValues).toString();
+            const params = {};
+            if (searchValues.name) params.name = searchValues.name;
+            if (searchValues.category_id) params.category_id = searchValues.category_id;
+            if (searchValues.min_price !== '' && searchValues.min_price !== undefined) params.min_price = searchValues.min_price;
+            if (searchValues.max_price !== '' && searchValues.max_price !== undefined) params.max_price = searchValues.max_price;
+            params.orderby = searchValues.orderby || {{ eccube_config.eccube_product_order_price_lower }};
+            window.location = '{{ url('product_list') }}?' + new URLSearchParams(params).toString();
         });
 
 
@@ -159,7 +161,13 @@
             }
             e.preventDefault();
             searchValues.name = keywordsInput.value;
-            window.location = '{{ url('product_list') }}?' + new URLSearchParams(searchValues).toString();
+            const params = {};
+            if (searchValues.name) params.name = searchValues.name;
+            if (searchValues.category_id) params.category_id = searchValues.category_id;
+            if (searchValues.min_price !== '' && searchValues.min_price !== undefined) params.min_price = searchValues.min_price;
+            if (searchValues.max_price !== '' && searchValues.max_price !== undefined) params.max_price = searchValues.max_price;
+            params.orderby = searchValues.orderby || {{ eccube_config.eccube_product_order_price_lower }};
+            window.location = '{{ url('product_list') }}?' + new URLSearchParams(params).toString();
         });
 
         keywordsInput.addEventListener("compositionstart", () => {
@@ -183,7 +191,7 @@
 
         let lastCount = 0;
 
-        const allCategoryButton = document.getElementById('all-top-category')
+        const allCategoryButton = document.getElementById('all-category-item')
         const topCategorySwitches = document.querySelectorAll('.top-category')
         const subCategories = document.querySelectorAll('.sub-category');
 
@@ -208,7 +216,7 @@
                 topCategorySwitches.forEach(element=>element.classList.add('d-none'))
                 e.currentTarget.classList.remove('d-none')
                 subCategories.forEach(element=>element.classList.add('d-none'))
-                const subCategoryList = document.querySelectorAll(e.currentTarget.getAttribute('id').replace(/^top/, '.parent'))
+                const subCategoryList = document.querySelectorAll('.parent-category-id-' + e.currentTarget.getAttribute('data-category_id'))
                 subCategoryList.forEach(element=>element.classList.remove('d-none'))
 
                 document.querySelectorAll('.L_categories li').forEach(element=>element.classList.remove('active'))
@@ -289,12 +297,17 @@
         $.ajax({
             type: 'get', dataType: 'json', url: '/api/price_range',
         }).then((data) => {
-            data_source = data.data_source.slice(0, 101);
-            label_source = data.label_source.slice(0, 101);
-            startChart(data_source, label_source)
-            startSlider(label_source.slice(-1)[0]);
+            data_source = (data.data_source || []).slice(0, 101);
+            label_source = (data.label_source || [0, 100000]).slice(0, 101);
+            if (data_source.length && label_source.length) {
+                startChart(data_source, label_source);
+            }
+            startSlider(label_source.length ? label_source[label_source.length - 1] : 100000);
         })
-            .fail((error) => console.log(error));
+            .fail((error) => {
+                console.log(error);
+                startSlider(100000);
+            });
 
         function startChart(data_source, label_source) {
             if (document.getElementById("chart_price")) {
@@ -336,7 +349,11 @@
         }
 
         function startSlider(maxVal) {
-
+            if (typeof noUiSlider === 'undefined') {
+                setTimeout(function() { startSlider(maxVal); }, 100);
+                return;
+            }
+            if (!$slider || $slider.noUiSlider) return;
             //noUiSliderをセットする
             noUiSlider.create($slider, {
                 start: [minVal, maxVal], // ハンドルの初期位置を最小値・最大値にする

@@ -1,29 +1,7 @@
 {% set Products = repository('Plugin\\rankingforlist\\Entity\\rankingforlistConfig').getProductRanking %}
 {% set Config = repository('Plugin\\rankingforlist\\Entity\\rankingforlistConfig').get %}
 
-{% block stylesheet %}
-<style>
-    .uic-itemrank {
-        margin-bottom: 40px;
-    }
-    .uic-itemrank .uic-itemrank__image {
-        width: 100%;
-        height: auto;
-        margin-bottom: 10px;
-    }
-    .uic-itemrank .uic-itemrank__box {
-        display: block;
-        color: #525263;
-        margin-bottom: 2rem;
-    }
-    .uic-itemnew .uic-itemrank__box:hover {
-        color: #525263;
-        text-decoration: none;
-    }
-</style>
-{% endblock %}
-
-<!-- rankingforlist -->
+<!-- rankingforlist（uic-itemrank スタイルは customize.css へ集約済み） -->
 <div class="ec-role uic-itemrank">
     {% if Config.title %}
         <div class="ec-secHeading">

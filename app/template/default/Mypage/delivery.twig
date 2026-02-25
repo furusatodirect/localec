@@ -15,13 +15,8 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
-    <div class="ec-layoutRole__main">
-        <div class="ec-mypageRole">
-            <div class="ec-pageHeader">
-                <h1>お届け先一覧</h1>
-            </div>
-            {# {{ include('Mypage/navi.twig') }} #}
-        </div>
+    <div class="container">
+        <h3>お届け先一覧</h3>
         <div class="ec-mypageRole">
             {% if Customer.CustomerAddresses|length > 0 %}
                 <p class="ec-para-normal">{{ 'front.mypage.customer_address_count'|trans({'%count%':Customer.CustomerAddresses|length}) }}</p>

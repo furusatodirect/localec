@@ -273,8 +273,8 @@ class ProductRepository extends AbstractRepository
             $qb->innerJoin('p.ProductClasses', 'pc');
             $qb->andWhere('pc.visible = true');
             $qb->groupBy('p.id');
-
-            $qb->addSelect('case when (pc.stock > 0 or pc.stock_unlimited = 1) or p.out_of_stock = 1 then  1 else  0 end as HIDDEN StockOrder');
+            // MAX()で集約してONLY_FULL_GROUP_BY対応（複数ProductClass時にpc.stockがGROUP BYに含まれないため）
+            $qb->addSelect('MAX(CASE WHEN (pc.stock > 0 OR pc.stock_unlimited = 1) OR p.out_of_stock = 1 THEN 1 ELSE 0 END) as HIDDEN StockOrder');
             $qb->orderBy('StockOrder', 'DESC');
             $qb->addOrderBy('price02_min', 'ASC');
             $qb->addOrderBy('p.id', 'DESC');
@@ -284,7 +284,8 @@ class ProductRepository extends AbstractRepository
             $qb->innerJoin('p.ProductClasses', 'pc');
             $qb->andWhere('pc.visible = true');
             $qb->groupBy('p.id');
-            $qb->addSelect('case when (pc.stock > 0 or pc.stock_unlimited = 1) or p.out_of_stock = 1 then  1 else  0 end as HIDDEN StockOrder');
+            // MAX()で集約してONLY_FULL_GROUP_BY対応（複数ProductClass時にpc.stockがGROUP BYに含まれないため）
+            $qb->addSelect('MAX(CASE WHEN (pc.stock > 0 OR pc.stock_unlimited = 1) OR p.out_of_stock = 1 THEN 1 ELSE 0 END) as HIDDEN StockOrder');
             $qb->orderBy('StockOrder', 'DESC');
             $qb->addOrderBy('price02_max', 'DESC');
             $qb->addOrderBy('p.id', 'DESC');

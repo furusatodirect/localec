@@ -15,13 +15,8 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
-    <div class="ec-layoutRole__main">
-        <div class="ec-mypageRole">
-            <div class="ec-pageHeader">
-                <h1>会員登録内容変更完了</h1>
-            </div>
-            {# {% include 'Mypage/navi.twig' %} #}
-        </div>
+    <div class="container">
+        <h3>会員登録内容変更完了</h3>
         <div class="ec-registerCompleteRole">
             <div class="ec-reportHeading">
                 <h2>{{ 'front.mypage.customer_complete_message__title'|trans }}</h2>

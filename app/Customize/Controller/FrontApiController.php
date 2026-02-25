@@ -93,31 +93,36 @@ class FrontApiController extends AbstractController
     public function getPriceRange()
     {
         $defaultStep = 5000;
-        // get max price
         $productMax = $this->productClassRepository
             ->createQueryBuilder('c')
             ->setMaxResults(1)
             ->where('c.visible = 1')
-            ->orderBy('c.price01', 'desc')
-            ;
+            ->orderBy('c.price02', 'desc');
 
-        $query = $productMax->getQuery();
+        $maxPriceResult = $productMax->getQuery()->getOneOrNullResult();
+        $maxPrice = $maxPriceResult ? $maxPriceResult->getPrice02() : 100000;
 
-        $steps = range(0, $query->getSingleResult()->getPrice01(), $defaultStep);
-        //  count each price products
+        $steps = array_values(array_filter(range(0, $maxPrice, $defaultStep)));
+        if (empty($steps)) {
+            $steps = [0, $maxPrice];
+        }
 
         $productCountQuery = $this->countRageProducts($steps);
         $count = [];
-        $productCountEntity = $productCountQuery->getSingleResult();
-        foreach ($steps as $value) {
-            $count[] = $productCountEntity['pr_'.$value] ?? 0;
+        try {
+            $productCountEntity = $productCountQuery->getSingleResult();
+            foreach ($steps as $value) {
+                $count[] = $productCountEntity['pr_'.$value] ?? 0;
+            }
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            $count = array_fill(0, count($steps), 0);
         }
 
         return new Response(
             json_encode([
                 'data_source' => $count,
                 'label_source' => $steps,
-                'max_price' => $query->getSingleResult()->getPrice01(),
+                'max_price' => $maxPrice,
             ], JSON_THROW_ON_ERROR),
             Response::HTTP_OK,
             ['Content-Type' => 'text/plain; charset=utf-8']
@@ -140,7 +145,7 @@ class FrontApiController extends AbstractController
                 $productCount
                     ->addSelect(
                         sprintf(
-                            'SUM(case when c.price01 >= %s AND c.price01 < %s then 1 else 0 end) as pr_%s',
+                            'SUM(case when c.price02 >= %s AND c.price02 < %s then 1 else 0 end) as pr_%s',
                             $prev,
                             $price,
                             $prev
@@ -150,7 +155,7 @@ class FrontApiController extends AbstractController
             $prev = $price;
         }
         $productCount
-            ->addSelect('SUM(case when c.price01 >= '.$prev.' then 1 else 0 end) as pr_'.$prev);
+            ->addSelect('SUM(case when c.price02 >= '.$prev.' then 1 else 0 end) as pr_'.$prev);
 
         return $productCount->getQuery();
     }

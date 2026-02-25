@@ -13,12 +13,9 @@ file that was distributed with this source code.
 {% form_theme form 'Form/form_div_layout.twig' %}
 
 {% block main %}
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            <h1>{{ 'front.forgot.title'|trans }}</h1>
-        </div>
-    </div>
-    <div class="ec-forgotRole">
+    <div class="container">
+        <h3>パスワード再発行</h3>
+        <div class="ec-forgotRole">
         <form name="form1" id="form1" method="post" action="{{ url('forgot') }}">
             {{ form_widget(form._token) }}
             <div class="ec-off1Grid">
@@ -51,5 +48,6 @@ file that was distributed with this source code.
                 </div>
             </div>
         </form>
+    </div>
     </div>
 {% endblock %}
