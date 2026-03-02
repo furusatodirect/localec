@@ -15,13 +15,18 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
+<main id="mypage">
     <div class="container">
-        <h3>会員登録内容変更完了</h3>
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>会員登録内容変更完了</h1>
+            </div>
+        </div>
         <div class="ec-registerCompleteRole">
             <div class="ec-reportHeading">
                 <h2>{{ 'front.mypage.customer_complete_message__title'|trans }}</h2>
             </div>
-            <div class="ec-off2Grid ec-text-ac">
+            <div class="ec-off2Grid">
                 <div class="ec-off2Grid__cell">
                     <div class="ec-off4Grid return-shopping">
                         <div class="ec-off4Grid__cell">
@@ -47,4 +52,5 @@ file that was distributed with this source code.
             </div>
         </div>
     </div>
+</main>
 {% endblock %}

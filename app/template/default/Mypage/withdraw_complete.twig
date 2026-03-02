@@ -15,14 +15,19 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
+<main id="mypage">
     <div class="container">
-        <h3>退会手続き完了</h3>
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>退会手続き完了</h1>
+            </div>
+        </div>
         <div class="ec-mypageRole">
             <div class="ec-withdrawCompleteRole">
                 <div class="ec-reportHeading">
                     <h2>{{ 'front.mypage.withdraw_complete_message__title'|trans }}</h2>
                 </div>
-                <div class="ec-off3Grid ec-text-ac">
+                <div class="ec-off3Grid">
                     <div class="ec-off3Grid__cell">
                         <p class="ec-reportDescription">
                             紋別市ふるさと納税総合サイトをご利用いただき誠にありがとうございました。<br>
@@ -38,4 +43,5 @@ file that was distributed with this source code.
             </div>
         </div>
     </div>
+</main>
 {% endblock %}

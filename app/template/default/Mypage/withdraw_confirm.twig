@@ -15,14 +15,13 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
-    <div class="ec-layoutRole__main">
-        <div class="ec-mypageRole">
+<main id="mypage">
+    <div class="container">
+        <div class="ec-role">
             <div class="ec-pageHeader">
                 <h1>退会手続きの確認</h1>
             </div>
-            {# {{ include('Mypage/navi.twig') }} #}
-        </div>
-        <div class="ec-mypageRole">
+            <div class="ec-mypageRole">
             <div class="ec-withdrawConfirmRole">
                 <div class="ec-off3Grid">
                     <div class="ec-off3Grid__cell">
@@ -47,6 +46,8 @@ file that was distributed with this source code.
                     </div>
                 </form>
             </div>
+            </div>
         </div>
     </div>
+</main>
 {% endblock %}

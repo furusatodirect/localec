@@ -29,6 +29,9 @@ framework:
           base_path: '/html/template/admin'
         save_image:
           base_path: '/html/upload/save_image'
+        # s3_image 未設定時の代替（DBのブロック等で s3_image を参照している場合）
+        s3_image:
+          base_path: '/html/upload/save_image'
         plugin:
           base_path: '/html/plugin'
         install:

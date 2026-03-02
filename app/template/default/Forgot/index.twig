@@ -13,9 +13,18 @@ file that was distributed with this source code.
 {% form_theme form 'Form/form_div_layout.twig' %}
 
 {% block main %}
-    <div class="container">
-        <h3>パスワード再発行</h3>
-        <div class="ec-forgotRole">
+<main id="about">
+<div class="container">
+
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ 'front.forgot.title'|trans }}</h1>
+        </div>
+    </div>
+    <div class="ec-forgotRole">
+        {% for msg in app.session.flashbag.get('forgot_reset_error') %}
+            <p class="ec-para-normal ec-errorMessage">{{ msg }}</p>
+        {% endfor %}
         <form name="form1" id="form1" method="post" action="{{ url('forgot') }}">
             {{ form_widget(form._token) }}
             <div class="ec-off1Grid">
@@ -49,5 +58,7 @@ file that was distributed with this source code.
             </div>
         </form>
     </div>
-    </div>
+
+</div>
+</main>
 {% endblock %}

@@ -15,9 +15,13 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
+<main id="mypage">
     <div class="container">
-        <h3>お気に入り一覧</h3>
-        <div class="ec-mypageRole">
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>お気に入り一覧</h1>
+            </div>
+            <div class="ec-mypageRole">
             <div class="ec-favoriteRole">
                 {% if pagination.totalItemCount > 0 %}
                     <div class="ec-favoriteRole__header">
@@ -67,5 +71,7 @@ file that was distributed with this source code.
                 {% endif %}
             </div>
         </div>
+        </div>
     </div>
+</main>
 {% endblock %}

@@ -15,9 +15,13 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
+<main id="mypage">
     <div class="container">
-        <h3>お申込履歴</h3>
-        <div class="ec-mypageRole">
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>お申込履歴</h1>
+            </div>
+            <div class="ec-mypageRole">
             {% if pagination.totalItemCount > 0 %}
                 <p class="ec-para-normal">{{ pagination.totalItemCount }}件のお申込履歴があります。</p>
                 {% for Order in pagination %}
@@ -80,5 +84,7 @@ file that was distributed with this source code.
                 <p class="ec-para-normal">{{ 'front.mypage.history_not_found'|trans }}</p>
             {% endif %}
         </div>
+        </div>
     </div>
+</main>
 {% endblock %}

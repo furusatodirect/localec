@@ -13,8 +13,13 @@ file that was distributed with this source code.
 {% form_theme form 'Form/form_div_layout.twig' %}
 
 {% block main %}
-    <div class="container">
-        <h3>パスワード再設定</h3>
+<main id="about" class="forgot-reset">
+<div class="container">
+
+    <div class="ec-registerRole">
+        <div class="ec-pageHeader">
+            <h1>パスワード再設定</h1>
+        </div>
         <p class="forgot_top">ご登録メールアドレスと新しいパスワードを入力し、パスワードを再設定するボタンを押してください。</p>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
@@ -31,7 +36,8 @@ file that was distributed with this source code.
                             <dd>
                                 <div class="ec-input{{ has_errors(form.login_email) ? ' error' }}">
                                     {{ form_widget(form.login_email, {
-                                        'attr': { 'placeholder': '例：hotate@ashika.jp' } }) }}
+                                        'attr': { 'placeholder': '例：hotate@ashika.jp' }
+                                    }) }}
                                     {{ form_errors(form.login_email) }}
                                     {% if error %}
                                         <p class="ec-errorMessage">{{ error }}</p>
@@ -44,7 +50,7 @@ file that was distributed with this source code.
                         </div>
                         <dl>
                             <dt>
-                                半角英数記号8〜32文字で入力してください。
+                                {{ 'common.password_sample'|trans({ '%min%': eccube_config.eccube_password_min_len, '%max%': eccube_config.eccube_password_max_len }) }}で入力してください。
                             </dt>
                             <dd>
                                 <div class="ec-input{{ has_errors(form.password.first) ? ' error' }}">
@@ -63,7 +69,7 @@ file that was distributed with this source code.
                             <dd>
                                 <div class="ec-input{{ has_errors(form.password.second) ? ' error' }}">
                                     {{ form_widget(form.password.second, {
-                                        'attr': { 'placeholder': '確認のため、もう一度入力してください。' },
+                                        'attr': { 'placeholder': '確認のため、もう一度入力してください。'|trans },
                                         'type': 'password'
                                     }) }}
                                     {{ form_errors(form.password.second) }}
@@ -83,4 +89,7 @@ file that was distributed with this source code.
             </div>
         </div>
     </div>
+
+</div>
+</main>
 {% endblock %}

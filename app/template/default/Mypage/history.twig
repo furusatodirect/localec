@@ -15,12 +15,19 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
+<main id="mypage">
     <div class="container">
-        <h3>お申込履歴詳細</h3>
-        {% set remessage = false %}
+        <div class="ec-layoutRole__main">
+            <div class="ec-mypageRole">
+                <div class="ec-pageHeader">
+                    <h1>お申込履歴詳細</h1>
+                    <a href="{{ url('mypage') }}">＜</a>
+                </div>
+            </div>
+            {% set remessage = false %}
 
-        <div class="ec-orderRole">
-            <div class="ec-orderRole__detail">
+            <div class="ec-orderRole">
+                <div class="ec-orderRole__detail">
                 <div class="ec-orderOrder">
                     <div class="ec-definitions">
                         <dt>{{ 'front.mypage.order_date'|trans }}</dt>
@@ -231,7 +238,7 @@ file that was distributed with this source code.
                     {% for MailHistory in Order.MailHistories %}
                         <div class="ec-orderMail">
                             <div class="ec-orderMail__time">{{ MailHistory.send_date|date_sec }}</div>
-                            <div class="ec-orderMail__link"><a>{{ MailHistory.mail_subject }}</a></div>
+                            <div class="ec-orderMail__link">寄付のお申込ありがとうございます。</div>
                             <div class="ec-orderMail__body">{{ MailHistory.mail_body|nl2br }}<p class="ec-orderMail__close"><a>{{ 'common.close'|trans }}</a></p></div>
                         </div>
                     {% else %}
@@ -285,9 +292,11 @@ file that was distributed with this source code.
                     </p>
                 {% endif %}
             </div>
-        </div>
-        <div class="ec-role ec-role__btn">
-            <a href="{{ url('mypage') }}" class="ec-inlineBtn">お申込履歴一覧に戻る</a>
+            </div>
+            <div class="ec-role ec-role__btn">
+                <a href="{{ url('mypage') }}" class="ec-inlineBtn">お申込履歴一覧に戻る</a>
+            </div>
         </div>
     </div>
+</main>
 {% endblock %}
