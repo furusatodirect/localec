@@ -16,10 +16,13 @@ file that was distributed with this source code.
 
 {% block main %}
 <main id="mypage">
-    <div class="container">
-        <div class="ec-role">
+<div class="container">
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
             <div class="ec-pageHeader">
                 <h1>退会手続き完了</h1>
+                <a href="{{ url('homepage') }}">＜</a>
             </div>
         </div>
         <div class="ec-mypageRole">
@@ -27,21 +30,14 @@ file that was distributed with this source code.
                 <div class="ec-reportHeading">
                     <h2>{{ 'front.mypage.withdraw_complete_message__title'|trans }}</h2>
                 </div>
-                <div class="ec-off3Grid">
-                    <div class="ec-off3Grid__cell">
-                        <p class="ec-reportDescription">
-                            紋別市ふるさと納税総合サイトをご利用いただき誠にありがとうございました。<br>
-                            これからも、紋別市は皆様に応援していただけるようがんばってまいります。
-                        </p>
-                    </div>
-                </div>
-                <div class="ec-off4Grid">
-                    <div class="ec-off4Grid__cell">
-                        <a href="{{ url('homepage') }}" class="ec-blockBtn--cancel">{{ 'common.go_to_top'|trans }}</a>
-                    </div>
-                </div>
+                <p class="ec-reportDescription">紋別市ふるさと納税総合サイトをご利用いただき誠にありがとうございました。<br>
+                これからも、紋別市は皆様に応援していただけるようがんばってまいります。</p>
+                <p><a href="{{ url('homepage') }}"
+                      class="ec-blockBtn--cancel">{{ 'common.go_to_top'|trans }}</a></p>
             </div>
         </div>
     </div>
+
+</div>
 </main>
 {% endblock %}

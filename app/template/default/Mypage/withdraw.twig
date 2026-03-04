@@ -16,12 +16,17 @@ file that was distributed with this source code.
 
 {% block main %}
 <main id="mypage">
-    <div class="container">
-        <div class="ec-role">
+<div class="container">
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>退会手続き</h1>
+                <h1>{{ '退会手続き'|trans }}</h1>
+                <a href="{{ url('mypage') }}">＜</a>
             </div>
-            <div class="ec-withdrawRole">
+            {#{{ include('Mypage/navi.twig') }}#}
+        </div>
+        <div class="ec-withdrawRole">
             <form method="post" action="{{ url('mypage_withdraw') }}">
                 {{ form_widget(form._token) }}
                 <div class="ec-off3Grid">
@@ -29,8 +34,10 @@ file that was distributed with this source code.
                         <div style="font-size:100px;text-align:center;">
                             <div class="ec-icon"><img src="{{ asset('assets/icon/exclamation.svg') }}" alt=""></div>
                         </div>
-                        <p class="ec-withdrawRole__title">{{ 'front.mypage.withdraw_message__title'|trans }}</p>
-                        <p class="ec-withdrawRole__description">{{ 'front.mypage.withdraw_message__body'|trans }}</p>
+                        <p class="ec-withdrawRole__title">{{ 'front.mypage.withdraw_message__title'|trans }}
+                        </p>
+                        <p class="ec-withdrawRole__description">{{ 'front.mypage.withdraw_message__body'|trans }}
+                        </p>
                     </div>
                 </div>
                 <div class="ec-off4Grid">
@@ -41,8 +48,9 @@ file that was distributed with this source code.
                     </div>
                 </div>
             </form>
-            </div>
         </div>
     </div>
+
+</div>
 </main>
 {% endblock %}

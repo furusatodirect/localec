@@ -15,50 +15,55 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
-<main id="mypage">
+<main id="about">
     <div class="container">
-        <div class="ec-role">
-            <div class="ec-pageHeader">
-                <h1>お届け先一覧</h1>
+        <div class="ec-layoutRole__main">
+            <div class="ec-mypageRole">
+                <div class="ec-pageHeader">
+                    <h1>{{ 'お届け先一覧'|trans }}</h1>
+                    <a href="{{ url('mymenu') }}">＜</a>
+                </div>
             </div>
             <div class="ec-mypageRole">
-            {% if Customer.CustomerAddresses|length > 0 %}
-                <p class="ec-para-normal">{{ 'front.mypage.customer_address_count'|trans({'%count%':Customer.CustomerAddresses|length}) }}</p>
-            {% else %}
-                <p class="ec-para-normal">{{ 'front.mypage.customer_address_not_found'|trans }}</p>
-            {% endif %}
-        </div>
-        <div class="ec-mypageRole">
-            <div class="ec-off1Grid">
-                <div class="ec-off1Grid__cell">
-                    {% if Customer.CustomerAddresses|length > 0 %}
-                        <div class="ec-addressList">
-                            {% for CustomerAddress in Customer.CustomerAddresses %}
-                                <div class="ec-addressList__item">
-                                    <div class="ec-addressList__address">
-                                        <div>{{ CustomerAddress.name01 }}&nbsp;{{ CustomerAddress.name02 }}</div>
-                                        <div>{{ 'common.postal_symbol'|trans }}{{ CustomerAddress.postal_code }} {{ CustomerAddress.Pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}</div>
-                                        <div>{{ CustomerAddress.phone_number }}</div>
+                {% if Customer.CustomerAddresses|length > 0 %}
+                    <p class="ec-para-normal">{{ 'front.mypage.customer_address_count'|trans({'%count%':Customer.CustomerAddresses|length}) }}</p>
+                {% else %}
+                    <p class="ec-para-normal">{{ 'front.mypage.customer_address_not_found'|trans }}</p>
+                {% endif %}
+            </div>
+            <div class="ec-mypageRole">
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        {% if Customer.CustomerAddresses|length > 0 %}
+                            <div class="ec-addressList">
+                                {% for CustomerAddress in Customer.CustomerAddresses %}
+                                    <div class="ec-addressList__item">
+                                        <div class="ec-addressList__address">
+                                            <div>{{ CustomerAddress.name01 }}&nbsp;{{ CustomerAddress.name02 }}</div>
+                                            <div>{{ 'common.postal_symbol'|trans }}{{ CustomerAddress.postal_code }} {{ CustomerAddress.Pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}</div>
+                                            <div>{{ CustomerAddress.phone_number }}</div>
+                                        </div>
+                                        <div class="ec-addressList__action">
+                                            <a class="ec-inlineBtn" href="{{ url('mypage_delivery_edit', { id : CustomerAddress.id }) }}">{{ 'common.change'|trans }}</a>
+                                            <a class="ec-addressList__remove" href="{{ url('mypage_delivery_delete', { id : CustomerAddress.id }) }}" {{ csrf_token_for_anchor() }} data-method="delete">
+                                                削除
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="ec-addressList__action">
-                                        <a class="ec-inlineBtn" href="{{ url('mypage_delivery_edit', { id : CustomerAddress.id }) }}">{{ 'common.change'|trans }}</a>
-                                        <a class="ec-addressList__remove" href="{{ url('mypage_delivery_delete', { id : CustomerAddress.id }) }}" {{ csrf_token_for_anchor() }} data-method="delete">削除</a>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    <div class="ec-addressRole">
-                        {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
-                            <a class="ec-blockBtn--action" href="{{ url('mypage_delivery_new') }}">新しいお届け先を追加する</a>
-                        {% else %}
-                            <span class="ec-errorMessage">{{ 'common.customer_address_count_is_over'|trans({ '%count%': eccube_config.eccube_deliv_addr_max }) }}</span>
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                        <a class="ec-blockBtn--cancel" href="{{ url('mypage') }}">前の画面に戻る</a>
+                        <div class="ec-addressRole">
+                            {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
+                                <a class="ec-blockBtn--action" href="{{ url('mypage_delivery_new') }}">新しいお届け先を追加する</a>
+                            {% else %}
+                                <span class="ec-errorMessage">{{ 'common.customer_address_count_is_over'|trans({ '%count%': eccube_config.eccube_deliv_addr_max }) }}</span>
+                            {% endif %}
+                            <a class="ec-blockBtn--cancel" href="{{ url('mymenu') }}">前の画面に戻る</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </main>

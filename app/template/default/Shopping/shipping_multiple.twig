@@ -64,96 +64,110 @@ $(function() {
 {% endblock javascript %}
 
 {% block main %}
+<main id="about">
     <div class="container">
-        <h3>お届け先の指定</h3>
-        <div class="ec-AddAddress">
-        <form id="shipping-multiple-form" method="post" action="{{ url('shopping_shipping_multiple') }}">
-            {{ form_widget(form._token) }}
-            <div class="ec-AddAddress__info">
-                <p>お申込者の住所以外へお礼の品をお届けするには、お届け先を選択してください。</p>
+
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>お届け先の指定</h1>
             </div>
+        </div>
 
-            {% for error in errors %}
-                <div class="text-danger">{{ error.message }}</div>
-            {% endfor %}
+        <div class="ec-AddAddress">
+            <form id="shipping-multiple-form" method="post" action="{{ url('shopping_shipping_multiple') }}">
+                {{ form_widget(form._token) }}
+                <div class="ec-AddAddress__info">
+                    <p>お申込者の住所以外へお礼の品をお届けするには、お届け先を選択してください。</p>
+                </div>
 
-            {% for orderItem in OrderItems %}
-                {% set idx = loop.index0 %}
-                {% set itemvalue = 0 %}
-                <div id="multiple_list__item_box--{{ idx }}" class="ec-AddAddress__add">
-                    <div class="ec-AddAddress__item">
-                        <div class="ec-AddAddress__itemThumb">
-                            <img src="{{ asset(orderItem.product.MainListImage|no_image_product, 'save_image') }}">
-                        </div>
-                        <div class="ec-AddAddress__itemtContent">
-                            <div class="ec-AddAddress__itemtTitle">{{ orderItem.productName }}
+                {% for error in errors %}
+                    <div class="text-danger">{{ error.message }}</div>
+                {% endfor %}
+
+                <div class="multiple_list__items-wrap">
+                {% for orderItem in OrderItems %}
+                    {% set ProductClass = orderItem.productClass %}
+                    {% set Product = orderItem.product %}
+                    {% set idx = loop.index0 %}
+                    {% set itemvalue = 0 %}
+                    <div id="multiple_list__item_box--{{ idx }}" class="ec-AddAddress__add">
+                        <div class="ec-AddAddress__item">
+                            <div class="mask">
+                                <img class="b-pic" src="{{ asset((Product is null ? null : Product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}" loading="lazy">
+                                <div class="c-pic"><img src="{{ asset((Product is null ? null : Product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}" loading="lazy"></div>
                             </div>
-                            {% if orderItem.productClass.classCategory1 %}
-                                <div class="ec-AddAddress__itemtSize">{{ orderItem.productClass.classCategory1 }}</div>
-                            {% endif %}
-                            {% if orderItem.productClass.classCategory2 %}
-                                <div class="ec-AddAddress__itemtSize">{{ orderItem.productClass.classCategory2 }}</div>
-                            {% endif %}
-                            <div class="ec-AddAddress__itemtPrice">{{ 'common.subtotal__with_separator'|trans }}{{ orderItem.totalPrice|price }}</div>
-
-                            {% for key, value in compItemQuantities %}
-                                {% if orderItem.productClass.id == key %}
-                                    <div class="ec-AddAddress__itemtNumber" id="multiple_list__value--{{ idx }}_{{ key }}">{{ 'common.quantity'|trans }}：{{ value }}</div>
-                                    {% set itemvalue = value %}
+                            <div class="ec-AddAddress__itemtContent">
+                                <div class="ec-AddAddress__itemtTitle">{{ orderItem.productName }}
+                                </div>
+                                {% if orderItem.productClass.classCategory1 %}
+                                    <div class="ec-AddAddress__itemtSize">{{ orderItem.productClass.classCategory1 }}</div>
                                 {% endif %}
+                                {% if orderItem.productClass.classCategory2 %}
+                                    <div class="ec-AddAddress__itemtSize">{{ orderItem.productClass.classCategory2 }}</div>
+                                {% endif %}
+                                <div class="ec-AddAddress__itemtPrice">{{ 'common.subtotal__with_separator'|trans }}{{ orderItem.totalPrice|price }}</div>
+
+                                {% for key, value in compItemQuantities %}
+                                    {% if orderItem.productClass.id == key %}
+                                        <div class="ec-AddAddress__itemtNumber" id="multiple_list__value--{{ idx }}_{{ key }}">{{ 'common.quantity'|trans }}：{{ value }}</div>
+                                        {% set itemvalue = value %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div id="item{{ idx }}">
+                            {% for shipping in form.shipping_multiple[idx].shipping %}
+                                <div id="item{{ idx }}-{{ loop.index0 }}" data-itemidx="{{ loop.index0 }}" class="ec-AddAddress__select shipping_item item{{ idx }}">
+                                    <div id="multiple_list__shipping_address--{{ idx }}_{{ loop.index0 }}" class="ec-AddAddress__selectAddress">
+                                        <div class="ec-select">
+                                            <label>{{ 'front.shopping.delivery_to'|trans }}</label>
+                                            {{ form_widget(shipping.customer_address, {'attr': {'class': 'shipping'}}) }}
+                                            {{ form_errors(shipping.customer_address) }}
+                                        </div>
+                                    </div>
+                                    <div id="multiple_list__shipping_quantity--{{ idx }}_{{ loop.index0 }}" class="ec-AddAddress__selectNumber">
+                                        <div class="ec-input">
+                                            <label>{{ 'common.quantity'|trans }}</label>
+                                            {% for key, value in compItemQuantities %}
+                                                {% if orderItem.productClass.id == key %}
+                                                    {% set quantity = shipping.quantity.vars.value ?: value %}
+                                                    {{ form_widget(shipping.quantity, {'attr': {'class': 'quantity'}, 'value': quantity}) }}
+                                                    {{ form_errors(shipping.quantity) }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <button id="button__delete--{{ idx }}_{{ loop.index0 }}" type="button" class="btn ec-inlineBtn delete"
+                                            {% if loop.index0 == 0 %}style="display:none;"{% endif %}
+                                            data-itemidx="{{ idx }}-{{ loop.index0 }}">{{ 'common.delete'|trans }}</button>
+                                </div>
                             {% endfor %}
                         </div>
+
+                        <div id="multiple_list__add_button{{ idx }}" class="ec-AddAddress__btn">
+                            <button id="button__add{{ idx }}" type="button" class="ec-inlineBtn add" data-idx="{{ idx }}">{{ 'front.shopping.shipping_add_new_shipping__short'|trans }}</button>
+                        </div>
                     </div>
+                {% endfor %}
+                </div>
 
-                    <div id="item{{ idx }}">
-                        {% for shipping in form.shipping_multiple[idx].shipping %}
-                            <div id="item{{ idx }}-{{ loop.index0 }}" data-itemidx="{{ loop.index0 }}" class="ec-AddAddress__select shipping_item item{{ idx }}">
-                                <div id="multiple_list__shipping_address--{{ idx }}_{{ loop.index0 }}" class="ec-AddAddress__selectAddress">
-                                    <div class="ec-select">
-                                        <label>{{ 'front.shopping.delivery_to'|trans }}</label>
-                                        {{ form_widget(shipping.customer_address, { 'attr': { 'class': 'shipping' } }) }}
-                                        {{ form_errors(shipping.customer_address) }}
-                                    </div>
-                                </div>
-                                <div id="multiple_list__shipping_quantity--{{ idx }}_{{ loop.index0 }}" class="ec-AddAddress__selectNumber">
-                                    <div class="ec-input">
-                                        <label>{{ 'common.quantity'|trans }}</label>
-                                        {% for key, value in compItemQuantities %}
-                                            {% if orderItem.productClass.id == key %}
-                                                {% set quantity = shipping.quantity.vars.value ?: value %}
-                                                {{ form_widget(shipping.quantity, { 'attr': { 'class': 'quantity' }, 'value': quantity }) }}
-                                                {{ form_errors(shipping.quantity) }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-
-                                <button id="button__delete--{{ idx }}_{{ loop.index0 }}" type="button" class="ec-inlineBtn delete"
-                                        {% if loop.index0 == 0 %}style="display:none;"{% endif %}
-                                        data-itemidx="{{ idx }}-{{ loop.index0 }}">{{ 'common.delete'|trans }}</button>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div id="multiple_list__add_button{{ idx }}" class="ec-AddAddress__btn">
-                        <button id="button__add{{ idx }}" type="button" class="ec-inlineBtn add" data-idx="{{ idx }}">{{ 'front.shopping.shipping_add_new_shipping__short'|trans }}</button>
+                <div class="ec-AddAddress__actions">
+                    <div class="ec-off4Grid">
+                        <div class="ec-off4Grid__cell">
+                            <button id="button__confirm" type="submit" class="ec-blockBtn--action">{{ 'front.shopping.shipping_send_selected_shipping'|trans }}</button>
+                            <a class="ec-blockBtn--cancel ec-blockBtn--cancel2" href="{{ url('shopping_shipping_multiple_edit') }}">新しいお届け先に送る<br><span>新規お届け先を追加</span></a>
+                            {% if is_granted('ROLE_USER') == true %}
+                            <a class="ec-blockBtn--cancel ec-blockBtn--cancel2" href="{{ url('mypage_delivery') }}">登録したお届け先の修正<br><span>お届け先の一覧へ</span></a>
+                            {% endif %}
+                            <a class="ec-blockBtn--cancel to-back" href="{{ url('shopping') }}">前の画面に戻る</a>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
+            </form>
+        </div>
 
-            <div class="ec-AddAddress__actions">
-                <div class="ec-off4Grid">
-                    <div class="ec-off4Grid__cell">
-                        <button id="button__confirm" type="submit" class="ec-blockBtn--action">{{ 'front.shopping.shipping_send_selected_shipping'|trans }}</button>
-                        <a class="ec-blockBtn--cancel" href="{{ url('shopping_shipping_multiple_edit') }}">新しいお届け先に送る<br><span>新規お届け先を追加</span></a>
-                        {% if is_granted('ROLE_USER') == true %}
-                        <a class="ec-blockBtn--cancel" href="{{ url('mypage_delivery') }}">登録したお届け先の修正<br><span>お届け先の一覧へ</span></a>
-                        {% endif %}
-                        <a class="ec-blockBtn--cancel" href="{{ url('shopping') }}">前の画面に戻る</a>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
-    </div>
+</main>
 {% endblock %}

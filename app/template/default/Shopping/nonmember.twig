@@ -24,192 +24,215 @@ file that was distributed with this source code.
 {% endblock javascript %}
 
 {% block main %}
+<main id="about">
     <div class="container">
-        <h3>寄付者情報入力</h3>
-        <div class="ec-customerRole">
-        <div class="ec-cartRole">
-        <div class="ec-cartRole__progress">
-            <ul class="ec-progress">
-                {% set step = 1 %}
-                <li class="ec-progress__item">
-                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                    </div>
-                    <div class="ec-progress__label">選択したお礼の品
-                    </div>
-                </li>
-                <li class="ec-progress__item is-complete">
-                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                    </div>
-                    <div class="ec-progress__label">申込手続き
-                    </div>
-                </li>
-                <li class="ec-progress__item">
-                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                    </div>
-                    <div class="ec-progress__label">入力確認
-                    </div>
-                </li>
-                <li class="ec-progress__item">
-                    <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
-                    </div>
-                    <div class="ec-progress__label">完了
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+        <div class="ec-registerRole">
 
-    <div class="ec-off1Grid">
-        <div class="ec-off1Grid__cell">
-            <p>控除を受けようとされる方のお名前・ご住所で登録をお願いいたします。</p>
-            <form method="post" action="{{ url('shopping_nonmember') }}" novalidate class="h-adr">
-                <span class="p-country-name" style="display:none;">Japan</span>
-                {{ form_widget(form._token) }}
-                <div class="ec-borderedDefs">
-                    <dl>
-                        <dt>
-                            {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error' }}">
-                                {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '例：紋別' } }) }}
-                                {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '例：紋太' } }) }}
-                                {{ form_errors(form.name.name01) }}
-                                {{ form_errors(form.name.name02) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error' }}">
-                                {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': '例：モンベツ' } }) }}
-                                {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': '例：モンタ' } }) }}
-                                {{ form_errors(form.kana.kana01) }}
-                                {{ form_errors(form.kana.kana02) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl style="display:none">
-                        <dt>
-                            {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
-                                {{ form_widget(form.company_name, { 'attr': { 'type': 'hidden' } }) }}
-                                {{ form_errors(form.company_name) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <p>住民票と同一のご住所を記入してください。</p>
-                            <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}">
-                                <span>{{ 'common.postal_symbol'|trans }}</span>
-                                {{ form_widget(form.postal_code, { 'attr': { 'placeholder': '例：1730123' } }) }}
-                                <div class="ec-zipInputHelp">
-                                    <div class="ec-zipInputHelp__icon">
-                                        <div class="ec-icon"><img src="{{ asset('assets/icon/question-white.svg') }}" alt=""></div>
-                                    </div>
-                                    <a href="https://www.post.japanpost.jp/zipcode/" target="_blank">
-                                        <span>{{ 'common.search_postal_code'|trans }}</span>
-                                    </a>
-                                </div>
-                                {{ form_errors(form.postal_code) }}
-                            </div>
-                            <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
-                                {{ form_widget(form.address.pref) }}
-                                {{ form_errors(form.address.pref) }}
-                            </div>
-                            <div class="ec-input{{ has_errors(form.address.addr01) ? ' error' }}">
-                                {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '例：板橋区海洋公園町' } }) }}
-                                {{ form_errors(form.address.addr01) }}
-                            </div>
-                            <div class="ec-input{{ has_errors(form.address.addr02) ? ' error' }}">
-                                {{ form_widget(form.address.addr02, { 'attr': { 'placeholder': '例：230-230 ガリンコタワー230' } }) }}
-                                {{ form_errors(form.address.addr02) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
-                                {{ form_widget(form.phone_number, { 'attr': { 'placeholder': '例：0302300230' } }) }}
-                                {{ form_errors(form.phone_number) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt>
-                            {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-input{{ has_errors(form.email.first) ? ' error' }}">
-                                {{ form_widget(form.email.first, { 'attr': { 'placeholder': '例：mombetsu@monta.jp' } }) }}
-                                {{ form_errors(form.email.first) }}
-                            </div>
-                            <div>確認用</div>
-                            <div class="ec-input{{ has_errors(form.email.second) ? ' error' }}">
-                                {{ form_widget(form.email.second, { 'attr': { 'placeholder': '確認のため、もう一度入力してください。' } }) }}
-                                {{ form_errors(form.email.second) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    {# Custom: 生年月日 #}
-                    <dl>
-                        <dt>
-                            <label class="ec-label required">生年月日</label>
-                        </dt>
-                        <dd>
-                            <div class="ec-birth{{ has_errors(form.birth) ? ' error' }}">
-                                {{ form_widget(form.birth.year) }}<span>年</span>
-                                {{ form_widget(form.birth.month) }}<span>月</span>
-                                {{ form_widget(form.birth.day) }}<span>日</span>
-                                {{ form_errors(form.birth) }}
-                            </div>
-                        </dd>
-                    </dl>
-                    {# Custom: 性別 #}
-                    <dl>
-                        <dt>
-                            {{ form_label(form.sex, 'common.gender', { 'label_attr': { 'class': 'ec-label' } }) }}
-                        </dt>
-                        <dd>
-                            <div class="ec-radio{{ has_errors(form.sex) ? ' error' }}">
-                                {{ form_widget(form.sex, { 'data': '1' }) }}
-                                {{ form_errors(form.sex) }}
-                            </div>
-                        </dd>
-                    </dl>
-                </div>
-                <div class="ec-RegisterRole__actions">
-                    <div class="ec-off4Grid">
-                        <div class="ec-off4Grid__cell">
-                            {# 利用規約と個人情報保護 #}
-                            <div class="ec-checkbox{{ has_errors(form.user_policy_check) ? ' error' }} entry_bottom">
-                                <p class="input_head">利用規約と個人情報保護について</p>
-                                <div class="entry_bottom-box">
-                                    {{ form_widget(form.user_policy_check) }}
-                                    <label for="entry_user_policy_check">「<a href="{{ url('help_agreement') }}" target="_blank">利用規約</a>」および「<a href="{{ url('help_privacy') }}" target="_blank">個人情報のお取り扱いについて</a>」に同意の上会員登録します。</label>
-                                </div>
-                                {{ form_errors(form.user_policy_check) }}
-                            </div>
-                            <button class="ec-blockBtn--action" type="submit" name="mode" value="confirm">確認画面へ進む</button>
-                            <a class="ec-blockBtn--cancel" href="{{ url('shopping_login') }}">前の画面に戻る</a>
+            <div class="ec-pageHeader">
+                <h1>寄付者情報入力</h1>
+            </div>
+
+            <div class="ec-cartRole__progress">
+                <ul class="ec-progress">
+                    {% set step = 1 %}
+                    <li class="ec-progress__item">
+                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
                         </div>
-                    </div>
+                        <div class="ec-progress__label">選択したお礼の品
+                        </div>
+                    </li>
+                    <li class="ec-progress__item is-complete">
+                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                        </div>
+                        <div class="ec-progress__label">申込手続き
+                        </div>
+                    </li>
+                    <li class="ec-progress__item">
+                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                        </div>
+                        <div class="ec-progress__label">入力確認
+                        </div>
+                    </li>
+                    <li class="ec-progress__item">
+                        <div class="ec-progress__number">{{ step }}{% set step = step + 1 %}
+                        </div>
+                        <div class="ec-progress__label">完了
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ec-off1Grid">
+                <div class="ec-off1Grid__cell">
+                    <p>控除を受けようとされる方のお名前・ご住所で登録をお願いいたします。</p>
+                    <form method="post" action="{{ url('shopping_nonmember') }}" novalidate class="h-adr">
+                        <span class="p-country-name" style="display:none;">Japan</span>
+                        {{ form_widget(form._token) }}
+                        <div class="ec-borderedDefs">
+                            <dl>
+                                <dt>
+                                    お名前
+                                    <span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <div class="{{ has_errors(form.name.name01, form.name.name02) ? ' error' }}">
+                                        <div class="name_name">
+                                            <div class="name_name1">
+                                                <label>姓</label>
+                                                {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '例：紋別' }}) }}
+                                            </div>
+                                            <div class="name_name2">
+                                                <label>名</label>
+                                                {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '例：紋太' }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="name_name">
+                                            {{ form_errors(form.name.name01) }}
+                                            {{ form_errors(form.name.name02) }}
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dd>
+                                    <div class="{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error' }}">
+                                        <div class="name_kana">
+                                            <div class="name_kana1">
+                                                <label>セイ</label>
+                                                {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': '例：モンベツ' }}) }}
+                                            </div>
+                                            <div class="name_kana2">
+                                                <label>メイ</label>
+                                                {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': '例：モンタ' }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="name_kana">
+                                            {{ form_errors(form.kana.kana01) }}
+                                            {{ form_errors(form.kana.kana02) }}
+                                        </div>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl style="display:none">
+                                <dt>
+                                    {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
+                                        {{ form_widget(form.company_name, {'attr': {'type': 'hidden'}}) }}
+                                        {{ form_errors(form.company_name) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    住所
+                                    <span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <p>住民票と同一のご住所を記入してください。</p>
+                                    <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}">
+                                        <label>郵便番号（ハイフン無し）</label><br/>
+                                        {{ form_widget(form.postal_code, { 'attr': { 'placeholder': '例：1730123' }}) }}
+                                        <div class="ec-zipInputHelp">
+                                            <div class="ec-zipInputHelp__icon">
+                                                <div class="ec-icon"><img src="{{ asset('assets/icon/question-white.svg') }}" alt="">
+                                                </div>
+                                            </div>
+                                            <a href="https://www.post.japanpost.jp/zipcode/" target="_blank" class="code-search">
+                                                <span>{{ 'common.search_postal_code'|trans }}</span>
+                                            </a>
+                                        </div>
+                                        {{ form_errors(form.postal_code) }}
+                                    </div>
+                                    <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
+                                        {{ form_widget(form.address.pref) }}
+                                        {{ form_errors(form.address.pref) }}
+                                    </div>
+                                    <div class="ec-input{{ has_errors(form.address.addr01) ? ' error' }}">
+                                        <label>市区町村名</label>
+                                        {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '例：板橋区海洋公園町' }}) }}
+                                        {{ form_errors(form.address.addr01) }}
+                                    </div>
+                                    <div class="ec-input{{ has_errors(form.address.addr02) ? ' error' }}">
+                                        <label>番地・ビル名</label>
+                                        {{ form_widget(form.address.addr02,  { 'attr': { 'placeholder': '例：230-230 ガリンコタワー230' }}) }}
+                                        {{ form_errors(form.address.addr02) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    電話番号
+                                    <span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
+                                        {{ form_widget(form.phone_number, { 'attr': { 'placeholder': '例：0302300230' }}) }}
+                                        {{ form_errors(form.phone_number) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    メールアドレス
+                                    <span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <div class="ec-input{{ has_errors(form.email.first) ? ' error' }}">
+                                        {{ form_widget(form.email.first, { 'attr': { 'placeholder': '例：mombetsu@monta.jp' }}) }}
+                                        {{ form_errors(form.email.first) }}
+                                    </div>
+                                    <div>確認用</div>
+                                    <div class="ec-input{{ has_errors(form.email.second) ? ' error' }}">
+                                        {{ form_widget(form.email.second, { 'attr': { 'placeholder': '確認のため、もう一度入力してください。' }}) }}
+                                        {{ form_errors(form.email.second) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    生年月日　<span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <div class="ec-birth{{ has_errors(form.birth) ? ' error' }}">
+                                        {{ form_widget(form.birth.year) }}<span>年</span>
+                                        {{ form_widget(form.birth.month) }}<span>月</span>
+                                        {{ form_widget(form.birth.day) }}<span>日</span>
+                                        {{ form_errors(form.birth) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.sex, 'common.gender', { 'label_attr': { 'class': 'ec-label' }}) }} <span>※必須</span>
+                                </dt>
+                                <dd>
+                                    <div id="nonmember_sex" class="ec-radio{{ has_errors(form.sex) ? ' error' }}">
+                                        {{ form_widget(form.sex) }}
+                                        {{ form_errors(form.sex) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="ec-registerRole__actions">
+                            <div class="ec-off4Grid">
+                                <div class="ec-off4Grid__cell">
+                                    <div class="ec-checkbox{{ has_errors(form.user_policy_check) ? ' error' }} entry_bottom">
+                                        <p class="input_head">利用規約と個人情報保護について</p>
+                                        <div class="entry_bottom-box">
+                                            {{ form_widget(form.user_policy_check) }}
+                                            <label for="{{ form.user_policy_check.vars.id }}">「<a href="{{ url('help_agreement') }}" target="_blank">利用規約</a>」および「<a href="{{ url('help_privacy') }}" target="_blank">個人情報のお取り扱いについて</a>」に同意の上会員登録します。</label>
+                                        </div>
+                                        {{ form_errors(form.user_policy_check) }}
+                                    </div>
+                                    <button class="ec-blockBtn--action" type="submit" name="mode" value="confirm">確認画面へ進む</button>
+                                    <a class="ec-blockBtn--cancel to-back" href="{{ url('shopping_login') }}">前の画面に戻る</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-        </div>
-    </div>
+</main>
 {% endblock %}

@@ -15,9 +15,12 @@ file that was distributed with this source code.
 {% form_theme form 'Form/form_div_layout.twig' %}
 
 {% block main %}
+<main id="about">
+<div class="container">
+
     <div class="ec-registerRole">
         <div class="ec-pageHeader">
-            <h1>寄附者情報確認</h1>
+            <h1>登録内容確認</h1>
         </div>
         <div class="ec-cartRole__progress">
             <ul class="ec-progress">
@@ -43,33 +46,43 @@ file that was distributed with this source code.
             <div class="ec-off1Grid__cell">
                 <form method="post" action="{{ url('entry') }}">
                     {{ form_widget(form._token) }}
-                    <p>以下の内容で登録します。よろしければ「登録する」ボタンを押してください。</p>
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>
-                                お名前
+                                お名前　<span>※必須</span>
                             </dt>
                             <dd>
-                                {{ form.name.name01.vars.data }}
-                                {{ form.name.name02.vars.data }}
-                                {{ form_widget(form.name.name01, { type : 'hidden' }) }}
-                                {{ form_widget(form.name.name02, { type : 'hidden' }) }}
+                                <div class="{{ has_errors(form.name.name01, form.name.name02) ? ' error'}}">
+                                    <div class="name_name">
+                                        <div class="name_name1">
+                                            {{ form.name.name01.vars.data }}
+                                        </div>
+                                        <div class="name_name2">
+                                            {{ form.name.name02.vars.data }}
+                                        </div>
+                                        {{ form_widget(form.name.name01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.name.name02, { type : 'hidden' }) }}
+                                    </div>
+                                </div>
                             </dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                フリガナ
-                            </dt>
                             <dd>
-                                {{ form.kana.kana01.vars.data }}
-                                {{ form.kana.kana02.vars.data }}
-                                {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
-                                {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                                <div class="{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
+                                    <div class="name_kana">
+                                        <div class="name_kana1">
+                                            {{ form.kana.kana01.vars.data }}
+                                        </div>
+                                        <div class="name_kana2">
+                                            {{ form.kana.kana02.vars.data }}
+                                        </div>
+                                        {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                                    </div>
+                                </div>
                             </dd>
                         </dl>
                         <dl style="display:none;">
                             <dt>
-                                {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' } }) }}
+                                {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label'}}) }}
                             </dt>
                             <dd>
                                 {{ form.company_name.vars.data }}
@@ -78,13 +91,12 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                住所
+                                住所　<span>※必須</span>
                             </dt>
                             <dd>
-                                <span>〒</span>{{ form.postal_code.vars.data }}
+                                <span>{{ 'common.postal_symbol'|trans }}</span>{{ form.postal_code.vars.data }}<br>
                                 {{ form_widget(form.postal_code, { type : 'hidden' }) }}
-                                <br>
-                                {{ form.address.pref.vars.data }} {{ form.address.addr01.vars.data }} {{ form.address.addr02.vars.data }}
+                                {{ form.address.pref.vars.data }}{{ form.address.addr01.vars.data }}<br>{{ form.address.addr02.vars.data }}
                                 {{ form_widget(form.address.pref, { type : 'hidden' }) }}
                                 {{ form_widget(form.address.addr01, { type : 'hidden' }) }}
                                 {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
@@ -92,7 +104,7 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                電話番号
+                                電話番号　<span>※必須</span>
                             </dt>
                             <dd>{{ form.phone_number.vars.data }}
                                 {{ form_widget(form.phone_number, { type : 'hidden' }) }}
@@ -100,27 +112,28 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                メールアドレス
+                                メールアドレス（ログイン時のユーザーIDとなります。）　<span>※必須</span>
                             </dt>
                             <dd>
-                                {{ form.email.vars.data }}
+                                {{ form.email.first.vars.data }}
                                 {{ form_widget(form.email.first, { type : 'hidden' }) }}
                                 {{ form_widget(form.email.second, { type : 'hidden' }) }}
                             </dd>
                         </dl>
                         <dl>
                             <dt>
-                                パスワード
+                                パスワード　<span>※必須</span>
                             </dt>
                             <dd>
                                 ********
                                 {{ form_widget(form.plain_password.first, { type : 'hidden' }) }}
                                 {{ form_widget(form.plain_password.second, { type : 'hidden' }) }}
+                                <p style="color:#525263;">(セキュリティのため伏せ字にしております。)</p>
                             </dd>
                         </dl>
                         <dl>
                             <dt>
-                                生年月日
+                                生年月日　<span>※必須</span>
                             </dt>
                             <dd>
                                 {{ form.birth.vars.data ? form.birth.vars.data|date_day() }}
@@ -131,23 +144,35 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.sex, 'common.gender', { 'label_attr': { 'class': 'ec-label' } }) }}
+                                {{ form_label(form.sex, 'common.gender', {'label_attr': {'class': 'ec-label'}}) }}
                             </dt>
                             <dd>
                                 {{ form.sex.vars.data }}
-                                {{ form_widget(form.sex, { type: 'hidden' }) }}
+                                {{ form_widget(form.sex, { type: 'hidden'}) }}
                             </dd>
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.job, 'common.job', { 'label_attr': { 'class': 'ec-label' } }) }}
+                                {{ form_label(form.job, 'common.job', {'label_attr': {'class': 'ec-label'}}) }}
                             </dt>
                             <dd>{{ form.job.vars.data }}
-                                {{ form_widget(form.job, { type: 'hidden' }) }}
+                                {{ form_widget(form.job, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                紋別市からのメール配信
+                            </dt>
+                            <dd>{{ form.mail_magazine.vars.data ? '希望する' : '希望しない' }}
+                                {% if form.mail_magazine.vars.data %}
+                                    {{ form_widget(form.mail_magazine, { 'type': 'hidden'}) }}
+                                {% else %}
+                                    {{ form_widget(form.mail_magazine, { 'type': 'hidden', 'data': 0}) }}
+                                {% endif %}
                             </dd>
                         </dl>
 
-                        {{ form_widget(form.user_policy_check, { type: 'hidden' }) }}
+                        {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
 
                         {# エンティティ拡張の自動出力 #}
                         {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
@@ -157,13 +182,12 @@ file that was distributed with this source code.
                             {% else %}
                                 <dl>
                                     <dt>
-                                        {% set label_class = f.vars.label_attr.class is defined ? f.vars.label_attr.class : '' %}
-                                        {{ form_label(f, f.vars.label, { 'label_attr': { 'class': label_class ~ ' ec-label' } }) }}
+                                        {{ form_label(f) }}
                                     </dt>
                                     <dd>
                                         <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
                                             {{ f.vars.data }}
-                                            {{ form_widget(f, { type: 'hidden' }) }}
+                                            {{ form_widget(f, { type: 'hidden'}) }}
                                         </div>
                                     </dd>
                                 </dl>
@@ -173,8 +197,8 @@ file that was distributed with this source code.
                     <div class="ec-registerRole__actions">
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
-                                <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">登録する</button>
-                                <button class="ec-blockBtn--cancel" type="submit" name="mode" value="back">前の画面に戻る</button>
+                                <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">仮登録のメールを送信する</button>
+                                <button class="ec-blockBtn--cancel to-back" type="submit" name="mode" value="back">前の画面に戻る</button>
                             </div>
                         </div>
                     </div>
@@ -182,4 +206,7 @@ file that was distributed with this source code.
             </div>
         </div>
     </div>
+
+</div>
+</main>
 {% endblock %}

@@ -13,21 +13,30 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 
 {% block main %}
+<main id="about">
     <div class="container">
-        <h3>お申込エラー</h3>
-<!-- アラートメッセージ -->
-{{ include('Shopping/alert.twig', { 'error_only': true }) }}
 
-<div class="ec-role">
-    <div class="ec-off3Grid">
-        <div class="ec-off3Grid__cell">
-            <div class="ec-off4Grid">
-                <div class="ec-off4Grid__cell">
-                    <a class="ec-blockBtn--cancel" href="{{ url('cart') }}">{{ 'front.shopping.back_to_cart'|trans }}</a>
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>お申込エラー</h1>
+            </div>
+        </div>
+
+        <!-- アラートメッセージ -->
+        {{ include('Shopping/alert.twig', { 'error_only': true }) }}
+
+        <div class="ec-role">
+            <div class="ec-off3Grid">
+                <div class="ec-off3Grid__cell">
+                    <div class="ec-off4Grid">
+                        <div class="ec-off4Grid__cell">
+                            <a class="ec-blockBtn--cancel" href="{{ url('cart') }}">{{ 'front.shopping.back_to_cart'|trans }}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-</div>
-    </div>
+</main>
 {% endblock %}

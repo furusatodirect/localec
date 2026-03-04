@@ -238,8 +238,14 @@ file that was distributed with this source code.
                     {% for MailHistory in Order.MailHistories %}
                         <div class="ec-orderMail">
                             <div class="ec-orderMail__time">{{ MailHistory.send_date|date_sec }}</div>
-                            <div class="ec-orderMail__link">寄付のお申込ありがとうございます。</div>
-                            <div class="ec-orderMail__body">{{ MailHistory.mail_body|nl2br }}<p class="ec-orderMail__close"><a>{{ 'common.close'|trans }}</a></p></div>
+                            <div class="ec-orderMail__link ec-orderMail__trigger" role="button" tabindex="0">
+                                <span class="ec-orderMail__triggerText">寄付のお申込ありがとうございます。</span>
+                                <span class="ec-orderMail__triggerIcon" aria-hidden="true">▼</span>
+                            </div>
+                            <div class="ec-orderMail__body">
+                                <div class="ec-orderMail__bodyInner">{{ MailHistory.mail_body|nl2br }}</div>
+                                <p class="ec-orderMail__close"><a href="javascript:void(0);">{{ 'common.close'|trans }}</a></p>
+                            </div>
                         </div>
                     {% else %}
                         <p class="ec-reportDescription">{{ 'front.mypage.mail_not_found'|trans }}</p>

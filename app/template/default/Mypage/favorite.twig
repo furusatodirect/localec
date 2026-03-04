@@ -15,62 +15,65 @@ file that was distributed with this source code.
 {% set body_class = 'mypage' %}
 
 {% block main %}
-<main id="mypage">
+<main id="about">
     <div class="container">
-        <div class="ec-role">
-            <div class="ec-pageHeader">
-                <h1>お気に入り一覧</h1>
+        <div class="ec-layoutRole__main">
+            <div class="ec-mypageRole">
+                <div class="ec-pageHeader">
+                    <h1>{{ 'お気に入り一覧'|trans }}</h1>
+                    <a href="{{ url('mymenu') }}">＜</a>
+                </div>
             </div>
             <div class="ec-mypageRole">
-            <div class="ec-favoriteRole">
-                {% if pagination.totalItemCount > 0 %}
-                    <div class="ec-favoriteRole__header">
-                        <p>{{ 'front.mypage.favorite_count'|trans({'%count%':pagination.totalItemCount}) }}</p>
-                    </div>
-                    <div class="ec-favoriteRole__detail">
-                        <ul class="ec-favoriteRole__itemList">
-                            {% for FavoriteProduct in pagination %}
-                                {% set Product = FavoriteProduct.Product %}
-                                <li class="ec-favoriteRole__item">
-                                    <a class="ec-closeBtn--circle"
-                                       href="{{ url('mypage_favorite_delete', { id : Product.id }) }}" {{ csrf_token_for_anchor() }}
-                                       data-method="delete">
-                                        <div class="ec-icon">
-                                            <img src="{{ asset('assets/icon/cross-white.svg') }}" alt="close">
-                                        </div>
-                                    </a>
-                                    <a class="ec-favoriteRole__itemThumb" href="{{ url('product_detail', {'id': Product.id}) }}">
-                                        <div class="mask">
-                                            <img class="b-pic"
-                                                 src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
-                                                 alt="{{ Product.name }}" loading="lazy">
-                                            <div class="c-pic">
-                                                <img
-                                                    src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
-                                                    alt="{{ Product.name }}" loading="lazy">
+                <div class="ec-favoriteRole">
+                    {% if pagination.totalItemCount > 0 %}
+                        <div class="ec-favoriteRole__header">
+                            <p>{{ 'front.mypage.favorite_count'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                        </div>
+                        <div class="ec-favoriteRole__detail">
+                            <ul class="ec-favoriteRole__itemList">
+                                {% for FavoriteProduct in pagination %}
+                                    {% set Product = FavoriteProduct.Product %}
+                                    <li class="ec-favoriteRole__item">
+                                        <a class="ec-closeBtn--circle"
+                                           href="{{ url('mypage_favorite_delete', { id : Product.id }) }}" {{ csrf_token_for_anchor() }}
+                                           data-method="delete">
+                                            <div class="ec-icon">
+                                                <img src="{{ asset('assets/icon/cross-white.svg') }}" alt="close">
                                             </div>
-                                        </div>
-                                    </a>
-                                    <p class="ec-favoriteRole__itemTitle">{{ Product.name }}</p>
-                                    <p class="ec-favoriteRole__itemPrice">
-                                        {% if Product.price02_inc_tax_min == Product.price02_inc_tax_max %}
-                                            {{ Product.price02_inc_tax_min|number_format }}円
-                                        {% else %}
-                                            {{ Product.price02_inc_tax_min|number_format }}円～{{ Product.price02_inc_tax_max|number_format }}円
-                                        {% endif %}
-                                    </p>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="ec-pagerRole">
-                        {% include "pager.twig" with {'pages': pagination.paginationData} %}
-                    </div>
-                {% else %}
-                    <div class="ec-favoriteRole__header">{{ 'front.mypage.favorite_not_found'|trans }}</div>
-                {% endif %}
+                                        </a>
+                                        <a class="ec-favoriteRole__itemThumb" href="{{ url('product_detail', {'id': Product.id}) }}">
+                                            <div class="mask">
+                                                <img class="b-pic"
+                                                     src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
+                                                     alt="{{ Product.name }}" loading="lazy">
+                                                <div class="c-pic">
+                                                    <img
+                                                        src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}"
+                                                        alt="{{ Product.name }}" loading="lazy">
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <p class="ec-favoriteRole__itemTitle">{{ Product.name }}</p>
+                                        <p class="ec-favoriteRole__itemPrice">
+                                            {% if Product.price02_inc_tax_min == Product.price02_inc_tax_max %}
+                                                {{ Product.price02_inc_tax_min|number_format }}円
+                                            {% else %}
+                                                {{ Product.price02_inc_tax_min|number_format }}円～{{ Product.price02_inc_tax_max|number_format }}円
+                                            {% endif %}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="ec-pagerRole">
+                            {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                        </div>
+                    {% else %}
+                        <div class="ec-favoriteRole__header">{{ 'front.mypage.favorite_not_found'|trans }}</div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </main>
