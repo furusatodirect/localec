@@ -1,5 +1,6 @@
 {% extends 'default_frame.twig' %}
 {% set body_class = 'product_page' %}
+{# Product detail スタイル（#gift.detail スコープ）は customize.css へ集約済み #}
 
 {% block javascript %}
 <script>
@@ -194,53 +195,55 @@
                 {# ##################	返礼品スライド（slider-pro） #}
                 <div class="Lside">
                     <div id="thum-slide" class="slider-pro">
-                        <ul class="sp-slides">
-                            {% if Product.ProductImage.count() %}
-                            {% for ProductImage in Product.ProductImage %}
-                            <li class="sp-slide">
-                                <div class="sp-image">
-                                    <img class="b-pic"
-                                         src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
-                                         alt="{{ Product.name }}" loading="lazy">
-                                    <div class="c-pic">
-                                        <img src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
-                                             alt="{{ Product.name }}" loading="lazy">
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                            {% else %}
-                            <li class="sp-slide">
-                                <div class="sp-image">
-                                    <img class="b-pic"
-                                         src="{{ asset(''|no_image_product, 's3_image') }}"
-                                         alt="no_image_product" loading="lazy">
-                                    <div class="c-pic">
-                                        <img src="{{ asset(''|no_image_product, 's3_image') }}"
-                                             alt="no_image_product" loading="lazy">
-                                    </div>
-                                </div>
-                            </li>
-                            {% endif %}
-                        </ul>
                         <ul class="sp-thumbnails">
                             {% if Product.ProductImage.count() %}
                             {% for ProductImage in Product.ProductImage %}
-                            <li class="sp-thumbnail">
-                                <img class="b-pic"
-                                     src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
-                                     alt="{{ Product.name }}" loading="lazy">
-                                <div class="c-pic">
-                                    <img src="{{ asset(ProductImage.file_name|no_image_product, 's3_image') }}"
+                                <li class="sp-thumbnail">
+                                    <img class="b-pic"
+                                         src="{{ asset(ProductImage|no_image_product, 'save_image') }}"
                                          alt="{{ Product.name }}" loading="lazy">
-                                </div>
-                            </li>
+                                    <div class="c-pic">
+                                        <img src="{{ asset(ProductImage|no_image_product, 'save_image') }}"
+                                             alt="{{ Product.name }}" loading="lazy">
+                                    </div>
+                                </li>
                             {% endfor %}
                             {% else %}
-                            <li class="sp-thumbnail">
-                                <img class="b-pic" src="{{ asset(''|no_image_product, 's3_image') }}" alt="no_image_product" loading="lazy">
-                                <div class="c-pic">
-                                    <img src="{{ asset(''|no_image_product, 's3_image') }}" alt="no_image_product" loading="lazy">
+                                <li class="sp-thumbnail">
+                                    <img class="b-pic" src="{{ asset(''|no_image_product, 'save_image') }}"
+                                         alt="no_image_product" loading="lazy">
+                                    <div class="c-pic">
+                                        <img src="{{ asset(''|no_image_product, 'save_image') }}"
+                                             alt="no_image_product" loading="lazy">
+                                    </div>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <ul class="sp-slides">
+                            {% if Product.ProductImage.count() %}
+                            {% for ProductImage in Product.ProductImage %}
+                                <li class="sp-slide">
+                                    <div class="sp-image">
+                                        <img class="b-pic"
+                                             src="{{ asset(ProductImage|no_image_product, 'save_image') }}"
+                                             alt="{{ Product.name }}" loading="lazy">
+                                        <div class="c-pic">
+                                            <img src="{{ asset(ProductImage|no_image_product, 'save_image') }}"
+                                                 alt="{{ Product.name }}" loading="lazy">
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="sp-slide">
+                                <div class="sp-image">
+                                    <img class="b-pic"
+                                         src="{{ asset(''|no_image_product, 'save_image') }}"
+                                         alt="no_image_product" loading="lazy">
+                                    <div class="c-pic">
+                                        <img src="{{ asset(''|no_image_product, 'save_image') }}"
+                                             alt="no_image_product" loading="lazy">
+                                    </div>
                                 </div>
                             </li>
                             {% endif %}
@@ -290,32 +293,32 @@
 
 {# SP sticky cart #}
 <section class="btup sticky-bt d-md-none">
-    <div id="sec_bt_cart">
-        <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
-            <div class="default">
-                <p class="price">
-                    寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                {% else %}
-                <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                {% endif %}
-            </div>
-            {{ form_rest(form) }}
-        </form>
+	<div id="sec_bt_cart">
+		<form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+			<div class="default">
+				<p class="price">
+					寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+				{% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+				{% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+				{% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+				{% else %}
+				<button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+				{% endif %}
+			</div>
+			{{ form_rest(form) }}
+		</form>
 
-        <div class="addition">
-            <div class="btns">
-                <button onclick="additionclose"><span class="fi ti-close"></span></button>
-                <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
-            </div>
-        </div>
+		<div class="addition">
+			<div class="btns">
+				<button onclick="additionclose"><span class="fi ti-close"></span></button>
+				<button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
+			</div>
+		</div>
 
-    </div>
+	</div>
 </section>
 
                 {# ##################	返礼品詳細 #}
@@ -326,31 +329,31 @@
 
 {# PC sticky cart #}
 <section class="btup sticky-bt d-none d-md-block">
-    <div id="sec_bt_cart">
-        <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
-            <div class="default">
-                <p class="price">
-                    寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
-                {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
-                {% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
-                {% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
-                <button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
-                {% else %}
-                <button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
-                {% endif %}
-            </div>
-            {{ form_rest(form) }}
-        </form>
+	<div id="sec_bt_cart">
+		<form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+			<div class="default">
+				<p class="price">
+					寄付金額<span>{{ Product.getPrice02IncTaxMin|number_format }}</span>円</p>
+				{% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>{{ Product.applicable_on_from|date_format('', 'm月d日') }}より受付開始</button>
+				{% elseif Product.applicable_on_to != null and Product.applicable_on_to < date() %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>受付終了</button>
+				{% elseif Product.stock_find == 0 or Product.out_of_stock == 1 %}
+				<button type="submit" class="add-cart go-cart disabled" disabled>品切れ中</button>
+				{% else %}
+				<button type="submit" class="add-cart go-cart">{{ 'front.product.add_cart'|trans }}</button>
+				{% endif %}
+			</div>
+			{{ form_rest(form) }}
+		</form>
 
-        <div class="addition">
-            <div class="btns">
-                <button onclick="additionclose"><span class="fi ti-close"></span></button>
-                <button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
-            </div>
-        </div>
-    </div>
+		<div class="addition">
+			<div class="btns">
+				<button onclick="additionclose"><span class="fi ti-close"></span></button>
+				<button onclick="location.href='{{ url('cart') }}'" class="gocart">{{ 'common.go_to_cart'|trans }}</button>
+			</div>
+		</div>
+	</div>
 </section>
 
 
@@ -684,7 +687,7 @@
 
 <script type="text/javascript">
     function showBalloon(){
-        var wObjballoon	= document.getElementById("share-list");
+        var wObjballoon = document.getElementById("share-list");
         if (wObjballoon.className == "balloon1"){
         wObjballoon.className = "balloon";
         }else{
