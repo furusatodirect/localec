@@ -117,7 +117,6 @@ file that was distributed with this source code.
                             <li class="ec-cartRow__contentColumn">
                                 <a target="_blank" href="{{ url('product_detail', { id: Product ? Product.id : 0 }) }}" rel="noopener noreferrer">
                                     <div class="mask">
-                                        <img class="b-pic" src="{{ asset((Product is null ? null : Product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}" loading="lazy">
                                         <div class="c-pic"><img src="{{ asset((Product is null ? null : Product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}" loading="lazy"></div>
                                     </div>
                                 </a>

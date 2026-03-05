@@ -52,7 +52,6 @@ file that was distributed with this source code.
                                                 <img src="{{ asset(''|no_image_product, 'save_image') }}"/>
                                             {% else %}
                                                 <div class="mask">
-                                                    <img class="b-pic" src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ OrderItem.product_name }}" loading="lazy">
                                                     <div class="c-pic"><img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}" alt="{{ OrderItem.product_name }}" loading="lazy"></div>
                                                 </div>
                                             {% endif %}

@@ -12,7 +12,6 @@
         <div class="mask">
             <div class="ranktag">無</div>
             <button class="favorite"><i class="fa-sharp fa-solid fa-heart"></i></button>
-            <img class="b-pic" src="{{ asset(Product.mainFileName|no_image_product, "save_image") }}" alt="{{ Product.name }}">
             <div class="c-pic"><img src="{{ asset(Product.mainFileName|no_image_product, "save_image") }}" alt="{{ Product.name }}"></div>
             <div class="price"><p>寄付金額
             <span>{% if Product.hasProductClass %}
@@ -41,7 +40,6 @@
         <div class="mask">
             <div class="ranktag">無</div>
             <button class="favorite"><i class="fa-sharp fa-solid fa-heart"></i></button>
-            <img class="b-pic" src="{{ asset(Product.mainFileName|no_image_product, "save_image") }}" alt="{{ Product.name }}">
             <div class="c-pic"><img src="{{ asset(Product.mainFileName|no_image_product, "save_image") }}" alt="{{ Product.name }}"></div>
             <div class="price"><p>寄付金額
             <span>{% if Product.hasProductClass %}

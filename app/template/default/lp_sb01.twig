@@ -1,3 +1,5 @@
+{# LP専用・4.1から移植　css/js/imgは html/user_data/assets/shared を参照 #}
+{% extends 'lp_frame.twig' %}
 {% block main %}
 
 <!DOCTYPE html>
@@ -14,14 +16,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>北海道紋別市の返礼品を厳選　ふるさと納税特集ページ</title>
 <!--ファビコン-->
-<link rel="shortcut icon" href="/html/user_data/assets/shared/img/mark.jpeg" type="image/vnd.microsoft.icon">
-<link rel="icon" href="/html/user_data/assets/shared/img/mark.jpeg" type="image/vnd.microsoft.icon">
+<link rel="shortcut icon" href="{{ asset('assets/shared/img/mark.jpeg', 'user_data') }}" type="image/vnd.microsoft.icon">
+<link rel="icon" href="{{ asset('assets/shared/img/mark.jpeg', 'user_data') }}" type="image/vnd.microsoft.icon">
 <meta name="format-detection" content="telephone=no" />
 <meta name="description" content="ふるさと納税寄附件数　全国１位！(2020年度）北海道紋別市からオホーツクの海と大地の恵みを厳選してお届けします。">
 <meta name="keywords" content="ふるさと納税,北海道,紋別市,もんべつ,魚介類,海鮮,いくら,ホタテ,ウニ,カニ,牛,豚,マルカイチ水産,寄付金額上位,人気返礼品,オホーツク海,バター,ジンギスカン,よつ葉,訳あり,応援米,米,肉">
-<link rel="stylesheet" href="/html/user_data/assets/shared/css/reset.css" type="text/css">
-<link rel="stylesheet" href="/html/user_data/assets/shared/css/swiper.css" type="text/css">
-<link rel="stylesheet" href="/html/user_data/assets/shared/css/style.css" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/shared/css/reset.css', 'user_data') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/shared/css/swiper.css', 'user_data') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/shared/css/style.css', 'user_data') }}" type="text/css">
 
 </head>
 <body>
@@ -39,61 +41,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<div class="swiper-container">
 			<ul class="swiper-wrapper">
 				<li class="swiper-slide rank01">
-					<div class="item"><img src="/html/user_data/assets/shared/img/y-fn_3000691.jpg" alt="ふるさと納税　紋別市　オホーツク産ホタテ玉冷大"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/y-fn_3000691.jpg', 'user_data') }}" alt="ふるさと納税　紋別市　オホーツク産ホタテ玉冷大"></div>
 					<h4>ふるさと納税　紋別市　オホーツク産ホタテ玉冷大（1kg）</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/141" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank02">
-					<div class="item"><img src="/html/user_data/assets/shared/img/2043558.jpg" alt="本ズワイガニしゃぶしゃぶセット"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/2043558.jpg', 'user_data') }}" alt="本ズワイガニしゃぶしゃぶセット"></div>
 					<h4>本ズワイガニしゃぶしゃぶセット(1kg)</h4>
 					<p>寄附金額<strong>28,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/903" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank03">
-					<div class="item"><img src="/html/user_data/assets/shared/img/2043570.jpg" alt="北海道ブレンド米15kg"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/2043570.jpg', 'user_data') }}" alt="北海道ブレンド米15kg"></div>
 					<h4>【新米予約】令和5年 訳あり 北海道ブレンド米15kg（5kg×3）【新米が入荷次第、お届けします（11月以降お届け開始予定）】】</h4>
 					<p>寄附金額<strong>10,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1403" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank04">
-					<div class="item"><img src="/html/user_data/assets/shared/img/y-sf_3040929.jpg" alt="オホーツク産　ホタテ玉冷特大"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/y-sf_3040929.jpg', 'user_data') }}" alt="オホーツク産　ホタテ玉冷特大"></div>
 					<h4>オホーツク産　ホタテ玉冷特大（1kg）</h4>
 					<p>寄附金額<strong>17,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/632" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank05">
-					<div class="item"><img src="/html/user_data/assets/shared/img/cat01_4.jpg" alt="鱒いくら醤油漬け"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/cat01_4.jpg', 'user_data') }}" alt="鱒いくら醤油漬け"></div>
 					<h4>鱒いくら醤油漬け200g×4パック 合計800g</h4>
 					<p>寄附金額<strong>20,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1637" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank06">
-					<div class="item"><img src="/html/user_data/assets/shared/img/593496.jpg" alt="冷凍帆立貝柱200g×5パック"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/593496.jpg', 'user_data') }}" alt="冷凍帆立貝柱200g×5パック"></div>
 					<h4>冷凍帆立貝柱200g×5パック</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/755" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank07">
-					<div class="item"><img src="/html/user_data/assets/shared/img/y-sf_3055385.jpg" alt="よつ葉パンにおいしい発酵バター"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/y-sf_3055385.jpg', 'user_data') }}" alt="よつ葉パンにおいしい発酵バター"></div>
 					<h4>よつ葉パンにおいしい発酵バター（100ｇ）×10個</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/807" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank08">
-					<div class="item"><img src="/html/user_data/assets/shared/img/2080481.jpg" alt="令和4年産 北海道産ななつぼし"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/2080481.jpg', 'user_data') }}" alt="令和4年産 北海道産ななつぼし"></div>
 					<h4>令和4年産 北海道産ななつぼし12kg(6kg×2)</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1410" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank09">
-					<div class="item"><img src="/html/user_data/assets/shared/img/1000330.jpg" alt="本ずわいがに姿"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/1000330.jpg', 'user_data') }}" alt="本ずわいがに姿"></div>
 					<h4>本ずわいがに姿 大型サイズ1杯</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1007" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li class="swiper-slide rank10">
-					<div class="item"><img src="/html/user_data/assets/shared/img/860985.jpg" alt="プレミアム本ずわい甲羅盛り(特盛)"></div>
+					<div class="item"><img src="{{ asset('assets/shared/img/860985.jpg', 'user_data') }}" alt="プレミアム本ずわい甲羅盛り(特盛)"></div>
 					<h4>プレミアム本ずわい甲羅盛り(特盛) 2個</h4>
 					<p>寄附金額<strong>29,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/935" target="_blank" class="btn">詳しく見る</a>
@@ -121,24 +123,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<h2><span>ふるさと納税の「４つ」のポイント</span></h2>
 		<ul class="box">
 			<li>
-				<div><img src="/html/user_data/assets/shared/img/point01.png" alt="point01.png"><h3>特産物・特典が<br>もらえる</h3></div>
+				<div><img src="{{ asset('assets/shared/img/point01.png', 'user_data') }}" alt="point01.png"><h3>特産物・特典が<br>もらえる</h3></div>
 				<p>「ふるさと納税」をすると特産品・特典がもらえる自治体があります！</p>
 			</li>
 			<li>
-				<div><img src="/html/user_data/assets/shared/img/point02.png" alt="point02.png"><h3>生まれ故郷で<br>なくてもOK</h3></div>
+				<div><img src="{{ asset('assets/shared/img/point02.png', 'user_data') }}" alt="point02.png"><h3>生まれ故郷で<br>なくてもOK</h3></div>
 				<p>「ふるさと納税」の寄附先は、生まれ故郷でなくても大丈夫！</p>
 			</li>
 			<li>
-				<div><img src="/html/user_data/assets/shared/img/point03.png" alt="point03.png"><h3>税金が<br>控除される</h3></div>
+				<div><img src="{{ asset('assets/shared/img/point03.png', 'user_data') }}" alt="point03.png"><h3>税金が<br>控除される</h3></div>
 				<p>例えば、3万円のふるさと納税を行うと、2,000円を超える部分である2万8千円が控除されることも！</p>
 			</li>
 			<li>
-				<div><img src="/html/user_data/assets/shared/img/point04.png" alt="point04.png"><h3>使い道を<br>指定できる</h3></div>
+				<div><img src="{{ asset('assets/shared/img/point04.png', 'user_data') }}" alt="point04.png"><h3>使い道を<br>指定できる</h3></div>
 				<p>「ふるさと納税」は、自治体によっては「使い道」を寄附者が選べることもあります！</p>
 			</li>
 		</ul>
 		<div class="box">
-			<div><img src="/html/user_data/assets/shared/img/monbetsu.png" alt="monbetsu.png"></div>
+			<div><img src="{{ asset('assets/shared/img/monbetsu.png', 'user_data') }}" alt="monbetsu.png"></div>
 			<div class="txt">
 				<p>ふるさと納税で紋別市は<br><span>2022年度は寄附金額全国２位（寄附件数１位）、<br class="pc">北海道１位（2021年度は全国1位、北海道１位）</span>と<br>多くの皆様からご支持いただいております。</p><br><small>「※出典：総務省「ふるさと納税に関する現況調査」令和4年度受入額の実績等」</small>
 			</div>
@@ -147,7 +149,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 	<div class="flow contents">
 		<h2 class="ttl">お手続きの流れ</h2>
-		<div><img src="/html/user_data/assets/shared/img/cart.png" alt="cart.png">
+		<div><img src="{{ asset('assets/shared/img/cart.png', 'user_data') }}" alt="cart.png">
 			<div> <span class="line-ttl">まずは</span>
 				<h2>商品を詳しく見る</h2>
 				<p>特産物の中から欲しい商品を選んで、<br class="pc">「詳しく見る」ボタンをクリック！</p>
@@ -200,49 +202,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<h3>魚介・海産物</h3>
 			<ul class="box">
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-fn_3000691.jpg" alt="ふるさと納税　紋別市　オホーツク産ホタテ玉冷大"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-fn_3000691.jpg', 'user_data') }}" alt="ふるさと納税　紋別市　オホーツク産ホタテ玉冷大"></div>
 					<h4>ふるさと納税　紋別市　オホーツク産ホタテ玉冷大（1kg）</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/141" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/593496.jpg" alt="冷凍帆立貝柱200g×5パック"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/593496.jpg', 'user_data') }}" alt="冷凍帆立貝柱200g×5パック"></div>
 					<h4>冷凍帆立貝柱200g×5パック</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/755" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3040929.jpg" alt="オホーツク産　ホタテ玉冷特大"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3040929.jpg', 'user_data') }}" alt="オホーツク産　ホタテ玉冷特大"></div>
 					<h4>オホーツク産　ホタテ玉冷特大（1kg）</h4>
 					<p>寄附金額<strong>17,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/632" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/cat01_4.jpg" alt="鱒いくら醤油漬け"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/cat01_4.jpg', 'user_data') }}" alt="鱒いくら醤油漬け"></div>
 					<h4>鱒いくら醤油漬け200g×4パック 合計800g</h4>
 					<p>寄附金額<strong>20,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1637" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1000330.jpg" alt="本ずわいがに姿"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1000330.jpg', 'user_data') }}" alt="本ずわいがに姿"></div>
 					<h4>本ずわいがに姿 大型サイズ1杯</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1007" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/2043558.jpg" alt="本ズワイガニしゃぶしゃぶセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/2043558.jpg', 'user_data') }}" alt="本ズワイガニしゃぶしゃぶセット"></div>
 					<h4>本ズワイガニしゃぶしゃぶセット(1kg)</h4>
 					<p>寄附金額<strong>28,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/903" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1655266.jpg" alt="北海道産毛ガニ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1655266.jpg', 'user_data') }}" alt="北海道産毛ガニ"></div>
 					<h4>北海道産毛ガニ　500～650g×1杯</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1500" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/860985.jpg" alt="プレミアム本ずわい甲羅盛り(特盛)"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/860985.jpg', 'user_data') }}" alt="プレミアム本ずわい甲羅盛り(特盛)"></div>
 					<h4>プレミアム本ずわい甲羅盛り(特盛) 2個</h4>
 					<p>寄附金額<strong>29,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/935" target="_blank" class="btn">詳しく見る</a>
@@ -255,49 +257,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<h3>魚介加工品</h3>
 			<ul class="box">
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/768190.jpg" alt="新・5種の魚介スモークセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/768190.jpg', 'user_data') }}" alt="新・5種の魚介スモークセット"></div>
 					<h4>新・5種の魚介スモークセット(無添加)</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/861" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1479065.jpg" alt="ドカーン!!と もんべつさつま詰め合わせ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1479065.jpg', 'user_data') }}" alt="ドカーン!!と もんべつさつま詰め合わせ"></div>
 					<h4>ドカーン!!と もんべつさつま詰め合わせ</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1407" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1806358.jpg" alt="どどーんと8枚!しまほっけ一夜干しセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1806358.jpg', 'user_data') }}" alt="どどーんと8枚!しまほっけ一夜干しセット"></div>
 					<h4>どどーんと8枚!しまほっけ一夜干しセット</h4>
 					<p>寄附金額<strong>16,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1558" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/480562.jpg" alt="鮭親子漬けセット(4個)"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/480562.jpg', 'user_data') }}" alt="鮭親子漬けセット(4個)"></div>
 					<h4>鮭親子漬けセット(4個)</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/64" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1091736.jpg" alt="桜ますのルイベ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1091736.jpg', 'user_data') }}" alt="桜ますのルイベ"></div>
 					<h4>桜ますのルイベ(110g×4)</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1117" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/480465.jpg" alt="紋別アヒージョ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/480465.jpg', 'user_data') }}" alt="紋別アヒージョ"></div>
 					<h4>紋別アヒージョ(3個)</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/15" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/480460.jpg" alt="北の旨い紋セット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/480460.jpg', 'user_data') }}" alt="北の旨い紋セット"></div>
 					<h4>北の旨い紋セット</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/11" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3025867.jpg" alt="y-sf_3025867.jpg"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3025867.jpg', 'user_data') }}" alt="y-sf_3025867.jpg"></div>
 					<h4>乾燥帆立貝柱　200g</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/481" target="_blank" class="btn">詳しく見る</a>
@@ -310,49 +312,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<h3>乳製品・スイーツ</h3>
 			<ul class="box">
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3055385.jpg" alt="よつ葉パンにおいしい発酵バター"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3055385.jpg', 'user_data') }}" alt="よつ葉パンにおいしい発酵バター"></div>
 					<h4>よつ葉パンにおいしい発酵バター（100ｇ）×10個</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/807" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3048430.jpg" alt="よつ葉北海道バターオールスターセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3048430.jpg', 'user_data') }}" alt="よつ葉北海道バターオールスターセット"></div>
 					<h4>よつ葉北海道バターオールスターセット（5個）</h4>
 					<p>寄附金額<strong>14,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/721" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/cat03_3.jpg" alt="よつ葉北海道バターセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/cat03_3.jpg', 'user_data') }}" alt="よつ葉北海道バターセット"></div>
 					<h4>よつ葉北海道バターセット（6個・北海道限定販売） 北海道紋別市</h4>
 					<p>寄附金額<strong>16,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/917" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/cat03_4.jpg" alt="無添加・北海道産ナチュラルチーズ・スモークセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/cat03_4.jpg', 'user_data') }}" alt="無添加・北海道産ナチュラルチーズ・スモークセット"></div>
 					<h4>無添加・北海道産ナチュラルチーズ・スモークセット 北海道紋別市</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/249" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/733600.jpg" alt="Cafe ほの香のベイクドチーズケーキ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/733600.jpg', 'user_data') }}" alt="Cafe ほの香のベイクドチーズケーキ"></div>
 					<h4>Cafe ほの香のベイクドチーズケーキ(6号)</h4>
 					<p>寄附金額<strong>16,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/838" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/482105.jpg" alt="喜多牧場の乳(ちち)セット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/482105.jpg', 'user_data') }}" alt="喜多牧場の乳(ちち)セット"></div>
 					<h4>喜多牧場の乳(ちち)セット</h4>
 					<p>寄附金額<strong>10,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/567" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3055382.jpg" alt="y-sf_3055382.jpg"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3055382.jpg', 'user_data') }}" alt="y-sf_3055382.jpg"></div>
 					<h4>焼きちぃずぷりん・濃厚な白いぷりん（各５個）</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/803" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3050601.jpg" alt="y-sf_3050601.jpg"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3050601.jpg', 'user_data') }}" alt="y-sf_3050601.jpg"></div>
 					<h4>「ムニュムニュ(15個入)」不思議な食感で濃厚なミニ焼チーズケーキ</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://store.shopping.yahoo.co.jp/y-sf/3132591.html" target="_blank" class="btn">詳しく見る</a>
@@ -364,73 +366,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<h3>肉・米・その他</h3>
 			<ul class="box">
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/cat04_1.jpg" alt="喜多牧場の豚肉バラエティーセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/cat04_1.jpg', 'user_data') }}" alt="喜多牧場の豚肉バラエティーセット"></div>
 					<h4>喜多牧場の豚肉バラエティーセット</h4>
 					<p>寄附金額<strong>16,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1622" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/cat04_2.jpg" alt="オホーツクはまなす牛ハンバーグステーキセット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/cat04_2.jpg', 'user_data') }}" alt="オホーツクはまなす牛ハンバーグステーキセット"></div>
 					<h4>オホーツクはまなす牛ハンバーグステーキセット</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://store.shopping.yahoo.co.jp/y-sf/3031080.html" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3015544.jpg" alt="北海道ハーブ牛ロースステーキ"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3015544.jpg', 'user_data') }}" alt="北海道ハーブ牛ロースステーキ"></div>
 					<h4>北海道ハーブ牛ロースステーキ(640g)</h4>
 					<p>寄附金額<strong>25,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/82" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/805214.jpg" alt="厚切りラム肩ロース味付けジンギスカン"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/805214.jpg', 'user_data') }}" alt="厚切りラム肩ロース味付けジンギスカン"></div>
 					<h4>厚切りラム肩ロース味付けジンギスカン640g</h4>
 					<p>寄附金額<strong>15,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/811" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/901014.jpg" alt="紋別名物 流氷昆布締め牛タン"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/901014.jpg', 'user_data') }}" alt="紋別名物 流氷昆布締め牛タン"></div>
 					<h4>紋別名物 流氷昆布締め牛タン</h4>
 					<p>寄附金額<strong>18,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1010" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1091763.jpg" alt="牛中落ちカルビ(山わさび醤油漬付)200g&豚丸ホルモン(塩、みそ)"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1091763.jpg', 'user_data') }}" alt="牛中落ちカルビ(山わさび醤油漬付)200g&豚丸ホルモン(塩、みそ)"></div>
 					<h4>牛中落ちカルビ(山わさび醤油漬付)200g&豚丸ホルモン(塩、みそ)各200gの合計600gセット</h4>
 					<p>寄附金額<strong>20,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1126" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/2080481.jpg" alt="令和4年産 北海道産ななつぼし"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/2080481.jpg', 'user_data') }}" alt="令和4年産 北海道産ななつぼし"></div>
 					<h4>令和4年産 北海道産ななつぼし12kg(6kg×2)</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1410" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/2043570.jpg" alt="北海道ブレンド米15kg"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/2043570.jpg', 'user_data') }}" alt="北海道ブレンド米15kg"></div>
 					<h4>【新米予約】令和5年 訳あり 北海道ブレンド米15kg（5kg×3）【新米が入荷次第、お届けします（11月以降お届け開始予定）】</h4>
 					<p>寄附金額<strong>10,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1403" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/y-sf_3087061.jpg" alt="一枚革トートバッグ(ブラウン)【レザークラフト】"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/y-sf_3087061.jpg', 'user_data') }}" alt="一枚革トートバッグ(ブラウン)【レザークラフト】"></div>
 					<h4>一枚革トートバッグ(ブラウン)【レザークラフト】</h4>
 					<p>寄附金額<strong>153,000</strong>円</p>
 					<a href="https://store.shopping.yahoo.co.jp/y-sf/3087061.html" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1096462.jpg" alt="「ST table」北海道産ナラ材 組立テーブル"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1096462.jpg', 'user_data') }}" alt="「ST table」北海道産ナラ材 組立テーブル"></div>
 					<h4>「ST table」北海道産ナラ材 組立テーブル</h4>
 					<p>寄附金額<strong>93,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1170" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1124597.jpg" alt="道具ハンガー"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1124597.jpg', 'user_data') }}" alt="道具ハンガー"></div>
 					<h4>「TL hanger」 北海道産ナラ材 道具ハンガー</h4>
 					<p>寄附金額<strong>103,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1199" target="_blank" class="btn">詳しく見る</a>
 				</li>
 				<li>
-					<div class="image"><img src="/html/user_data/assets/shared/img/1000249.jpg" alt="ナラ材総柄ウッドコースター6枚セット"></div>
+					<div class="image"><img src="{{ asset('assets/shared/img/1000249.jpg', 'user_data') }}" alt="ナラ材総柄ウッドコースター6枚セット"></div>
 					<h4>ナラ材総柄ウッドコースター6枚セット</h4>
 					<p>寄附金額<strong>13,000</strong>円</p>
 					<a href="https://mombetsu-stv.furusato-direct.jp/products/detail/1048" target="_blank" class="btn">詳しく見る</a>
@@ -444,7 +446,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<h2 class="ttl">生産者の声</h2>
 		<div class="box">
 			<div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice01.png" alt="voice01.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice01.png', 'user_data') }}" alt="voice01.png"></div>
 				<div class="txt">
 					<h3>マルカイチ水産様</h3>
 					<p>海の幸を人の幸へ。ホタテ、カニ、イクラなど近海でとれるオホーツク海の恵みをお届けします。オホーツクの浜の味をそのまま食卓に届けるため、高度な加工技術でクオリティの高い製品を作り続けています。</p>
@@ -455,10 +457,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<h3>マルマ松本様</h3>
 					<p>海の幸を人の幸へ。ホタテ、カニ、イクラなど近海でとれるオホーツク海の恵みをお届けします。オホーツクの浜の味をそのまま食卓に届けるため、高度な加工技術でクオリティの高い製品を作り続けています。</p>
 				</div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice02.png" alt="voice02.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice02.png', 'user_data') }}" alt="voice02.png"></div>
 			</div>
 			<div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice03.png" alt="voice03.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice03.png', 'user_data') }}" alt="voice03.png"></div>
 				<div class="txt">
 					<h3>北海屋H.K様</h3>
 					<p>北海道の美味しいお米を、こだわりの精米でお届けしています。お米は熱で風味が落ちてしまうので、玄米を15度以下の低温で保管し、精米も低温で行うことで摩擦熱を減らしています。お米本来の、噛むほどに甘くなる美味しさをあじわってください。</p>
@@ -469,10 +471,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<h3>焼肉酒庵　仲川様</h3>
 					<p>紋別市の中心部にある、焼肉酒庵「仲川」です。利尻昆布で昆布締めした「流氷昆布締め」の焼き肉をぜひ味わってみてください！お肉がすごくやわらかくなり、利尻昆布の上品な風味と一緒に熟成した肉のうま味が口いっぱいに広がりますよ！</p>
 				</div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice04.png" alt="voice04.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice04.png', 'user_data') }}" alt="voice04.png"></div>
 			</div>
 			<div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice05.png" alt="voice05.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice05.png', 'user_data') }}" alt="voice05.png"></div>
 				<div class="txt">
 					<h3>オホーツクファーム喜多牧場様</h3>
 					<p>紋別市で牧場を経営しています。流氷の町・紋別で育った牛・豚のお肉は絶品！放牧地にいるのと同じような状態に保てるように設計された牛舎で健康に育った牛、牛乳(初乳)をお腹いっぱい飲ませて大切に育てられた放牧ぶたのお肉・ハンバーグは、ジューシーで忘れられない味です。</p>
@@ -483,7 +485,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<h3>フューモアール様</h3>
 					<p>紋別市にある燻製の専門店です。代々使っている燻煙室で一つ一つ手作りしています。 刺身で食べても美味しい魚介類を、塩や砂糖など基本的な調味料だけで味付けし、ミズナラのおがくずで燻製にすることで素材の持つ旨味を最大限引き出します。サーモン、ホタテ、チーズなど、心に響くこだわりの逸品を味わってみてください。</p>
 				</div>
-				<div class="image"><img src="/html/user_data/assets/shared/img/voice06.png" alt="voice06.png"></div>
+				<div class="image"><img src="{{ asset('assets/shared/img/voice06.png', 'user_data') }}" alt="voice06.png"></div>
 			</div>
 		</div>
 		<small>Copyrights(c) City of 紋別市 All Rights Reserved.</small>
@@ -500,9 +502,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	</section>
 </div>
 <div class="pagetop fadeOut"><span></span></div>
-<script src="/html/user_data/assets/shared/js/jquery-3.4.1.min.js"></script>
-<script src="/html/user_data/assets/shared/js/common.js"></script>
-<script src="/html/user_data/assets/shared/js/swiper.min.js"></script>
+<script src="{{ asset('assets/shared/js/jquery-3.4.1.min.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/shared/js/common.js', 'user_data') }}"></script>
+<script src="{{ asset('assets/shared/js/swiper.min.js', 'user_data') }}"></script>
 
 </body>
 </html>
