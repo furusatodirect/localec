@@ -90,6 +90,27 @@ h5 {font-size:2rem;font-weight:bold;line-height:1.4em;margin-bottom:25px;}
 .p-box li .mask{height:368px;}
 }
 .p-box li .mask {overflow:hidden;border-radius:12px;position:relative;border:1px solid #d6d6d6;}
+/* 商品ステータス（受付開始/受付終了/品切れ中）: new_item, list, rankingsale, favorite 等 */
+.status-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+.status-wrap p {
+  color: #fff;
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 0;
+  padding: 0 10px;
+  line-height: 1.5;
+}
 .p-box li button.favorite {position:absolute;top:15px;right:15px;z-index:5;}
 .p-box li .price,.p-box li .price-rank {/*position:absolute;z-index:5;display:block;bottom:9px;left:50%;transform:translateX(-50%);*/width:100%;text-align:center;padding-top:6px;}
 .p-box li .price p,.p-box li .price-rank p {color:#fff;background:rgba(0, 0, 0, 0.5);display:inline-block;padding:3px 10px;border-radius:4px;font-size:1.4rem;}
@@ -2346,10 +2367,6 @@ main#mypage .ec-pageHeader h1,
   #page_mypage_login .form_bottom { padding-left: 16px; padding-right: 16px; }
   #page_mypage_login .form_bottom .ec-grid2__cell { padding: 0 6rem; }
 }
-@media screen and (min-width: 769px) {
-  #page_mypage_login p { font-size: 14px; }
-}
-
 /* ========== #page_shopping_login ログイン（4.1移植） ========== */
 #page_shopping_login .ec-pageHeader h1 {
   text-align: center;
@@ -4903,11 +4920,23 @@ h3.tag-header { padding: 1rem 2rem; border-left: 4px solid #000; }
   position: relative;
   padding: 0 0 2rem 1rem;
 }
-/* VT4G 決済処理中ローディング画像（vt4g_payment_credit.twig） */
+/* VT4G 決済処理中ローディング：1画面で中央表示 */
+#payment_form_loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 9999;
+}
 #payment_form_loading img {
-  width: 50px !important;
-  height: 50px !important;
-  max-width: 50px !important;
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px !important;
 }
 #page_shopping .ec-select #shopping_order_DonationPurpose {
   height: 40px;

@@ -211,7 +211,7 @@ file that was distributed with this source code.
                             </tr>
                             <tr>
                                 <th>メールアドレス︓</th>
-                                <td><span class="customer-edit customer-email">XX{{ Order.email }}</span></td>
+                                <td><span class="customer-edit customer-email">{{ Order.email }}</span></td>
                             </tr>
                             {% if is_granted('ROLE_USER') == false %}
                             <tr>
