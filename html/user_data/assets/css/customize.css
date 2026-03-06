@@ -320,6 +320,21 @@ footer .copyright {background:#f6f6f6;font-size:1.2rem;padding:45px 0;}
 .news li a {padding:20px 0;}
 .news li a .date {font-weight:bold;}
 
+/* Newsページ（一覧・詳細）ページIDスコープ */
+#page_news_index #about .container,
+#page_news_detail #about .container {padding-top:0;}
+#page_news_index .news li {border-top:1px solid #C8C8C8;}
+#page_news_index .news li:last-child {border-bottom:1px solid #C8C8C8;}
+#page_news_index .news li a {padding:20px 0;}
+#page_news_index .news li a .date {font-weight:bold;}
+#page_news_detail .container.small,
+#page_news_detail .small.container {padding-top:0;}
+#page_news_detail .container.small h6,
+#page_news_detail .small.container h6 {font-weight:bold;margin-bottom:20px;}
+#page_news_detail [class^="news-"] h4.uline {font-size:2.4rem;border-bottom:1px solid #C8C8C8;padding-bottom:25px;margin:50px 0 30px;font-weight:bold;line-height:1.4em;}
+#page_news_detail [class^="news-"] .image {border-radius:12px;overflow:hidden;margin:30px 0;}
+#page_news_detail [class^="news-"] .image img {max-width:100%;height:auto;display:block;}
+
 /*swiper sw_gallery-----------------*/
 @media screen and (min-width:769px) {
 /*.gallery{padding-top:50px;}*/
@@ -463,10 +478,15 @@ footer .copyright {background:#f6f6f6;font-size:1.2rem;padding:45px 0;}
 .news li a .date {width:8%;margin-right:2%;}
 .news li a .text {width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:40px;}
 .news li a:hover .text {text-decoration:underline;}
+#page_news_index .news li a {display:flex;align-items:center;position:relative;}
+#page_news_index .news li a .date {width:8%;margin-right:2%;}
+#page_news_index .news li a .text {width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:40px;}
 }
 @media screen and (max-width:1079px) {
 .news li a {display:block;padding:5vw 0;}
 .news li a .date {margin-bottom:2vw;}
+#page_news_index .news li a {display:block;padding:5vw 0;}
+#page_news_index .news li a .date {margin-bottom:2vw;}
 }
 @media screen and (max-width:1600px) {
 #gift.detail .floating_cart {right:calc(50% - 267.5px - 18%);}
@@ -621,6 +641,8 @@ body {font-size:1.4rem;}
   h5 {font-size:1.8rem;margin-bottom:6vw;}
   .container.small h6 {font-size:1.6rem;line-height:1.5em;}
   .container.small .image {margin:5vw 0;}
+  #page_news_detail [class^="news-"] h4.uline {font-size:2.2rem;padding-bottom:5.5vw;margin:10vw 0 6vw;}
+  #page_news_detail [class^="news-"] .image {margin:5vw 0;}
   .p-box li button.favorite {font-size:2rem;top:10px;right:10px;}
   .p-box li .price p,.p-box li .price-rank p {font-size:1rem;}
   .p-box li .price p span,.p-box li .price-rank p span {font-size:1.2rem;}

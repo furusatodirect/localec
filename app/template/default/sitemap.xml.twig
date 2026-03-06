@@ -14,11 +14,19 @@
 {% endif %}
 {% if UserPages is defined %}
 {% for UserPage in UserPages %}
+  {% if UserPage.url == 'news_index' %}
+  <url>
+    <loc>{{url('news_index')}}</loc>
+    <lastmod>{{UserPage.update_date|date_format('','c')}}</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  {% elseif UserPage.url != 'news_detail' %}
   <url>
     <loc>{{url('user_data', {route: UserPage.url})}}</loc>
     <lastmod>{{UserPage.update_date|date_format('','c')}}</lastmod>
     <changefreq>daily</changefreq>
   </url>
+  {% endif %}
 {% endfor %}
 {% endif %}
 {# Categories #}

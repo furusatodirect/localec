@@ -1,0 +1,188 @@
+{#
+This file is part of EC-CUBE
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+新着情報登録 - サムネイル画像カスタマイズ追加
+#}
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['content', 'news'] %}
+
+{% block title %}{{ 'admin.content.news_management'|trans }}{% endblock %}
+{% block sub_title %}{{ 'admin.content.contents_management'|trans }}{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block stylesheet %}
+<style>
+.news-thumbnail-preview {
+    max-width: 50%;
+    height: auto;
+    display: block;
+}
+.news-thumbnail-wrap .btn-ec-delete {
+    margin-top: 0.5rem;
+}
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(function() {
+    $(document).on('click', '.news-thumbnail-delete-btn', function() {
+        var btn = $(this);
+        if (!confirm('サムネイル画像を削除しますか？')) return;
+        var form = $('<form>').attr({ method: 'post', action: btn.data('url') });
+        form.append($('<input>').attr({ type: 'hidden', name: '_token', value: btn.data('token') }));
+        form.appendTo('body').submit();
+    });
+});
+</script>
+{% endblock %}
+
+{% block main %}
+    <form role="form" class="form-horizontal" name="form1" id="form1" method="post" action="?" enctype="multipart/form-data">
+        {{ form_widget(form._token) }}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    <span class="card-title">{{ 'admin.content.news.news_registration'|trans }}</span></div>
+                                <div class="col-4 text-end">
+                                    <a data-bs-toggle="collapse" href="#newsForm" aria-expanded="true" aria-controls="newsForm"><i class="fa fa-lg fa-angle-up"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="ec-cardCollapse collapse show" id="newsForm" style="">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.content.news.publish_date'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.publish_date) }}
+                                        {{ form_errors(form.publish_date) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.content.news.title'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.title) }}
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'tooltip.content.news.url'|trans }}">
+                                            <span>{{ 'admin.content.news.url'|trans }}</span><i class="fa fa-question-circle fa-lg ms-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.url) }}
+                                        {{ form_errors(form.url) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">&nbsp;</div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.link_method) }}
+                                        {{ form_errors(form.link_method) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'tooltip.content.news.body'|trans }}">
+                                            <span>{{ 'admin.content.news.body'|trans }}</span><i class="fa fa-question-circle fa-lg ms-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.description) }}
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                </div>
+
+                                {# サムネイル画像（本文の下） #}
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>サムネイル画像</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.np_thumbnail_data) }}
+                                        {{ form_errors(form.np_thumbnail_data) }}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span></span>
+                                    </div>
+                                    <div class="col thumbnail-area">
+                                        {{ form_widget(form.np_thumbnail_url) }}
+                                        {% if News.np_thumbnail_url is defined and News.npThumbnailUrl %}
+                                        <div class="news-thumbnail-wrap mb-2 position-relative">
+                                            <img src="{{ asset(News.npThumbnailUrl, 'save_image') }}" alt="サムネイル" class="news-thumbnail-preview">
+                                            <button type="button" class="btn btn-ec-delete mt-2 news-thumbnail-delete-btn" data-url="{{ url('admin_content_news_thumbnail_delete', {id: News.id}) }}" data-token="{{ csrf_token('_token') }}">× 削除</button>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {# その他エンティティ拡張の自動出力（サムネイル以外） #}
+                                {% for f in form|filter(f => f.vars.eccube_form_options.auto_render is defined and f.vars.eccube_form_options.auto_render and f.vars.name not in ['np_thumbnail_data', 'np_thumbnail_url']) %}
+                                    {% if f.vars.eccube_form_options.form_theme is defined and f.vars.eccube_form_options.form_theme %}
+                                        {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                        {{ form_row(f) }}
+                                    {% else %}
+                                        <div class="row mb-2">
+                                            <div class="col-3">
+                                                <span>{{ f.vars.label|trans }}</span>
+                                            </div>
+                                            <div class="col">
+                                                {{ form_widget(f) }}
+                                                {{ form_errors(f) }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="c-conversionArea">
+                    <div class="c-conversionArea__container">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-6">
+                                <div class="c-conversionArea__leftBlockItem">
+                                    <a class="c-baseLink" href="{{ url('admin_content_news') }}">
+                                        <i class="fa fa-backward" aria-hidden="true"></i>
+                                        <span>{{ 'admin.content.news_management'|trans }}</span></a>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                                    <div class="col-auto">
+                                        {{ form_widget(form.visible) }}
+                                        {{ form_errors(form.visible) }}
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-ec-conversion px-5" type="submit">{{ 'admin.common.registration'|trans }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
