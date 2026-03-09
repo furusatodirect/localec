@@ -1,0 +1,32 @@
+{# お気に入りボタン共通インクルード
+   使い方: {% include 'Block/favorite_button.twig' with {'Product': Product} %}
+   Product が必須、一覧・詳細どちらでも利用可能 #}
+{% if BaseInfo.option_favorite_product and Product is defined %}
+    {% if is_logged_in|default(is_granted('ROLE_USER')) %}
+        {% set fav_repo = repository("Eccube\\Entity\\CustomerFavoriteProduct") %}
+        {% set is_fav = fav_repo.isFavorite(app.user, Product) %}
+        {% if is_fav %}
+            {# フォームPOSTで削除→遷移元へリダイレクト #}
+            <form action="{{ url('product_delete_favorite', {id: Product.id}) }}" method="post" class="favorite-form-inline" style="display:inline;">
+                <input type="hidden" name="{{ constant('Eccube\\Common\\Constant::TOKEN_NAME') }}" value="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}" />
+                <button type="submit" class="favorite favorite-del-btn" title="{{ 'front.product.add_favorite_alrady'|trans }}">
+                    <i class="fa-sharp fa-solid fa-heart" style="color: #FF004E;"></i>
+                </button>
+            </form>
+        {% else %}
+            {# フォームPOSTで確実にセッションを送る（AJAXはセッション不達の可能性あり） #}
+            <form action="{{ url('product_add_favorite', {id: Product.id}) }}" method="post" class="favorite-form-inline" style="display:inline;">
+                <input type="hidden" name="{{ constant('Eccube\\Common\\Constant::TOKEN_NAME') }}" value="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}" />
+                <button type="submit" class="favorite favorite-add-btn" title="{{ 'front.product.add_favorite'|trans }}">
+                    <i class="fa-sharp fa-solid fa-heart" style="color: gray;"></i>
+                </button>
+            </form>
+        {% endif %}
+    {% else %}
+        {# 未ログイン時：product_add_favoriteへ。ログイン後にお気に入り追加→商品詳細へ遷移 #}
+        <a href="{{ url('product_add_favorite', {id: Product.id}) }}" class="favorite favorite-login-prompt"
+           title="{{ 'front.product.add_favorite'|trans }}">
+            <i class="fa-sharp fa-solid fa-heart" style="color: gray;"></i>
+        </a>
+    {% endif %}
+{% endif %}

@@ -141,7 +141,7 @@
 {% if publish_p == 1 %}
 
 <li>
-{% include '@ProductListFavBtn4/api/favorite.twig' ignore missing with {'Product': Product} %}
+    {% include 'Block/favorite_button.twig' with {'Product': Product, 'is_logged_in': is_logged_in|default(is_granted('ROLE_USER'))} %}
 <a href="{{ url('product_detail', {'id': Product.id}) }}">
 <div class="mask">
 {% if Product.applicable_on_from != null and Product.applicable_on_from > date() %}

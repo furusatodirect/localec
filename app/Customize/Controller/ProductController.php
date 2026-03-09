@@ -16,6 +16,7 @@ namespace Customize\Controller;
 use Customize\Repository\ProductRepository;
 use Eccube\Controller\AbstractController;
 use Eccube\Entity\BaseInfo;
+use Eccube\Entity\CustomerFavoriteProduct;
 use Eccube\Entity\Master\ProductListOrderBy;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
@@ -277,6 +278,7 @@ class ProductController extends AbstractController
             'order_by_form' => $orderByForm->createView(),
             'forms' => $forms,
             'Category' => $Category,
+            'is_logged_in' => $this->isGranted('ROLE_USER'),
         ];
     }
 
@@ -318,7 +320,8 @@ class ProductController extends AbstractController
         $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_PRODUCT_DETAIL_INITIALIZE);
 
         $is_favorite = false;
-        if ($this->isGranted('ROLE_USER')) {
+        $is_logged_in = $this->isGranted('ROLE_USER');
+        if ($is_logged_in) {
             $Customer = $this->getUser();
             $is_favorite = $this->customerFavoriteProductRepository->isFavorite($Customer, $Product);
         }
@@ -329,6 +332,7 @@ class ProductController extends AbstractController
             'form' => $builder->getForm()->createView(),
             'Product' => $Product,
             'is_favorite' => $is_favorite,
+            'is_logged_in' => $is_logged_in,
         ];
     }
 
@@ -362,6 +366,10 @@ class ProductController extends AbstractController
             );
             $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_PRODUCT_FAVORITE_ADD_COMPLETE);
 
+            $referer = $request->headers->get('referer');
+            if ($referer) {
+                return $this->redirect($referer);
+            }
             return $this->redirectToRoute('product_detail', ['id' => $Product->getId()]);
         } else {
             // 非会員の場合、ログイン画面を表示
@@ -379,6 +387,34 @@ class ProductController extends AbstractController
 
             return $this->redirectToRoute('mypage_login');
         }
+    }
+
+    /**
+     * お気に入り削除（遷移元ページへリダイレクト）.
+     *
+     * @Route("/products/delete_favorite/{id}", name="product_delete_favorite", requirements={"id" = "\d+"}, methods={"POST"})
+     */
+    public function deleteFavorite(Request $request, Product $Product)
+    {
+        $this->checkVisibility($Product);
+
+        if ($this->isGranted('ROLE_USER')) {
+            $Customer = $this->getUser();
+            $CustomerFavoriteProduct = $this->entityManager
+                ->getRepository(CustomerFavoriteProduct::class)
+                ->findOneBy(['Customer' => $Customer, 'Product' => $Product]);
+
+            if ($CustomerFavoriteProduct) {
+                $this->customerFavoriteProductRepository->delete($CustomerFavoriteProduct);
+            }
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('product_detail', ['id' => $Product->getId()]);
     }
 
     /**

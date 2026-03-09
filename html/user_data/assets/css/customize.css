@@ -111,7 +111,15 @@ h5 {font-size:2rem;font-weight:bold;line-height:1.4em;margin-bottom:25px;}
   padding: 0 10px;
   line-height: 1.5;
 }
-.p-box li button.favorite {position:absolute;top:15px;right:15px;z-index:5;}
+/* ログイン前：a.favorite のみ（リンク） */
+.p-box li a.favorite {position:absolute;top:15px;right:15px;z-index:100;cursor:pointer;pointer-events:auto;}
+/* ログイン後：form.favorite-form-inline 内のボタン */
+.p-box li .favorite-form-inline {position:absolute;top:15px;right:15px;z-index:100;cursor:pointer;pointer-events:auto;}
+.p-box li .favorite-form-inline {padding:0;margin:0;}
+.p-box li .favorite-form-inline button {background:none;border:none;cursor:pointer;padding:0 2px;margin-left:-2px;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;text-shadow:1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;font-size:2.4rem;color:#333;}
+.p-box li .favorite-form-inline .favorite-del-btn i {color:#FF004E;}
+.p-box li a.favorite {display:flex;align-items:center;justify-content:center;min-width:32px;min-height:32px;padding:0 2px;margin-left:-2px;text-shadow:1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;font-size:2.4rem;color:#333;}
+.p-box li > a:not(.favorite) {position:relative;z-index:1;}
 .p-box li .price,.p-box li .price-rank {/*position:absolute;z-index:5;display:block;bottom:9px;left:50%;transform:translateX(-50%);*/width:100%;text-align:center;padding-top:6px;}
 .p-box li .price p,.p-box li .price-rank p {color:#fff;background:rgba(0, 0, 0, 0.5);display:inline-block;padding:3px 10px;border-radius:4px;font-size:1.4rem;}
 .p-box li .price p span,.p-box li .price-rank p span {font-weight:bold;padding:0 3px 0 6px;font-size:1.6rem;}
@@ -643,7 +651,9 @@ body {font-size:1.4rem;}
   .container.small .image {margin:5vw 0;}
   #page_news_detail [class^="news-"] h4.uline {font-size:2.2rem;padding-bottom:5.5vw;margin:10vw 0 6vw;}
   #page_news_detail [class^="news-"] .image {margin:5vw 0;}
-  .p-box li button.favorite {font-size:2rem;top:10px;right:10px;}
+  .p-box li button.favorite,
+  .p-box li a.favorite,
+  .p-box li .favorite-form-inline {font-size:2rem;top:10px;right:10px;}
   .p-box li .price p,.p-box li .price-rank p {font-size:1rem;}
   .p-box li .price p span,.p-box li .price-rank p span {font-size:1.2rem;}
   #top .coverlink li a h4 {font-size:3rem;}
@@ -964,7 +974,10 @@ body.popup-open { overflow: hidden; }
 #gift.detail .balloon i,
 #gift.detail .balloon button { font-size: 2.85rem; margin-left: 1rem; margin-right: 1rem; transition: 0.3s; display: inline; }
 #gift.detail .balloon a:hover { opacity: 0.6; }
-#gift.detail button.favorite { padding: 0 2px; margin-left: -2px; }
+#gift.detail button.favorite,
+#gift.detail .favorite-form-inline button.favorite,
+#gift.detail .favorite-add-btn,
+#gift.detail .favorite-del-btn { padding: 0 2px; margin-left: -2px; background:none; border:none; cursor:pointer; }
 #gift.detail #df_cart { display: none; }
 #gift.detail .sticky-bt {
   position: -webkit-sticky;

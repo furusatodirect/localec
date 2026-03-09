@@ -20,8 +20,7 @@
 {% if publish_p == 1 %}
 {#author :MT end#}
 <li>
-    
-{# TODO: お気に入りAPIプラグイン(plg_product_favorite_api)未導入のため一時無効 #}
+    {% include 'Block/favorite_button.twig' with {'Product': Product, 'is_logged_in': is_logged_in|default(is_granted('ROLE_USER'))} %}
 <a href="{{ url('product_detail', {'id': Product.id}) }}">
 <div class="mask">
     
@@ -53,6 +52,3 @@
 
 </div>
 {% endif %}
-
-
-{# TODO: お気に入りAPIプラグインのスクリプト - プラグイン導入後に復活 #}

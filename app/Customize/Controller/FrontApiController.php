@@ -16,6 +16,7 @@ namespace Customize\Controller;
 use Customize\Form\Type\SearchProductType;
 use Customize\Repository\ProductRepository;
 use Eccube\Controller\AbstractController;
+use Eccube\Entity\CustomerFavoriteProduct;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
 use Eccube\Entity\ProductClass;
@@ -224,6 +225,42 @@ class FrontApiController extends AbstractController
                 ['Content-Type' => 'text/plain; charset=utf-8']
             );
         }
+    }
+
+    /**
+     * お気に入り削除（API）.
+     *
+     * @Route("/api/delete_favorite/{id}", name="api_product_delete_favorite", requirements={"id" = "\d+"}, methods={"POST", "DELETE"})
+     */
+    public function deleteFavorite(Request $request, Product $Product): Response
+    {
+        $this->checkVisibility($Product);
+
+        if (!$this->isGranted('ROLE_USER')) {
+            return new Response(
+                json_encode([
+                    'message' => 'not authenticate',
+                    'locate' => $this->generateUrl('mypage_login', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ], JSON_THROW_ON_ERROR),
+                Response::HTTP_NOT_ACCEPTABLE,
+                ['Content-Type' => 'application/json; charset=utf-8']
+            );
+        }
+
+        $Customer = $this->getUser();
+        $CustomerFavoriteProduct = $this->entityManager
+            ->getRepository(CustomerFavoriteProduct::class)
+            ->findOneBy(['Customer' => $Customer, 'Product' => $Product]);
+
+        if ($CustomerFavoriteProduct) {
+            $this->customerFavoriteProductRepository->delete($CustomerFavoriteProduct);
+        }
+
+        return new Response(
+            json_encode(['message' => 'ok'], JSON_THROW_ON_ERROR),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/json; charset=utf-8']
+        );
     }
 
     /**
